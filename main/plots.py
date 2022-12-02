@@ -1,36 +1,36 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-from main import helper
+import helper
 import numpy as np
-
+ 
 month_dict = {1: 'Jan', 2: 'Feb', 3: 'Mar',
               4: 'Mar', 5: 'Apr', 6: 'Jun',
               7: 'Jul', 8: 'Aug', 9: 'Sep',
               10: 'Oct', 11: 'Nov', 12: 'Dec'}
-
+ 
 dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
-
-
+ 
+ 
 helper.loadConfig()
-
+ 
 ## getting json files
 user_key_filename = helper.getUserProfileFile()
 user_key = helper.read_json(user_key_filename)
-
+ 
 expenseFile = helper.getUserExpensesFile()
 expense_dict = helper.read_json(expenseFile)
-
+ 
 transactionFile = helper.getGroupExpensesFile()
 transaction_dict = helper.read_json(transactionFile)
-
-
+ 
+ 
 def label_amount(y):
     for ind, val in enumerate(y):
         plt.text(ind, val, str(round(val, 2)), ha='center', va='bottom')
-
-
+ 
+ 
 def get_amount_df(chat_id, data_code,expense_dict,transaction_dict, type="overall"):
     ### plot overall expenses
     individual_expenses, shared_expenses = [], []
@@ -48,8 +48,8 @@ def get_amount_df(chat_id, data_code,expense_dict,transaction_dict, type="overal
     total_expenses_df['Amount'] = total_expenses_df['Amount'].astype(float)
     total_expenses_df['Date'] = pd.to_datetime(total_expenses_df['Date'], format=dateFormat + ' ' + timeFormat)
     return total_expenses_df
-
-
+ 
+ 
 def check_data_present(chat_id, expense_dict):
     ## checking if chat id has any data
     '''
@@ -84,8 +84,8 @@ def check_data_present(chat_id, expense_dict):
         else:
             # transaction_present = 1
             return 4
-
-
+ 
+ 
 def overall_plot(chat_id, start_date, end_date,expense_dict,transaction_dict):
     check_data_val = check_data_present(chat_id, expense_dict)
     if check_data_val == 1:
@@ -109,8 +109,8 @@ def overall_plot(chat_id, start_date, end_date,expense_dict,transaction_dict):
             plt.bar(sum_df['Category'], sum_df['Amount'], color=['r', 'g', 'b', 'y', 'm', 'c', 'k'])
             plt.savefig('overall_expenses.png', bbox_inches='tight')
             return 7
-
-
+ 
+ 
 def categorical_plot(chat_id, start_date, end_date, selected_cat,expense_dict,transaction_dict):
     check_data_val = check_data_present(chat_id, expense_dict)
     if check_data_val == 1:
@@ -136,8 +136,8 @@ def categorical_plot(chat_id, start_date, end_date, selected_cat,expense_dict,tr
             plt.savefig('categorical_expenses.png', bbox_inches='tight')
             helper.date_range = []
             return 7
-
-
+ 
+ 
 def owe(chat_id,expense_dict,transaction_dict):
     check_data_val = check_data_present(chat_id, expense_dict)
     if check_data_val == 1:
@@ -150,7 +150,7 @@ def owe(chat_id,expense_dict,transaction_dict):
             all_ids += transaction_dict[j]['members'].keys()
             all_ids = list(set(all_ids))
             all_ids.remove(chat_id)
-
+ 
         owe_dict = {}
         for m in all_ids:
             owe_dict[m] = []
@@ -163,14 +163,14 @@ def owe(chat_id,expense_dict,transaction_dict):
                         owe_dict[c_id] = owe_dict[c_id] + [temp_dict['members'][c_id]]
             else:
                 owe_dict[creator_id] = owe_dict[creator_id] + [-1 * (temp_dict['members'][chat_id])]
-
+ 
         x, y = [], []
         for k in owe_dict.keys():
             val = owe_dict[k]
             if val != []:
                 x.append(user_key[k])
                 y.append(sum(val) * -1)  # what I owe will be positive on plot
-
+ 
         rand_val = np.random.randint(10001, 15000)
         plt.figure(rand_val)
         plt.title("What I owe")
@@ -181,3 +181,4 @@ def owe(chat_id,expense_dict,transaction_dict):
         plt.bar(x, y, color=['r', 'g', 'b', 'y', 'm', 'c', 'k'])
         plt.savefig('owe.png', bbox_inches='tight')
         return 7
+ 
