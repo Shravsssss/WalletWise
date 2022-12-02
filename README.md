@@ -74,10 +74,27 @@ If you want to run publicly hosted bot then got to :
 send message to the bot named "sebot" and start managing your expanses using different functionalities.
 
 
-<hr>
-<p>--------------------------------------------------------------------------------------------------</p>
-<p>Title:'WalletBuddy'</p>
-<p>Version: '1.0'</p>
-<p>Description: 'A one-stop solution to track your expenses with your friends'</p>
-<p>Authors:'Nihar, Shruti, Palash, Saksham, Manish'</p>
-<p>--------------------------------------------------------------------------------------------------</p>
+## License
+
+[![GitHub](https://img.shields.io/github/license/boscosylvester-john/parttimeScheduler?color=blueviolet)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+[License Guidelines](https://github.com/boscosylvester-john/parttimeScheduler/blob/main/LICENSE.md)
+
+---
+
+
+## Contribute
+
+Please have a look at the [guidelines](https://github.com/boscosylvester-john/se_hw_LuaToPython/blob/main/CONTRIBUTING.md) before contributing.
+
+---
+
+## Authors
+
+- Ankur Banerji [Github](https://github.com/ankurbanerji3)
+- Boscosylvester Chittilapilly [Github](https://github.com/boscosylvester-john)
+- Prasad Kamath [Github](https://github.com/kamathprasad9)
+- Shlok Naik [Github](https://github.com/shlokio)
+- Tushar Kini [Github](https://github.com/tusharkini)
+
+---
