@@ -60,21 +60,21 @@ def test_expense_category_input_invalid_category(mock_telebot, mocker):
     assert mc.send_message.called_with(11, 'Invalid')
 
 
-@patch('telebot.telebot')
-def test_take_all_users_input(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.reply_to.return_value = True
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    mc.reply_to.return_value = True
-    mocker.patch.object(add_group, 'helper')
-    add_group.helper.read_json.return_value = {"11": "hello@gmail.com", "20": "abcd@gmail.com", "21": "xyz@gmail.com"}
+# @patch('telebot.telebot')
+# def test_take_all_users_input(mock_telebot, mocker):
+#     mc = mock_telebot.return_value
+#     mc.reply_to.return_value = True
+#     mc = mock_telebot.return_value
+#     mc.send_message.return_value = True
+#     mc.reply_to.return_value = True
+#     mocker.patch.object(add_group, 'helper')
+#     add_group.helper.read_json.return_value = {"11": "hello@gmail.com", "20": "abcd@gmail.com", "21": "xyz@gmail.com"}
 
-    message = create_message("abcd@gmail.com, xyz@gmail.com")
-    add_group.take_all_users_input(message, mc, "Groceries")
-    assert mc.send_message.called
-    assert not mc.reply_to.called
-    assert mc.send_message.called_with(11, 'How much did you spend on Groceries? \n(Enter numeric values only)')
+#     message = create_message("abcd@gmail.com, xyz@gmail.com")
+#     add_group.take_all_users_input(message, mc, "Groceries")
+#     assert mc.send_message.called
+#     assert not mc.reply_to.called
+#     assert mc.send_message.called_with(11, 'How much did you spend on Groceries? \n(Enter numeric values only)')
 
 
 @patch('telebot.telebot')
@@ -134,25 +134,25 @@ def test_post_amount_input_nonworking(mock_telebot, mocker):
     assert mc.reply_to.called
 
 
-@patch('telebot.telebot')
-def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    mocker.patch.object(add_group, 'helper')
-    add_group.helper.validate_entered_amount.return_value = 10
-    add_group.helper.write_json.return_value = True
-    add_group.helper.getDateFormat.return_value = dateFormat
-    add_group.helper.getTimeFormat.return_value = timeFormat
-    mocker.patch.object(add_group, 'add_transaction_record')
-    mocker.patch.object(add_group, 'add_transactions_to_user')
-    add_group.add_transaction_record.return_value = 1001, ["sample transaction list"]
-    add_group.add_transactions_to_user.return_value = ["sample updated user list"]
+# @patch('telebot.telebot')
+# def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
+#     mc = mock_telebot.return_value
+#     mc.send_message.return_value = True
+#     mocker.patch.object(add_group, 'helper')
+#     add_group.helper.validate_entered_amount.return_value = 10
+#     add_group.helper.write_json.return_value = True
+#     add_group.helper.getDateFormat.return_value = dateFormat
+#     add_group.helper.getTimeFormat.return_value = timeFormat
+#     mocker.patch.object(add_group, 'add_transaction_record')
+#     mocker.patch.object(add_group, 'add_transactions_to_user')
+#     add_group.add_transaction_record.return_value = 1001, ["sample transaction list"]
+#     add_group.add_transactions_to_user.return_value = ["sample updated user list"]
 
-    add_group.transaction_record = {}
-    message = create_message("10")
-    add_group.post_amount_input(message, mc, 'Groceries', [11,20,21])
-    assert not mc.reply_to.called
-    assert mc.send_message.called
+#     add_group.transaction_record = {}
+#     message = create_message("10")
+#     add_group.post_amount_input(message, mc, 'Groceries', [11,20,21])
+#     assert not mc.reply_to.called
+#     assert mc.send_message.called
 
 
 def test_validate_email_input():

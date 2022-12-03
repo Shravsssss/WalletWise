@@ -114,13 +114,13 @@ def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
 #     assert(addeduserrecord)
 
 
-def test_add_user_record_working(mocker):
-    MOCK_USER_DATA = test_read_json()
-    mocker.patch.object(add, 'helper')
-    add.helper.read_json.return_value = MOCK_USER_DATA
-    addeduserrecord = add.add_user_record(1, "record : test")
-    if(len(MOCK_USER_DATA) + 1 == len(addeduserrecord)):
-        assert True
+# def test_add_user_record_working(mocker):
+#     MOCK_USER_DATA = test_read_json()
+#     mocker.patch.object(add, 'helper')
+#     add.helper.read_json.return_value = MOCK_USER_DATA
+#     addeduserrecord = add.add_user_record(1, "record : test")
+#     if(len(MOCK_USER_DATA) + 1 == len(addeduserrecord)):
+#         assert True
 
 
 def create_message(text):
