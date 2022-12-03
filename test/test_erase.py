@@ -44,11 +44,11 @@ def create_message(text):
 @patch('telebot.telebot')
 def test_delete_with_no_data(mock_telebot, mocker):
     mocker.patch.object(erase, 'helper')
-    erase.helper.read_json.return_value = {}
-    erase.helper.write_json.return_value = True
+    # erase.helper.read_json.return_value = {}
+    # erase.helper.write_json.return_value = True
     MOCK_Message_data = create_message("Hello")
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
     erase.run(MOCK_Message_data, mc)
-    if erase.helper.write_json.called is False:
-        assert True
+    # if erase.helper.write_json.called is False:
+    #     assert True

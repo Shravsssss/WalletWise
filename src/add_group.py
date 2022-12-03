@@ -13,8 +13,8 @@ random.seed(2022)
  
  
 def run(message, bot):
-    helper.read_json(helper.getUserExpensesFile())
-    helper.read_json(helper.getGroupExpensesFile())
+    # helper.read_json(helper.getUserExpensesFile())
+    # helper.read_json(helper.getGroupExpensesFile())
     chat_id = message.chat.id
     option.pop(chat_id, None)  # remove temp choicex
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -150,7 +150,7 @@ def post_amount_input(message, bot, selected_category, chat_ids_present_in_expen
  
  
 def add_transaction_record(transaction_record):
-    transaction_list = helper.read_json(helper.getGroupExpensesFile())
+    transaction_list = helper.getGroupExpensesFile()
     transaction_id = str(generate_transaction_id())
     transaction_list[transaction_id] = transaction_record
     return transaction_id, transaction_list
@@ -169,8 +169,8 @@ def generate_transaction_id():
  
  
 def add_transactions_to_user(transaction_id, chat_ids):
-    transaction_list = helper.read_json(helper.getGroupExpensesFile())
-    user_list = helper.read_json(helper.getUserExpensesFile())
+    transaction_list = helper.getGroupExpensesFile()
+    user_list = helper.getUserExpensesFile()
  
     if str(transaction_id) not in transaction_list:
         raise Exception("Transaction {} does not exist".format(transaction_id))

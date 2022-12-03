@@ -16,14 +16,14 @@ monthFormat = '%b-%Y'
 helper.loadConfig()
  
 ## getting json files
-user_key_filename = helper.getUserProfileFile()
-user_key = helper.read_json(user_key_filename)
+# user_key_filename = helper.getUserProfileFile()
+user_key = helper.getUserProfileFile()
  
-expenseFile = helper.getUserExpensesFile()
-expense_dict = helper.read_json(expenseFile)
+# expenseFile = helper.getUserExpensesFile()
+expense_dict = helper.getUserExpensesFile()
  
-transactionFile = helper.getGroupExpensesFile()
-transaction_dict = helper.read_json(transactionFile)
+# transactionFile = helper.getGroupExpensesFile()
+transaction_dict = helper.getGroupExpensesFile()
  
  
 def label_amount(y):
