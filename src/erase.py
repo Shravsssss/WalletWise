@@ -1,5 +1,5 @@
-import helper
-from pymongo_run import get_database
+from . import helper
+from .pymongo_run import get_database
  
  
 def run(message, bot):

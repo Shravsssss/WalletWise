@@ -1,6 +1,6 @@
 import os
 import json
-from main import erase
+from src import erase
 from mock import patch
 from telebot import types
 

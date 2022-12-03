@@ -1,9 +1,9 @@
-import plots
+from . import plots
 import time
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from datetime import datetime
 from telebot import types
-import helper
+from . import helper
 import os
  
 ## getting json files

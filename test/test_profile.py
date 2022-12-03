@@ -2,7 +2,7 @@ import os
 import json
 from mock import patch
 from telebot import types
-from main import profile
+from src import profile
 
 dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'

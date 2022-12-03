@@ -1,11 +1,11 @@
-import helper
+from . import helper
 import logging
 from telebot import types
 from datetime import datetime
 from email_validator import validate_email, EmailNotValidError
 import random
-import add_group
-from pymongo_run import get_database
+from . import add_group
+from .pymongo_run import get_database
  
  
  

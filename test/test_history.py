@@ -2,8 +2,8 @@ import os
 import json
 from mock import patch
 from telebot import types
-from main import history
-from main import helper
+from src import history
+from src import helper
 
 
 def create_message(text):

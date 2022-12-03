@@ -9,7 +9,7 @@ Created on Thu Oct  6 17:19:18 2022
 
 import os
 import json
-from main import plots
+from src import plots
 #from main import helper
 import datetime
 from mock import patch

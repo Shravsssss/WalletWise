@@ -2,7 +2,7 @@
 
 @author: Shruti
 """
-import helper
+from . import helper
 
 
 def run(call, bot):

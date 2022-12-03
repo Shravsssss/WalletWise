@@ -2,8 +2,8 @@ import os
 import json
 from mock import patch
 from telebot import types
-from main import add_group
-from main import helper
+from src import add_group
+from src import helper
 
 dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'
