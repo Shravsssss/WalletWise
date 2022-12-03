@@ -4,7 +4,7 @@ setup(
     name='WalletBuddy',
     version='1.0',
     description='An easy to use Telegram Bot to track everyday expenses with your friends',
-    author='Nihar, Saksham, Manish, Palash, Shruti',
+    author='Boscosylvester, Tushar, Shlok, Prasad, Ankur',
     scripts=['main/main.py'],
     packages=find_packages()
 )   
