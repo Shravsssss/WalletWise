@@ -1,8 +1,8 @@
-from . import helper
+import helper
 import logging
 from telebot import types
 from datetime import datetime
-from .pymongo_run import get_database
+from pymongo_run import get_database
  
  
 option = {}
@@ -66,10 +66,7 @@ def post_amount_input(message, bot, selected_category):
                     flag+=1
                     k = i['group_expenses']+[text_string]
                     collection_name.update_one({"chatid":str(chat_id)},{'$set':{"personal_expenses":k}})
-             else:
-                    flag+=1
-                    item = {"chatid":str(chat_id),"personal_expenses":[text_string], "group_expenses":[]}
-                    collection_name.insert_one(item)
+                    break
         if flag==0:
                 item = {"chatid":str(chat_id),"personal_expenses":[text_string], "group_expenses":[]}
                 collection_name.insert_one(item)            

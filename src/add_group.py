@@ -1,11 +1,11 @@
 # import helper
-from . import helper
+import helper
 import logging
 from telebot import types
 from datetime import datetime
 from email_validator import validate_email, EmailNotValidError
 import random
-from .pymongo_run import get_database
+from pymongo_run import get_database
  
  
 option = {}
@@ -127,15 +127,11 @@ def post_amount_input(message, bot, selected_category, chat_ids_present_in_expen
         item_details = collection_name1.find()
         flag = 0
         for i in item_details:
-            #  print(i['chatid'],str(chat_id))
              if i['chatid'] == str(chat_id):
                     flag+=1
                     k = i['group_expenses']+[id_group]
                     collection_name1.update_one({"chatid":str(chat_id)},{'$set':{"group_expenses":k}})
-            #  else:
-            #         flag+=1
-            #         item = {"chatid":str(chat_id),"personal_expenses":[], "group_expenses":[id_group]}
-            #         collection_name1.insert_one(item)
+                    break
         if flag==0:
                 item = {"chatid":str(chat_id),"personal_expenses":[], "group_expenses":[id_group]}
                 collection_name1.insert_one(item)  

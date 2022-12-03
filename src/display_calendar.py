@@ -1,8 +1,5 @@
-"""
 
-@author: Shruti
-"""
-from . import helper
+import helper
 
 
 def run(call, bot):
