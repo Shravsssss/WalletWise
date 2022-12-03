@@ -27,10 +27,10 @@ def test_post_email_input(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     profile.add_group.validate_email_input.return_value = True
-    profile.helper.read_json.return_value = {}
+    # profile.helper.read_json.return_value = {}
     message = create_message("pbrr@gmail.com")
     message.text = "pbrr@gmail.com"
-    profile.helper.write_json.return_value = True
+    # profile.helper.write_json.return_value = True
     profile.post_email_input(message, mc)
 
     # call exceptions

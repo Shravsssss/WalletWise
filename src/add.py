@@ -9,7 +9,7 @@ option = {}
  
  
 def run(message, bot):
-    helper.read_json(helper.getUserExpensesFile())
+    # helper.read_json(helper.getUserExpensesFile()
     chat_id = message.chat.id
     option.pop(chat_id, None)  # remove temp choice
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -61,15 +61,15 @@ def post_amount_input(message, bot, selected_category):
         collection_name = dbname["USER_EXPENSES"]
         item_details = collection_name.find()
         flag = 0
-        for i in item_details:
-             if i['chatid'] == str(chat_id):
-                    flag+=1
-                    k = i['group_expenses']+[text_string]
-                    collection_name.update_one({"chatid":str(chat_id)},{'$set':{"personal_expenses":k}})
-                    break
-        if flag==0:
-                item = {"chatid":str(chat_id),"personal_expenses":[text_string], "group_expenses":[]}
-                collection_name.insert_one(item)            
+        # for i in item_details:
+        #      if i['chatid'] == str(chat_id):
+        #             flag+=1
+        #             k = i['personal_expenses']+[text_string]
+        #             collection_name.update_one({"chatid":str(chat_id)},{'$set':{"personal_expenses":k}})
+        #             break
+        # if flag==0:
+        #         item = {"chatid":str(chat_id),"personal_expenses":[text_string], "group_expenses":[]}
+        #         collection_name.insert_one(item)            
        
            
         bot.send_message(chat_id, 'The following expenditure has been recorded: You have spent ${} for {} on {}'.format(amount_str, category_str, date_str))

@@ -52,8 +52,8 @@ def show_categories(message, bot):
             raise Exception("Sorry wrong option\"{}\"!".format(opt))
  
         if opt == 'Yes':
-            expense_dict = helper.read_json(helper.getUserExpensesFile())
-            transaction_dict = helper.read_json(helper.getGroupExpensesFile())
+            expense_dict = helper.getUserExpensesFile()
+            transaction_dict = helper.getGroupExpensesFile()
             history = helper.getUserHistory(chat_id)
             if not history:
                 bot.send_message(chat_id, "Oops! Looks like you do not have any spending records!")

@@ -5,6 +5,7 @@ from datetime import datetime
 import configparser
 from telebot_calendar import Calendar, CallbackData, ENGLISH_LANGUAGE
 from telebot.types import ReplyKeyboardRemove, CallbackQuery
+from pymongo_run import get_database
  
 #calendar initialized
 calendar = Calendar(language=ENGLISH_LANGUAGE)
@@ -28,15 +29,18 @@ commands = {
 date_range = []
  
 config = configparser.ConfigParser()
+db = {}
 configFileName = "config.ini"
  
  
 def setConfig():
-    config["files"] = {
-        "UserExpenses": "user_expenses.json",
-        "GroupExpenses": "group_expenses.json",
-        "UserProfile": "user_emails.json"
-    }
+    # config["files"] = {
+    #     "UserExpenses": "user_expenses.json",
+    #     "GroupExpenses": "group_expenses.json",
+    #     "UserProfile": "user_emails.json"
+    # }
+    global db
+    db = get_database()
     config["settings"] = {
         # "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
 				"ApiToken": "5903857248:AAF7FuRKl2xzX4nE7fcAPgfw6PrPOrQbTyw",
@@ -45,8 +49,8 @@ def setConfig():
         "DisplayChoices": "All Expenses,Category Wise,Shared Expense"
     }
  
-    with open(configFileName, 'w+') as configfile:
-        config.write(configfile)
+    # with open(configFileName, 'w+') as configfile:
+    #     config.write(configfile)
  
  
 def loadConfig():
@@ -54,44 +58,44 @@ def loadConfig():
  
  
 def getUserExpensesFile():
-    setConfig()
-    filename = config['files']['UserExpenses']
-    return os.path.join("data", filename)
+    # setConfig()
+    filename = get_database()["USER_EXPENSES"].find_one()
+    return filename
  
  
 def getGroupExpensesFile():
-    setConfig()
-    filename = config['files']['GroupExpenses']
-    return os.path.join("data", filename)
+    # setConfig()
+    filename = get_database()["GROUP_EXPENSES"].find_one()
+    return filename
  
  
 def getUserProfileFile():
-    setConfig()
-    filename = config['files']['UserProfile']
-    return os.path.join("data", filename)
+    # setConfig()
+    filename = get_database()["USER_EMAILS"].find_one()
+    return filename
  
  
-def read_json(filename):
-    try:
-        if not os.path.exists(filename):
-            with open(filename, 'w') as json_file:
-                json_file.write('{}')
-            return json.dumps('{}')
-        elif os.stat(filename).st_size != 0:
-            with open(filename) as file:
-                file_data = json.load(file)
-            return file_data
+# def read_json(filename):
+#     try:
+#         if not os.path.exists(filename):
+#             with open(filename, 'w') as json_file:
+#                 json_file.write('{}')
+#             return json.dumps('{}')
+#         elif os.stat(filename).st_size != 0:
+#             with open(filename) as file:
+#                 file_data = json.load(file)
+#             return file_data
  
-    except FileNotFoundError:
-        print("---------NO RECORDS FOUND---------")
+#     except FileNotFoundError:
+#         print("---------NO RECORDS FOUND---------")
  
  
-def write_json(file_data, filename):
-    try:
-        with open(filename, 'w') as json_file:
-            json.dump(file_data, json_file, ensure_ascii=False, indent=4)
-    except FileNotFoundError:
-        print('Sorry, the data file could not be found.')
+# def write_json(file_data, filename):
+#     try:
+#         with open(filename, 'w') as json_file:
+#             json.dump(file_data, json_file, ensure_ascii=False, indent=4)
+#     except FileNotFoundError:
+#         print('Sorry, the data file could not be found.')
  
  
 def validate_entered_amount(amount_entered):
@@ -105,7 +109,7 @@ def validate_entered_amount(amount_entered):
  
  
 def getUserHistory(chat_id):
-    user_list = read_json(getUserExpensesFile())
+    user_list = getUserExpensesFile()
     if user_list is None:
         return None
     chat_id = str(chat_id)

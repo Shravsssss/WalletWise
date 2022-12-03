@@ -24,7 +24,7 @@ def run(message, bot):
             for rec in user_data["personal_expenses"]:
                 spend_total_str += str(rec) + "\n"
  
-            transactions_list = helper.read_json(helper.getGroupExpensesFile())
+            transactions_list = helper.getGroupExpensesFile()
             for transaction_id in user_data["group_expenses"]:
                 if transaction_id not in transactions_list:
                     raise Exception("An unknown transaction was found in your records, please try again later.")

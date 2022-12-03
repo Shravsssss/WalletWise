@@ -100,7 +100,7 @@ def test_take_all_users_input_creator_not_registered(mock_telebot, mocker):
     mc.send_message.return_value = True
     mc.reply_to.return_value = True
     mocker.patch.object(add_group, 'helper')
-    add_group.helper.read_json.return_value = {"11": "hello@gmail.com", "20": "abcd@gmail.com", "21": "xyz@gmail.com"}
+    # add_group.helper.read_json.return_value = {"11": "hello@gmail.com", "20": "abcd@gmail.com", "21": "xyz@gmail.com"}
 
     message = create_message("world@gmail.com")
     add_group.take_all_users_input(message, mc, "Groceries")
@@ -115,7 +115,7 @@ def test_take_all_users_input_creator_unknown_user(mock_telebot, mocker):
     mc.send_message.return_value = True
     mc.reply_to.return_value = True
     mocker.patch.object(add_group, 'helper')
-    add_group.helper.read_json.return_value = {"11": "hello@gmail.com", "20": "abcd@gmail.com", "21": "xyz@gmail.com"}
+    # add_group.helper.read_json.return_value = {"11": "hello@gmail.com", "20": "abcd@gmail.com", "21": "xyz@gmail.com"}
 
     message = create_message("efgh@gmail.com")
     add_group.take_all_users_input(message, mc, "Groceries")
@@ -172,7 +172,7 @@ def test_generate_transaction_id():
 
 def test_add_transaction_record(mocker):
     mocker.patch.object(add_group, 'helper')
-    add_group.helper.read_json.return_value = {}
+    # add_group.helper.read_json.return_value = {}
     assert add_group.add_transaction_record({})
 
 
@@ -182,7 +182,7 @@ def test_add_transactions_to_user(mocker):
     transaction_list = ["1001", "1002", "1003"]
     user_list = {"11": {}, "20": {}, "21": {}}
 
-    add_group.helper.read_json.side_effect = [transaction_list, user_list]
+    # add_group.helper.read_json.side_effect = [transaction_list, user_list]
     assert add_group.add_transactions_to_user("1002", ["20", "21"]) == \
            {"11": {}, "20": {'group_expenses': ["1002"]}, "21": {'group_expenses': ["1002"]}}
 
@@ -193,7 +193,7 @@ def test_add_transactions_to_user_invalid_transaction(mocker):
     transaction_list = ["1001", "1002", "1003"]
     user_list = {"11": {}, "20": {}, "21": {}}
 
-    add_group.helper.read_json.side_effect = [transaction_list, user_list]
+    # add_group.helper.read_json.side_effect = [transaction_list, user_list]
     try:
         _ = add_group.add_transactions_to_user("2002", ["20", "21"])
     except Exception as e:
