@@ -1,19 +1,34 @@
-# WalletBuddy 
+# WalletBuddy
+> This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 10.
 
-<a href="LICENSE">![MIT License](https://img.shields.io/github/license/smanishs175/WalletBuddy)</a>
+<a href="LICENSE">![MIT License](https://img.shields.io/github/license/tusharkini/WalletBuddy)</a>
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7179471.svg)](https://doi.org/10.5281/zenodo.7179471)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/tusharkini/WalletBuddy)
 [![Python 3.8](https://img.shields.io/badge/Python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![GitHub repo size](https://img.shields.io/github/repo-size/smanishs175/WalletBuddy)](https://github.com/smanishs175/WalletBuddy/)
 ![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
-[![GitHub contributors](https://img.shields.io/github/contributors/smanishs175/WalletBuddy)](https://github.com/smanishs175/WalletBuddy/graphs/contributors/)
-[![DOI](https://zenodo.org/badge/541313017.svg)](https://zenodo.org/badge/latestdoi/541313017)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/tusharkini/WalletBuddy?color=purple)
+[![GitHub contributors](https://img.shields.io/github/contributors/tusharkini/WalletBuddy)](https://github.com/tusharkini/WalletBuddy/graphs/contributors/)
+![GitHub issues](https://img.shields.io/github/issues/tusharkini/WalletBuddy?color=teal)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/tusharkini/WalletBuddy?color=aqua)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
 [![Build Status](https://github.com/smanishs175/WalletBuddy/actions/workflows/build.yml/badge.svg)](https://github.com/smanishs175/WalletBuddy/actions/workflows/build.yml)
+[![GitHub forks](https://img.shields.io/github/forks/tusharkini/WalletBuddy?style=social)](https://github.com/tusharkini/WalletBuddy/network/members)
+[![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/tusharkini/WalletBuddy/Node.js%20CI?event=push)](https://github.com/tusharkini/WalletBuddy/actions)
 
 <hr>
 
-## About WalletBuddy
+## Goal
 
-WalletBuddy is an easy-to-use Telegram Bot that assists you in recording your daily expenses on a local system without any hassle.  
+> Implement an application to help a person manage and track his or her expenses.
+---
+
+## Motivation
+> Manually trying to keep a track of the expenses and dividing the amount among a group (for group expenses) is a highly time consuming task. This application will help the user to efficiently track and therefore manage all the expenses, along with planning any expenditure in the future.
+
+## Features
+
+WalletBuddy is an easy-to-use Telegram Bot that assists you in recording your daily expenses on a local system without any hassle.
 With simple commands, this bot allows you to:
 - Add/Record a new spending 
 - Add shared expenses with friends
@@ -21,10 +36,17 @@ With simple commands, this bot allows you to:
 - Display your spendings plot : All expenses, Category expenses, Group Expenses
 - Clear/Erase all your records
 
-## Previous version (old video)
+### Components
+The components for the system are-
+- Frontend- It is made using python and telebot to import the functionalities on the telegram applicaton.
+
+- Backend- JSON objects and MongoDb to maintain the data for implementing this project.
+
+## Previous version
 https://user-images.githubusercontent.com/21088141/194785480-ecefae79-fe5a-4bcf-9513-965108726d94.mp4
 
-## Updated version (new video)
+## Updated version
+
 https://user-images.githubusercontent.com/21088141/194785646-d05f864c-af1e-42f3-b7a1-b68aef4c8fa9.mp4
 
 ## Installation guide
@@ -72,6 +94,57 @@ If you want to run publicly hosted bot then got to :
   https://t.me/niharrao_bot
 ```
 send message to the bot named "sebot" and start managing your expanses using different functionalities.
+
+
+## Coverage Reports
+<table class="coverage-summary">
+<thead>
+<tr>
+   <th data-col="file" data-fmt="html" data-html="true" class="file">File</th>
+   <th data-col="pic" data-type="number" data-fmt="html" data-html="true" class="pic"></th>
+   <th data-col="statements" data-type="number" data-fmt="pct" class="pct">Statements</th>
+   <th data-col="statements_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="lines" data-type="number" data-fmt="pct" class="pct">Lines</th>
+   <th data-col="lines_raw" data-type="number" data-fmt="html" class="abs"></th>
+</tr>
+</thead>
+<tbody><tr>
+	<td class="file low" data-value="middleware">middleware</td>
+	<td data-value="29.54" class="pic low">
+	<div class="chart"><div class="cover-fill" style="width: 29%"></div><div class="cover-empty" style="width: 71%"></div></div>
+	</td>
+	<td data-value="29.54" class="pct low">29.54%</td>
+	<td data-value="44" class="abs low">13/44</td>
+	<td data-value="29.54" class="pct low">29.54%</td>
+	<td data-value="44" class="abs low">13/44</td>
+	</tr>
+
+<tr>
+	<td class="file medium" data-value="models">models</td>
+	<td data-value="71.42" class="pic medium">
+	<div class="chart"><div class="cover-fill" style="width: 71%"></div><div class="cover-empty" style="width: 29%"></div></div>
+	</td>
+	<td data-value="71.42" class="pct medium">71.42%</td>
+	<td data-value="7" class="abs medium">5/7</td>
+	<td data-value="71.42" class="pct medium">71.42%</td>
+	<td data-value="7" class="abs medium">5/7</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="routes">routes</td>
+	<td data-value="30.95" class="pic low">
+	<div class="chart"><div class="cover-fill" style="width: 30%"></div><div class="cover-empty" style="width: 70%"></div></div>
+	</td>
+	<td data-value="30.95" class="pct low">30.95%</td>
+	<td data-value="42" class="abs low">13/42</td>
+	<td data-value="30.95" class="pct low">30.95%</td>
+	<td data-value="42" class="abs low">13/42</td>
+	</tr>
+
+</tbody>
+</table>
+
+---
 
 
 ## License
