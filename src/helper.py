@@ -43,7 +43,7 @@ def setConfig():
     db = get_database()
     config["settings"] = {
         # "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
-				"ApiToken": "5903857248:AAF7FuRKl2xzX4nE7fcAPgfw6PrPOrQbTyw",
+				"ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
         "ExpenseCategories": "Food,Groceries,Utilities,Transport,Shopping,Miscellaneous",
         "ExpenseChoices": "Date,Category,Cost",
         "DisplayChoices": "All Expenses,Category Wise,Shared Expense"
