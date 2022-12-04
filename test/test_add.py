@@ -2,9 +2,8 @@ import os
 import json
 from mock.mock import patch
 from telebot import types
-from src import add
+from src import add, helper
 from mock import ANY
-from src import helper
 
 
 dateFormat = '%d-%b-%Y'

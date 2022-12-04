@@ -1,46 +1,51 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import logging
-import telebot
 import time
-import helper
-import history
-import plots
-import display
-import erase
-import add
-import config
-import add_group
-import display_calendar
-from telebot.types import ReplyKeyboardRemove, CallbackQuery
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-import profile
-from pymongo_run import get_database
- 
 from datetime import datetime
-from jproperties import Properties
- 
+import telebot
+from telebot.types import CallbackQuery
+from . import helper
+from . import history
+from . import display
+from . import erase
+from . import add
+from . import config
+from . import add_group
+from . import display_calendar
+from . import profile
+from .pymongo_run import get_database
+
 # helper.set_config()
 helper.load_config()
- 
- 
+
+
 bot = telebot.TeleBot(config.TOKEN)
 dbname = get_database()
 collection_name = dbname["USER_EMAILS"]
 telebot.logger.setLevel(logging.INFO)
- 
+
+
 # Define listener for requests by user
 def listener(user_requests):
+    """This is the listener function"""
     for req in user_requests:
         if req.content_type == 'text':
             # print(req)
-            print("{} name:{} chat_id:{} \nmessage: {}\n".format(str(datetime.now()), str(req.chat.first_name),
-                                                                 str(req.chat.id), str(req.text)))
- 
- 
+            print(
+                str(datetime.now()) +
+                "name:" +
+                str(req.chat.first_name) +
+                "chat_id:" +
+                str(req.chat.id) +
+                "\nmessage:" +
+                str(req.text)
+            )
+
+
 bot.set_update_listener(listener)
- 
- 
+
+
 # defines how the /start and /help commands have to be handled/processed
 @bot.message_handler(commands=['start', 'menu'])
 def start_and_menu_command(m):

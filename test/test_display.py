@@ -1,10 +1,6 @@
-import os
-import json
 from mock import patch
 from telebot import types
 from src import display
-from src import helper
-from src import plots
 
 decision=['Yes', 'No']
 

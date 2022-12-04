@@ -10,9 +10,7 @@ Created on Thu Oct  6 17:19:18 2022
 import os
 import json
 from src import plots
-#from main import helper
 import datetime
-from mock import patch
 import pandas as pd
 
 def test_read_expense_json():

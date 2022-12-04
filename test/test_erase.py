@@ -1,8 +1,8 @@
 import os
 import json
-from src import erase
 from mock import patch
 from telebot import types
+from src import erase
 
 
 def test_read_json():

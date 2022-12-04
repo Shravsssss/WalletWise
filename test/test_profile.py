@@ -1,5 +1,3 @@
-import os
-import json
 from mock import patch
 from telebot import types
 from src import profile
