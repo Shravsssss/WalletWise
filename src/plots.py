@@ -15,7 +15,7 @@ monthFormat = '%b-%Y'
  
 helper.load_config()
  
-## getting json files
+# getting json files
 # user_key_filename = helper.get_user_profile_file()
 user_key = helper.get_user_profile_file()
  
@@ -31,33 +31,47 @@ def label_amount(y):
         plt.text(ind, val, str(round(val, 2)), ha='center', va='bottom')
  
  
-def get_amount_df(chat_id, data_code,expense_dict,transaction_dict, type="overall"):
+def get_amount_df(chat_id, data_code, expense_dict, transaction_dict, type="overall"):
     ### plot overall expenses
+    print('get_amount_df')
     individual_expenses, shared_expenses = [], []
+    expense_dict = helper.get_user_history(chat_id)
     if type not in ["shared"]:
         if data_code in [2, 4]:
-            for i in expense_dict[chat_id]['personal_expenses']:
+            for i in expense_dict['personal_expenses']:
                 individual_expenses.append(i.split(','))
     # print("get amount expense dict run")
     if data_code in [3, 4]:
-        for j in expense_dict[chat_id]['group_expenses']:
+        for j in expense_dict['group_expenses']:
+            print('jnjnknknkjjjjjjj',j)
             temp_dict = transaction_dict[j]
             shared_expenses.append([temp_dict['created_at'], temp_dict['category'], temp_dict['members'][chat_id]])
     total_expenses = individual_expenses + shared_expenses
     total_expenses_df = pd.DataFrame(total_expenses, columns=['Date', 'Category', 'Amount'])
     total_expenses_df['Amount'] = total_expenses_df['Amount'].astype(float)
     total_expenses_df['Date'] = pd.to_datetime(total_expenses_df['Date'], format=dateFormat + ' ' + timeFormat)
+    print(total_expenses_df)
     return total_expenses_df
  
  
 def check_data_present(chat_id, expense_dict):
     ## checking if chat id has any data
+    print('check_data_rpresnt')
     '''
    1 : data not present in both individual data and shared transactions
    2 : data present in individual data but not in shared transactions
    3 : data present in shared transaction but not in individual data
    4 : data present in both individual data and shared transactions
    '''
+    history = helper.get_user_history(chat_id)
+    if history is None:
+        return 1
+    if history['personal_expenses'] and history['group_expenses']:
+        return 4
+    elif history['personal_expenses']:
+        return 2
+    else:
+        return 3
     # data_present, transaction_present = 99 , 99
     if chat_id not in expense_dict.keys():
         # chat_id is not present in expense_dict
@@ -118,9 +132,16 @@ def categorical_plot(chat_id, start_date, end_date, selected_cat,expense_dict,tr
     else:
         total_expenses_df = get_amount_df(chat_id, check_data_val,expense_dict,transaction_dict, type="overall")
         total_expenses_df = total_expenses_df[total_expenses_df['Date'] >= start_date]
+        print(total_expenses_df)
         total_expenses_df = total_expenses_df[total_expenses_df['Date'] <= end_date]
+        print(total_expenses_df)
+        print(selected_cat)
+        print(total_expenses_df['Category'])
+        ## Error in next line
         total_expenses_df = total_expenses_df[total_expenses_df['Category'].isin([selected_cat])]
+        print(total_expenses_df)
         total_expenses_df['Month'] = total_expenses_df['Date'].apply(lambda x: month_dict[x.month])
+        print(total_expenses_df)
         sum_df = total_expenses_df[['Month', 'Amount']].groupby(['Month'], as_index=False).sum()
         if sum_df.shape[0] == 0:
             return 6  ## 6 means "No expense data for selected dates and Category"
