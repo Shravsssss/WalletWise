@@ -66,21 +66,21 @@ def load_config():
 def get_user_expenses_file():
     """This is the get user expenses file function"""
     # set_config()
-    filename = get_database()["USER_EXPENSES"].find_one()
+    filename = get_database()["USER_EXPENSES"].find()
     return filename
 
 
 def get_group_expenses_file():
     """This is the get group expenses file function"""
     # set_config()
-    filename = get_database()["GROUP_EXPENSES"].find_one()
+    filename = get_database()["GROUP_EXPENSES"].find()
     return filename
 
 
 def get_user_profile_file():
     """This is the get user profile file function"""
     # set_config()
-    filename = get_database()["USER_EMAILS"].find_one()
+    filename = get_database()["USER_EMAILS"].find()
     return filename
 
 
@@ -127,11 +127,14 @@ def validate_entered_amount(amount_entered):
 def get_user_history(chat_id):
     """This is the get user history function"""
     user_list = get_user_expenses_file()
+    print('user_list', user_list)
     if user_list is None:
         return None
     chat_id = str(chat_id)
-    if chat_id in user_list:
-        return user_list[chat_id]
+    for record in user_list:
+        print(record['chatid'])
+        if chat_id == record["chatid"]:
+            return record
     return None
 
 
