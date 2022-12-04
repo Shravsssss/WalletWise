@@ -2,97 +2,78 @@ from mock import patch
 from telebot import types
 from src import display
 
-decision=['Yes', 'No']
+decision = ['Yes', 'No']
+
 
 def create_message(text):
+    """This is the create message function"""
     params = {'text': text}
     chat = types.User(11, False, 'test')
     return types.Message(1, None, None, chat, 'text', params, "")
 
+
 @patch('telebot.telebot')
-def test_run(mock_telebot, mocker):
-    mc = mock_telebot.return_value
-    mc.reply_to.return_value = True
+def test_run(mock_telebot):
+    """This is the test function for run"""
+    mock_value = mock_telebot.return_value
+    mock_value.reply_to.return_value = True
     message = create_message("hello from test run!")
-    display.run(message, mc)
-    assert mc.send_message.called
+    display.run(message, mock_value)
+    assert mock_value.send_message.called
 
 
 @patch('telebot.telebot')
-def test_show_categories(mock_telebot,mocker):
+def test_show_categories(mock_telebot):
+    """This is the test function for show categories"""
     message = create_message("Yes")
-    opt=message.text
 
-    mc = mock_telebot.return_value
-    mc.reply_to.return_value = True
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    mc.reply_to.return_value = True
+    mock_value = mock_telebot.return_value
+    mock_value.reply_to.return_value = True
+    mock_value = mock_telebot.return_value
+    mock_value.send_message.return_value = True
+    mock_value.reply_to.return_value = True
     display.helper.get_spend_categories.return_value = decision
-    history=True
 
-    display.show_categories(message,mc)
-    assert mc.send_message.called
+    display.show_categories(message, mock_value)
+    assert mock_value.send_message.called
+
 
 @patch('telebot.telebot')
-def test_date_selections(mock_telebot,mocker):
+def test_date_selections(mock_telebot):
+    """This is the test function for date selections"""
     message = create_message("hello from test run!")
-    mc = mock_telebot.return_value
-    mc.reply_to.return_value = True
-    mc = mock_telebot.return_value
-    mc.send_message.return_value = True
-    mc.reply_to.return_value = True
+    mock_value = mock_telebot.return_value
+    mock_value.reply_to.return_value = True
+    mock_value = mock_telebot.return_value
+    mock_value.send_message.return_value = True
+    mock_value.reply_to.return_value = True
 
-    display.date_selections(message, mc)
-    assert mc.send_message.called
-
-
+    display.date_selections(message, mock_value)
+    assert mock_value.send_message.called
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
 # @patch('telebot.telebot')
 # def test_run(mock_telebot, mocker):
-#     mc = mock_telebot.return_value
-#     mc.reply_to.return_value = True
+#     mock_value = mock_telebot.return_value
+#     mock_value.reply_to.return_value = True
 #     message = create_message("hello from test run!")
 #     display.run(message, mc)
-#     assert mc.send_message.called
+#     assert mock_value.send_message.called
 
 
 # @patch('telebot.telebot')
 # def test_no_data_available(mock_telebot, mocker):
-#     mc = mock_telebot.return_value
-#     mc.reply_to.return_value = True
+#     mock_value = mock_telebot.return_value
+#     mock_value.reply_to.return_value = True
 #     message = create_message("/spendings")
 #     display.run(message, mc)
-#     assert mc.send_message.called
+#     assert mock_value.send_message.called
 #
 #
 # @patch('telebot.telebot')
 # def test_invalid_format(mock_telebot, mocker):
-#     mc = mock_telebot.return_value
-#     mc.reply_to.return_value = True
+#     mock_value = mock_telebot.return_value
+#     mock_value.reply_to.return_value = True
 #     message = create_message("luster")
 #     try:
 #         display.display_total(message, mc)
@@ -103,8 +84,8 @@ def test_date_selections(mock_telebot,mocker):
 #
 # @patch('telebot.telebot')
 # def test_valid_format(mock_telebot, mocker):
-#     mc = mock_telebot.return_value
-#     mc.reply_to.return_value = True
+#     mock_value = mock_telebot.return_value
+#     mock_value.reply_to.return_value = True
 #     message = create_message("Month")
 #     try:
 #         display.display_total(message, mc)
@@ -115,8 +96,8 @@ def test_date_selections(mock_telebot,mocker):
 #
 # @patch('telebot.telebot')
 # def test_valid_format_day(mock_telebot, mocker):
-#     mc = mock_telebot.return_value
-#     mc.reply_to.return_value = True
+#     mock_value = mock_telebot.return_value
+#     mock_value.reply_to.return_value = True
 #     message = create_message("Day")
 #     try:
 #         display.display_total(message, mc)
@@ -130,17 +111,19 @@ def test_date_selections(mock_telebot,mocker):
 #
 #     MOCK_USER_DATA = test_read_json()
 #     mocker.patch.object(display, 'helper')
-#     display.helper.get_user_history.return_value = MOCK_USER_DATA["894127939"]
+#    display.helper.get_user_history.return_value = MOCK_USER_DATA[
+#        "894127939"
+#    ]
 #     display.helper.get_spend_display_options.return_value = [
 #         "Day", "Month"]
 #     display.helper.get_date_format.return_value = '%d-%b-%Y'
 #     display.helper.get_month_format.return_value = '%b-%Y'
-#     mc = mock_telebot.return_value
-#     mc.reply_to.return_value = True
+#     mock_value = mock_telebot.return_value
+#     mock_value.reply_to.return_value = True
 #     message = create_message("Day")
 #     message.text = "Day"
 #     display.run(message, mc)
-#     # assert not mc.send_message.called
+#     # assert not mock_value.send_message.called
 #
 #
 # @patch('telebot.telebot')
@@ -148,17 +131,19 @@ def test_date_selections(mock_telebot,mocker):
 #
 #     MOCK_USER_DATA = test_read_json()
 #     mocker.patch.object(display, 'helper')
-#     display.helper.get_user_history.return_value = MOCK_USER_DATA["894127939"]
+#     display.helper.get_user_history.return_value = MOCK_USER_DATA[
+#         "894127939"
+#     ]
 #     display.helper.get_spend_display_options.return_value = [
 #         "Day", "Month"]
 #     display.helper.get_date_format.return_value = '%d-%b-%Y'
 #     display.helper.get_month_format.return_value = '%b-%Y'
-#     mc = mock_telebot.return_value
-#     mc.reply_to.return_value = True
+#     mock_value = mock_telebot.return_value
+#     mock_value.reply_to.return_value = True
 #     message = create_message("Day")
 #     message.text = "Day"
 #     display.display_total(message, mc)
-#     # assert mc.send_message.called
+#     # assert mock_value.send_message.called
 #
 #
 # @patch('telebot.telebot')
@@ -166,17 +151,19 @@ def test_date_selections(mock_telebot,mocker):
 #
 #     MOCK_USER_DATA = test_read_json()
 #     mocker.patch.object(display, 'helper')
-#     display.helper.get_user_history.return_value = MOCK_USER_DATA["894127939"]
+#     display.helper.get_user_history.return_value = MOCK_USER_DATA[
+#         "894127939"
+#     ]
 #     display.helper.get_spend_display_options.return_value = [
 #         "Day", "Month"]
 #     display.helper.get_date_format.return_value = '%d-%b-%Y'
 #     display.helper.get_month_format.return_value = '%b-%Y'
-#     mc = mock_telebot.return_value
-#     mc.reply_to.return_value = True
+#     mock_value = mock_telebot.return_value
+#     mock_value.reply_to.return_value = True
 #     message = create_message("Month")
 #     message.text = "Month"
 #     display.display_total(message, mc)
-#     # assert mc.send_message.called
+#     # assert mock_value.send_message.called
 #
 #
 # def create_message(text):
