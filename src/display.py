@@ -122,8 +122,10 @@ def expense_category(message, bot, expense_dict, transaction_dict):
             expense_dict,
             transaction_dict
         )
+        check1 = plots.hist_categorical_plot(str(chat_id), start_date, end_date, choice_category, expense_dict,transaction_dict)
+        check2 = plots.box_categorical_plot(str(chat_id), start_date, end_date, choice_category, expense_dict, transaction_dict)
         print(check)
-        if check != 7:
+        if check != 7 or check1 != 7 or check2 != 7:
             plotmsg = helper.get_data_availability_messages(check)
             bot.reply_to(message, plotmsg)
         else:
@@ -135,7 +137,11 @@ def expense_category(message, bot, expense_dict, transaction_dict):
                     'rb'
                 )
             )
+            bot.send_photo(chat_id, photo=open('hist.png', 'rb'))
+            bot.send_photo(chat_id, photo=open('box_cat.png', 'rb'))
             os.remove('categorical_expenses.png')
+            os.remove('hist.png')
+            os.remove('box_cat.png')
 
     except Exception as exception_value:
         bot.reply_to(message, str(exception_value))
@@ -174,7 +180,9 @@ def display_total(message, bot, expense_dict, transaction_dict):
                 expense_dict,
                 transaction_dict
             )
-            if check != 7:
+            check2 = plots.pie_plot(str(chat_id), start_date, end_date, expense_dict, transaction_dict)
+            check3 = plots.box_plot(str(chat_id), start_date, end_date, expense_dict, transaction_dict)
+            if check != 7 or check2 != 7 or check3 != 7:
                 plotmsg = helper.get_data_availability_messages(check)
                 bot.reply_to(message, plotmsg)
             else:
@@ -185,7 +193,11 @@ def display_total(message, bot, expense_dict, transaction_dict):
                         'rb'
                     )
                 )
+                bot.send_photo(chat_id, photo=open('pie.png', 'rb'))
+                bot.send_photo(chat_id, photo=open('box.png', 'rb'))
                 os.remove('overall_expenses.png')
+                os.remove('pie.png')
+                os.remove('box.png')
 
         elif choice == 'Category Wise':
             # helper.read_json()
