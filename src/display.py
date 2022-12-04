@@ -64,6 +64,9 @@ def show_categories(message, bot):
             expense_dict = helper.get_user_expenses_file()
             transaction_dict = helper.get_group_expenses_file()
             history = helper.get_user_history(chat_id)
+            print("bdkjd", expense_dict)
+            print('chatid', chat_id)
+            print("dede", history)
             if not history:
                 bot.send_message(
                     chat_id,
@@ -98,6 +101,7 @@ def show_categories(message, bot):
 
 def expense_category(message, bot, expense_dict, transaction_dict):
     """This is the expense category funciton"""
+    print("expense_categror")
     try:
         start_date = helper.date_range[0]
         end_date = helper.date_range[1]
@@ -109,7 +113,7 @@ def expense_category(message, bot, expense_dict, transaction_dict):
             exception_message = "Sorry I can't show spendings for "
             exception_message += choice_category + "!"
             raise Exception(exception_message)
- 
+        print("expense_category_plot")
         check = plots.categorical_plot(
             str(chat_id),
             start_date,
@@ -118,7 +122,7 @@ def expense_category(message, bot, expense_dict, transaction_dict):
             expense_dict,
             transaction_dict
         )
-        # print(check)
+        print(check)
         if check != 7:
             plotmsg = helper.get_data_availability_messages(check)
             bot.reply_to(message, plotmsg)
@@ -139,6 +143,7 @@ def expense_category(message, bot, expense_dict, transaction_dict):
 
 def display_total(message, bot, expense_dict, transaction_dict):
     """This is the display total function"""
+    print('display_total')
     try:
         chat_id = message.chat.id
         choice = message.text
@@ -161,6 +166,7 @@ def display_total(message, bot, expense_dict, transaction_dict):
         time.sleep(0.5)
 
         if choice == 'All Expenses':
+            print('diplay+total_all_exp')
             check = plots.overall_plot(
                 str(chat_id),
                 start_date,
@@ -183,6 +189,7 @@ def display_total(message, bot, expense_dict, transaction_dict):
 
         elif choice == 'Category Wise':
             # helper.read_json()
+            print("display_total_categpr")
             chat_id = message.chat.id
             # helper.option.pop(chat_id, None)  # remove temp choice
             markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
