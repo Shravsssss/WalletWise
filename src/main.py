@@ -20,8 +20,8 @@ from pymongo_run import get_database
 from datetime import datetime
 from jproperties import Properties
  
-# helper.setConfig()
-helper.loadConfig()
+# helper.set_config()
+helper.load_config()
  
  
 bot = telebot.TeleBot(config.TOKEN)
@@ -50,7 +50,7 @@ def start_and_menu_command(m):
                  "Here is a list of available commands, please enter a command of your choice so that I can " \
                  "assist you further: \n\n"
  
-    commands = helper.getCommands()
+    commands = helper.get_commands()
     for c in commands:  # generate help text out of the commands dictionary defined at the top
         text_intro += "/" + c + ": "
         text_intro += commands[c] + "\n\n"

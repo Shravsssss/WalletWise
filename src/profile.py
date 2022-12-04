@@ -33,7 +33,7 @@ def post_email_input(message, bot):
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no! ' + str(e))
         display_text = ""
-        commands = helper.getCommands()
+        commands = helper.get_commands()
         for c in commands:  # generate help text out of the commands dictionary defined at the top
             display_text += "/" + c + ": "
             display_text += commands[c] + "\n"

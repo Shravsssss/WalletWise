@@ -8,7 +8,7 @@ from . import helper
 
 # getting json files
 
-helper.loadConfig()
+helper.load_config()
 
 
 def run(message, bot):
@@ -17,7 +17,7 @@ def run(message, bot):
     date_selections(message, bot)
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.row_width = 2
-    for opt in helper.getDecisionChoices():
+    for opt in helper.get_decision_choices():
         markup.add(opt)
     msg = bot.reply_to(
         message,
@@ -56,14 +56,14 @@ def show_categories(message, bot):
     try:
         chat_id = message.chat.id
         opt = message.text
-        if opt not in helper.getDecisionChoices():
+        if opt not in helper.get_decision_choices():
             exception_message = "Sorry wrong option " + opt + "!" 
             raise Exception(exception_message)
 
         if opt == 'Yes':
-            expense_dict = helper.getUserExpensesFile()
-            transaction_dict = helper.getGroupExpensesFile()
-            history = helper.getUserHistory(chat_id)
+            expense_dict = helper.get_user_expenses_file()
+            transaction_dict = helper.get_group_expenses_file()
+            history = helper.get_user_history(chat_id)
             if not history:
                 bot.send_message(
                     chat_id,
@@ -72,7 +72,7 @@ def show_categories(message, bot):
             else:
                 markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
                 markup.row_width = 2
-                for mode in helper.getSpendDisplayOptions():
+                for mode in helper.get_spend_display_options():
                     markup.add(mode)
                 msg = bot.reply_to(
                     message,
@@ -105,7 +105,7 @@ def expense_category(message, bot, expense_dict, transaction_dict):
         # print(end_date)
         chat_id = message.chat.id
         choice_category = message.text
-        if choice_category not in helper.getSpendCategories():
+        if choice_category not in helper.get_spend_categories():
             exception_message = "Sorry I can't show spendings for "
             exception_message += choice_category + "!"
             raise Exception(exception_message)
@@ -120,7 +120,7 @@ def expense_category(message, bot, expense_dict, transaction_dict):
         )
         # print(check)
         if check != 7:
-            plotmsg = helper.getDataAvailabilityMessages(check)
+            plotmsg = helper.get_data_availability_messages(check)
             bot.reply_to(message, plotmsg)
         else:
             # print("executed")
@@ -145,12 +145,12 @@ def display_total(message, bot, expense_dict, transaction_dict):
         start_date = helper.date_range[0]
         end_date = helper.date_range[1]
 
-        if choice not in helper.getSpendDisplayOptions():
+        if choice not in helper.get_spend_display_options():
             exception_message = "Sorry I can't show spendings for "
             exception_message += choice + "!"
             raise Exception(exception_message)
 
-        history = helper.getUserHistory(chat_id)
+        history = helper.get_user_history(chat_id)
         if history is None:
             exception_message = """Oops! Looks like you do not 
             have any spending records!"""
@@ -169,7 +169,7 @@ def display_total(message, bot, expense_dict, transaction_dict):
                 transaction_dict
             )
             if check != 7:
-                plotmsg = helper.getDataAvailabilityMessages(check)
+                plotmsg = helper.get_data_availability_messages(check)
                 bot.reply_to(message, plotmsg)
             else:
                 bot.send_photo(
@@ -187,7 +187,7 @@ def display_total(message, bot, expense_dict, transaction_dict):
             # helper.option.pop(chat_id, None)  # remove temp choice
             markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
             markup.row_width = 2
-            for category in helper.getSpendCategories():
+            for category in helper.get_spend_categories():
                 markup.add(category)
             msg = bot.reply_to(message, 'Select Category', reply_markup=markup)
             bot.register_next_step_handler(
@@ -201,7 +201,7 @@ def display_total(message, bot, expense_dict, transaction_dict):
         elif choice == 'Shared Expense':
             check = plots.owe(str(chat_id), expense_dict, transaction_dict)
             if check != 7:
-                plotmsg = helper.getDataAvailabilityMessages(check)
+                plotmsg = helper.get_data_availability_messages(check)
                 bot.reply_to(message, plotmsg)
             else:
                 bot.send_photo(chat_id, photo=open('owe.png', 'rb'))

@@ -10,7 +10,7 @@ from src import helper
 dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
-helper.loadConfig()
+helper.load_config()
 
 @patch('telebot.telebot')
 def test_run(mock_telebot, mocker):
@@ -38,7 +38,7 @@ def test_post_category_selection_noMatchingCategory(mock_telebot, mocker):
     mc.reply_to.return_value = True
 
     mocker.patch.object(add, 'helper')
-    add.helper.getSpendCategories.return_value = None
+    add.helper.get_spend_categories.return_value = None
 
     message = create_message("hello from testing!")
     add.post_category_selection(message, mc)
@@ -62,8 +62,8 @@ def test_post_amount_input_working_withdata(mock_telebot, mocker):
     mocker.patch.object(add, 'helper')
     add.helper.validate_entered_amount.return_value = 10
     # add.helper.write_json.return_value = True
-    add.helper.getDateFormat.return_value = dateFormat
-    add.helper.getTimeFormat.return_value = timeFormat
+    add.helper.get_date_format.return_value = dateFormat
+    add.helper.get_time_format.return_value = timeFormat
 
     mocker.patch.object(add, 'option')
     add.option.return_value = {11, "here"}
@@ -92,8 +92,8 @@ def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
     mocker.patch.object(add, 'helper')
     add.helper.validate_entered_amount.return_value = 10
     # add.helper.write_json.return_value = True
-    add.helper.getDateFormat.return_value = dateFormat
-    add.helper.getTimeFormat.return_value = timeFormat
+    add.helper.get_date_format.return_value = dateFormat
+    add.helper.get_time_format.return_value = timeFormat
 
     mocker.patch.object(add, 'option')
     add.option = {11, "here"}

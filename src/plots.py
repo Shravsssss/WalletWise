@@ -13,17 +13,17 @@ timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
  
  
-helper.loadConfig()
+helper.load_config()
  
 ## getting json files
-# user_key_filename = helper.getUserProfileFile()
-user_key = helper.getUserProfileFile()
+# user_key_filename = helper.get_user_profile_file()
+user_key = helper.get_user_profile_file()
  
-# expenseFile = helper.getUserExpensesFile()
-expense_dict = helper.getUserExpensesFile()
+# expenseFile = helper.get_user_expenses_file()
+expense_dict = helper.get_user_expenses_file()
  
-# transactionFile = helper.getGroupExpensesFile()
-transaction_dict = helper.getGroupExpensesFile()
+# transactionFile = helper.get_group_expenses_file()
+transaction_dict = helper.get_group_expenses_file()
  
  
 def label_amount(y):

@@ -10,7 +10,7 @@ timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
 spendCategories = ['Food', 'Groceries', 'Utilities', 'Transport', 'Shopping', 'Miscellaneous']
 
-helper.loadConfig()
+helper.load_config()
 
 
 def create_message(text):
@@ -36,7 +36,7 @@ def test_expense_category_input(mock_telebot, mocker):
     mc.send_message.return_value = True
     mc.reply_to.return_value = True
     mocker.patch.object(add_group, 'helper')
-    add_group.helper.getSpendCategories.return_value = spendCategories
+    add_group.helper.get_spend_categories.return_value = spendCategories
 
     message = create_message("Groceries")
     add_group.expense_category_input(message, mc)
@@ -52,7 +52,7 @@ def test_expense_category_input_invalid_category(mock_telebot, mocker):
     mc.send_message.return_value = True
     mc.reply_to.return_value = True
     mocker.patch.object(add_group, 'helper')
-    add_group.helper.getSpendCategories.return_value = spendCategories
+    add_group.helper.get_spend_categories.return_value = spendCategories
 
     message = create_message("blah")
     add_group.expense_category_input(message, mc)
@@ -141,8 +141,8 @@ def test_post_amount_input_nonworking(mock_telebot, mocker):
 #     mocker.patch.object(add_group, 'helper')
 #     add_group.helper.validate_entered_amount.return_value = 10
 #     add_group.helper.write_json.return_value = True
-#     add_group.helper.getDateFormat.return_value = dateFormat
-#     add_group.helper.getTimeFormat.return_value = timeFormat
+#     add_group.helper.get_date_format.return_value = dateFormat
+#     add_group.helper.get_time_format.return_value = timeFormat
 #     mocker.patch.object(add_group, 'add_transaction_record')
 #     mocker.patch.object(add_group, 'add_transactions_to_user')
 #     add_group.add_transaction_record.return_value = 1001, ["sample transaction list"]

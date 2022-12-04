@@ -37,7 +37,7 @@ add_transactions_to_user(transaction_id, chat_ids)
 delete_history(chat_id)
 - Function to delete previous expenditure history of the user
 
-getUserHistory(chat_id):
+get_user_history(chat_id):
 - Function to fetch user history and display it in the bot window
 
 display_total(message)
@@ -58,6 +58,6 @@ display_total(message, individual expenses, group expenses)
 expense_category(message, individual expenses, group expenses)
 - Function to allow the user to view expenses for a specific category
 
-loadConfig()
+load_config()
 - Function to load the config file
 

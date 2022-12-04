@@ -4,7 +4,7 @@ from .pymongo_run import get_database
 
 def run(message, bot):
     """This is the run function"""
-    # user_list = helper.read_json(helper.getUserExpensesFile())
+    # user_list = helper.read_json(helper.get_user_expenses_file())
     chat_id = message.chat.id
     user_data = None
     dbname = get_database()

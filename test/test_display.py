@@ -32,7 +32,7 @@ def test_show_categories(mock_telebot,mocker):
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
     mc.reply_to.return_value = True
-    display.helper.getSpendCategories.return_value = decision
+    display.helper.get_spend_categories.return_value = decision
     history=True
 
     display.show_categories(message,mc)
@@ -134,11 +134,11 @@ def test_date_selections(mock_telebot,mocker):
 #
 #     MOCK_USER_DATA = test_read_json()
 #     mocker.patch.object(display, 'helper')
-#     display.helper.getUserHistory.return_value = MOCK_USER_DATA["894127939"]
-#     display.helper.getSpendDisplayOptions.return_value = [
+#     display.helper.get_user_history.return_value = MOCK_USER_DATA["894127939"]
+#     display.helper.get_spend_display_options.return_value = [
 #         "Day", "Month"]
-#     display.helper.getDateFormat.return_value = '%d-%b-%Y'
-#     display.helper.getMonthFormat.return_value = '%b-%Y'
+#     display.helper.get_date_format.return_value = '%d-%b-%Y'
+#     display.helper.get_month_format.return_value = '%b-%Y'
 #     mc = mock_telebot.return_value
 #     mc.reply_to.return_value = True
 #     message = create_message("Day")
@@ -152,11 +152,11 @@ def test_date_selections(mock_telebot,mocker):
 #
 #     MOCK_USER_DATA = test_read_json()
 #     mocker.patch.object(display, 'helper')
-#     display.helper.getUserHistory.return_value = MOCK_USER_DATA["894127939"]
-#     display.helper.getSpendDisplayOptions.return_value = [
+#     display.helper.get_user_history.return_value = MOCK_USER_DATA["894127939"]
+#     display.helper.get_spend_display_options.return_value = [
 #         "Day", "Month"]
-#     display.helper.getDateFormat.return_value = '%d-%b-%Y'
-#     display.helper.getMonthFormat.return_value = '%b-%Y'
+#     display.helper.get_date_format.return_value = '%d-%b-%Y'
+#     display.helper.get_month_format.return_value = '%b-%Y'
 #     mc = mock_telebot.return_value
 #     mc.reply_to.return_value = True
 #     message = create_message("Day")
@@ -170,11 +170,11 @@ def test_date_selections(mock_telebot,mocker):
 #
 #     MOCK_USER_DATA = test_read_json()
 #     mocker.patch.object(display, 'helper')
-#     display.helper.getUserHistory.return_value = MOCK_USER_DATA["894127939"]
-#     display.helper.getSpendDisplayOptions.return_value = [
+#     display.helper.get_user_history.return_value = MOCK_USER_DATA["894127939"]
+#     display.helper.get_spend_display_options.return_value = [
 #         "Day", "Month"]
-#     display.helper.getDateFormat.return_value = '%d-%b-%Y'
-#     display.helper.getMonthFormat.return_value = '%b-%Y'
+#     display.helper.get_date_format.return_value = '%d-%b-%Y'
+#     display.helper.get_month_format.return_value = '%b-%Y'
 #     mc = mock_telebot.return_value
 #     mc.reply_to.return_value = True
 #     message = create_message("Month")

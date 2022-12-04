@@ -14,13 +14,13 @@ random.seed(2022)
 
 def run(message, bot):
     """This is the run function"""
-    # helper.read_json(helper.getUserExpensesFile())
-    # helper.read_json(helper.getGroupExpensesFile())
+    # helper.read_json(helper.get_user_expenses_file())
+    # helper.read_json(helper.get_group_expenses_file())
     chat_id = message.chat.id
     option.pop(chat_id, None)  # remove temp choicex
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.row_width = 2
-    for c in helper.getSpendCategories():
+    for c in helper.get_spend_categories():
         markup.add(c)
     msg = bot.reply_to(message, 'Select Category', reply_markup=markup)
     bot.register_next_step_handler(msg, expense_category_input, bot)
@@ -33,7 +33,7 @@ def expense_category_input(message, bot):
         selected_category = message.text
         exception_string = "Sorry I don't recognise this category "
         exception_string += selected_category + "!"
-        if selected_category not in helper.getSpendCategories():
+        if selected_category not in helper.get_spend_categories():
             bot.send_message(
                 chat_id,
                 'Invalid',
@@ -55,7 +55,7 @@ def expense_category_input(message, bot):
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no! ' + str(exception_value))
         display_text = ""
-        commands = helper.getCommands()
+        commands = helper.get_commands()
         # generate help text out of the commands dictionary defined at the top
         for command_key in commands.items():
             display_text += "/" + command_key + ": "
@@ -124,7 +124,7 @@ def take_all_users_input(message, bot, selected_category):
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no! ' + str(exception_value))
         display_text = ""
-        commands = helper.getCommands()
+        commands = helper.get_commands()
         # generate help text out of the commands dictionary defined at the top	
         for command_key in commands.items():
             display_text += "/" + command_key + ": "
@@ -164,9 +164,9 @@ def post_amount_input(
         # add user_ids input
         date_of_entry = str(
             datetime.today().strftime(
-                helper.getDateFormat() +
+                helper.get_date_format() +
                 ' ' +
-                helper.getTimeFormat()
+                helper.get_time_format()
             )
         )
         transaction_record["created_at"] = date_of_entry
@@ -201,7 +201,7 @@ def post_amount_input(
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no. ' + str(exception_value))
         display_text = ""
-        commands = helper.getCommands()
+        commands = helper.get_commands()
         # generate help text out of the commands dictionary defined at the top
         for command_key in commands.items():
             display_text += "/" + command_key + ": "
@@ -212,7 +212,7 @@ def post_amount_input(
 
 def add_transaction_record(transaction_record):
     """This is the add transaction record function"""
-    transaction_list = helper.getGroupExpensesFile()
+    transaction_list = helper.get_group_expenses_file()
     transaction_id = str(generate_transaction_id())
     transaction_list[transaction_id] = transaction_record
     return transaction_id, transaction_list
@@ -234,8 +234,8 @@ def generate_transaction_id():
 
 def add_transactions_to_user(transaction_id, chat_ids):
     """This is the add transactions to user function"""
-    transaction_list = helper.getGroupExpensesFile()
-    user_list = helper.getUserExpensesFile()
+    transaction_list = helper.get_group_expenses_file()
+    user_list = helper.get_user_expenses_file()
 
     if str(transaction_id) not in transaction_list:
         raise Exception(

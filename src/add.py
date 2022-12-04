@@ -12,12 +12,12 @@ option = {}
 
 def run(message, bot):
     """This is the run function"""
-    # helper.read_json(helper.getUserExpensesFile()
+    # helper.read_json(helper.get_user_expenses_file()
     chat_id = message.chat.id
     option.pop(chat_id, None)  # remove temp choice
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.row_width = 2
-    for c in helper.getSpendCategories():
+    for c in helper.get_spend_categories():
         markup.add(c)
     msg = bot.reply_to(message, 'Select Category', reply_markup=markup)
     bot.register_next_step_handler(msg, post_category_selection, bot)
@@ -28,7 +28,7 @@ def post_category_selection(message, bot):
     try:
         chat_id = message.chat.id
         selected_category = message.text
-        if selected_category not in helper.getSpendCategories():
+        if selected_category not in helper.get_spend_categories():
             bot.send_message(
                 chat_id,
                 'Invalid',
@@ -55,7 +55,7 @@ def post_category_selection(message, bot):
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no! ' + str(exception_value))
         display_text = ""
-        commands = helper.getCommands()
+        commands = helper.get_commands()
         # generate help text out of the commands dictionary defined at the top
         for command_key in commands.items():
             display_text += "/" + command_key + ": "
@@ -76,9 +76,9 @@ def post_amount_input(message, bot, selected_category):
         print("----SUCCESS!----")
 
         date_of_entry = datetime.today().strftime(
-            helper.getDateFormat() +
+            helper.get_date_format() +
             ' ' +
-            helper.getTimeFormat()
+            helper.get_time_format()
         )
         date_str = str(date_of_entry)
         category_str = str(option[chat_id])
