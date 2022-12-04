@@ -34,8 +34,11 @@ def expense_category_input(message, bot):
         exception_string = "Sorry I don't recognise this category "
         exception_string += selected_category + "!"
         if selected_category not in helper.getSpendCategories():
-            rply_mkup = types.ReplyKeyboardRemove()
-            bot.send_message(chat_id, 'Invalid', reply_markup=rply_mkup)
+            bot.send_message(
+                chat_id,
+                'Invalid',
+                reply_markup=types.ReplyKeyboardRemove()
+            )
             raise Exception(exception_string)
 
         option[chat_id] = selected_category
