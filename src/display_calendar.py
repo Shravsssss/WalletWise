@@ -1,13 +1,27 @@
-
-import helper
+# Module providing type functions from telebot
+from telebot import types
+# Module providing helper functions
+from . import helper
 
 
 def run(call, bot):
-    name, action, year, month, day = call.data.split(helper.calendar_1_callback.sep)
-    date = helper.calendar.calendar_query_handler(
-        bot=bot, call=call, name=name, action=action, year=year, month=month, day=day
+    """This is the run function"""
+    name, action, year, month, day = call.data.split(
+        helper.calendar_1_callback.sep
     )
-    # There are additional steps. Let's say if the date DAY is selected, you can execute your code. I sent a message.
+    date = helper.calendar.calendar_query_handler(
+        bot=bot,
+        call=call,
+        name=name,
+        action=action,
+        year=year,
+        month=month,
+        day=day
+    )
+
+    # There are additional steps.
+    # Let's say if the date DAY is selected, you can execute your code.
+    # I sent a message.
     if action == "DAY":
         helper.date_range.append(date)
         # bot.send_message(
@@ -21,7 +35,7 @@ def run(call, bot):
         bot.send_message(
             chat_id=call.from_user.id,
             text="Cancellation",
-            reply_markup=ReplyKeyboardRemove(),
+            reply_markup=types.ReplyKeyboardRemove()
         )
-        #print(f"{helper.calendar_1_callback}: Cancellation")
-    #print(helper.date_range)
+        # print(f"{helper.calendar_1_callback}: Cancellation")
+    # print(helper.date_range)
