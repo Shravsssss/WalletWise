@@ -34,7 +34,7 @@ take_all_users_input(message, category)
 add_transactions_to_user(transaction_id, chat_ids)
 - Function that adds the created transaction to each participating user
 
-deleteHistory(chat_id)
+delete_history(chat_id)
 - Function to delete previous expenditure history of the user
 
 getUserHistory(chat_id):
