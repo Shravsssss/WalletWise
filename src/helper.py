@@ -65,23 +65,38 @@ def load_config():
 
 def get_user_expenses_file():
     """This is the get user expenses file function"""
-    # set_config()
+    # setConfig()
     filename = get_database()["USER_EXPENSES"].find()
-    return filename
+    user_expenses_dict = {}
+    for doc in filename:
+        user_expenses_dict[doc["chatid"]] = doc
+    return user_expenses_dict
 
 
 def get_group_expenses_file():
     """This is the get group expenses file function"""
-    # set_config()
+    # setConfig()
     filename = get_database()["GROUP_EXPENSES"].find()
-    return filename
+    group_expenses_dict = {}
+    for doc in filename:
+        for key in doc:
+            if key != "_id":
+                group_expenses_dict[key] = doc[key]
+    # print(d)
+    return group_expenses_dict
 
 
 def get_user_profile_file():
     """This is the get user profile file function"""
-    # set_config()
+    # setConfig()
     filename = get_database()["USER_EMAILS"].find()
-    return filename
+    user_profile_dict = {}
+    for doc in filename:
+        for key in doc:
+            if key != "_id":
+                user_profile_dict[key] = doc[key]
+    # print(d)
+    return user_profile_dict
 
 
 # def read_json(filename):
@@ -126,20 +141,18 @@ def validate_entered_amount(amount_entered):
 
 def get_user_history(chat_id):
     """This is the get user history function"""
-    user_list = get_user_expenses_file()
-    print('user_list', user_list)
-    if user_list is None:
+    user_history = get_database()["USER_EXPENSES"] \
+        .find_one({"chatid": str(chat_id)})
+    # print(userHistory)
+    if bool(user_history):
+        return user_history
+    else:
+        print("EMPTY")
         return None
-    chat_id = str(chat_id)
-    for record in user_list:
-        print(record['chatid'])
-        if chat_id == record["chatid"]:
-            return record
-    return None
 
 
 def create_new_user_record():
-    """This is the create user new record function"""
+    """This is the create new user record function"""
     return user_expenses_format
 
 
