@@ -6,13 +6,11 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/tusharkini/WalletBuddy)
 [![Python 3.8](https://img.shields.io/badge/Python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![GitHub repo size](https://img.shields.io/github/repo-size/smanishs175/WalletBuddy)](https://github.com/smanishs175/WalletBuddy/)
-![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/tusharkini/WalletBuddy?color=purple)
 [![GitHub contributors](https://img.shields.io/github/contributors/tusharkini/WalletBuddy)](https://github.com/tusharkini/WalletBuddy/graphs/contributors/)
 ![GitHub issues](https://img.shields.io/github/issues/tusharkini/WalletBuddy?color=teal)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/tusharkini/WalletBuddy?color=aqua)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![Build Status](https://github.com/smanishs175/WalletBuddy/actions/workflows/build.yml/badge.svg)](https://github.com/smanishs175/WalletBuddy/actions/workflows/build.yml)
 [![GitHub forks](https://img.shields.io/github/forks/tusharkini/WalletBuddy?style=social)](https://github.com/tusharkini/WalletBuddy/network/members)
 [![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/tusharkini/WalletBuddy/Node.js%20CI?event=push)](https://github.com/tusharkini/WalletBuddy/actions)
 
@@ -20,11 +18,11 @@
 
 ## Goal
 
-> Implement an application to help a person manage and track his or her expenses.
+> Design a dynamic application to assist a person in effectively managing and tracking his or her expenses on a regular basis.
 ---
 
 ## Motivation
-> Manually trying to keep a track of the expenses and dividing the amount among a group (for group expenses) is a highly time consuming task. This application will help the user to efficiently track and therefore manage all the expenses, along with planning any expenditure in the future.
+> Manually trying to keep a track of the expenses and dividing the amount among a group (for group expenses) is a highly time-consuming task. This application will aid the user to efficiently track and therefore manage all the expenses, along with planning any expenditure in the future.
 
 ## Features
 
@@ -113,32 +111,32 @@ send message to the bot named "sebot" and start managing your expanses using dif
 	<td data-value="29.54" class="pic low">
 	<div class="chart"><div class="cover-fill" style="width: 29%"></div><div class="cover-empty" style="width: 71%"></div></div>
 	</td>
-	<td data-value="29.54" class="pct low">29.54%</td>
-	<td data-value="44" class="abs low">13/44</td>
-	<td data-value="29.54" class="pct low">29.54%</td>
-	<td data-value="44" class="abs low">13/44</td>
+	<td data-value="--" class="pct low">--</td>
+	<td data-value="--" class="abs low">--</td>
+	<td data-value="--" class="pct low">--</td>
+	<td data-value="--" class="abs low">--</td>
 	</tr>
 
 <tr>
 	<td class="file medium" data-value="models">models</td>
-	<td data-value="71.42" class="pic medium">
+	<td data-value="--" class="pic medium">
 	<div class="chart"><div class="cover-fill" style="width: 71%"></div><div class="cover-empty" style="width: 29%"></div></div>
 	</td>
-	<td data-value="71.42" class="pct medium">71.42%</td>
-	<td data-value="7" class="abs medium">5/7</td>
-	<td data-value="71.42" class="pct medium">71.42%</td>
-	<td data-value="7" class="abs medium">5/7</td>
+	<td data-value="--" class="pct medium">--</td>
+	<td data-value="--" class="abs medium">--</td>
+	<td data-value="--" class="pct medium">--</td>
+	<td data-value="--" class="abs medium">--</td>
 	</tr>
 
 <tr>
 	<td class="file low" data-value="routes">routes</td>
-	<td data-value="30.95" class="pic low">
+	<td data-value="--" class="pic low">
 	<div class="chart"><div class="cover-fill" style="width: 30%"></div><div class="cover-empty" style="width: 70%"></div></div>
 	</td>
-	<td data-value="30.95" class="pct low">30.95%</td>
-	<td data-value="42" class="abs low">13/42</td>
-	<td data-value="30.95" class="pct low">30.95%</td>
-	<td data-value="42" class="abs low">13/42</td>
+	<td data-value="--" class="pct low">--</td>
+	<td data-value="--" class="abs low">--</td>
+	<td data-value="--" class="pct low">--</td>
+	<td data-value="--" class="abs low">--</td>
 	</tr>
 
 </tbody>
@@ -149,7 +147,7 @@ send message to the bot named "sebot" and start managing your expanses using dif
 
 ## License
 
-[![GitHub](https://img.shields.io/github/license/boscosylvester-john/parttimeScheduler?color=blueviolet)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+<a href="LICENSE">![MIT License](https://img.shields.io/github/license/tusharkini/WalletBuddy)</a>
 
 [License Guidelines](https://github.com/boscosylvester-john/parttimeScheduler/blob/main/LICENSE.md)
 
