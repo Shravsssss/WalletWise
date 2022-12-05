@@ -105,7 +105,7 @@ def take_all_users_input(message, bot, selected_category):
             for email_id in email_ids_present_in_expense
         ]
         chat_ids_present_in_expense.insert(0, chat_id)
-
+        print(chat_ids_present_in_expense)
         option[chat_id] = selected_category
         message = bot.send_message(
             chat_id,
@@ -179,23 +179,24 @@ def post_amount_input(
         collection_name.insert_one(item)
         collection_name1 = dbname["USER_EXPENSES"]
         item_details = collection_name1.find()
-        flag = 0
-        for i in item_details:
-            if i['chatid'] == str(chat_id):
-                flag += 1
-                k = i['group_expenses']+[id_group]
-                collection_name1.update_one(
-                    {"chatid": str(chat_id)},
-                    {'$set': {"group_expenses": k}}
-                )
-                break
-        if flag == 0:
-            item = {
-                "chatid": str(chat_id),
-                "personal_expenses": [],
-                "group_expenses": [id_group]
-            }
-            collection_name1.insert_one(item)
+        for chat in chat_ids_present_in_expense:
+            flag = 0
+            for i in item_details:
+                if i['chatid'] == str(chat):
+                    flag += 1
+                    k = i['group_expenses']+[id_group]
+                    collection_name1.update_one(
+                        {"chatid": str(chat)},
+                        {'$set': {"group_expenses": k}}
+                    )
+                    break
+            if flag == 0:
+                item = {
+                    "chatid": str(chat),
+                    "personal_expenses": [],
+                    "group_expenses": [id_group]
+                }
+                collection_name1.insert_one(item)
 
     except Exception as exception_value:
         logging.exception(str(exception_value))
@@ -229,7 +230,8 @@ def validate_email_input(email_ids):
 
 def generate_transaction_id():
     """This is the generate transaction id function"""
-    return random.randint(4000000000, 9999999999)
+    r = random.randint(1000, 9999)*random.randint(1000, 9999)
+    return r
 
 
 def add_transactions_to_user(transaction_id, chat_ids):
