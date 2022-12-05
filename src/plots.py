@@ -29,43 +29,59 @@ def label_amount(y):
     """This is the label amount function"""
     for ind, val in enumerate(y):
         plt.text(ind, val, str(round(val, 2)), ha='center', va='bottom')
- 
- 
-def get_amount_df(chat_id, data_code, expense_dict, transaction_dict, type="overall"):
-    ### plot overall expenses
+
+
+def get_amount_df(
+    chat_id,
+    data_code,
+    expense_dict_values,
+    transaction_dict_values,
+    amount_type="overall"
+):
+    """This is the function for get amount"""
+    # plot overall expenses
     print('get_amount_df')
     individual_expenses, shared_expenses = [], []
-    expense_dict = helper.get_user_history(chat_id)
-    if type not in ["shared"]:
+    expense_dict_values = helper.get_user_history(chat_id)
+    if amount_type not in ["shared"]:
         if data_code in [2, 4]:
-            for i in expense_dict['personal_expenses']:
-                individual_expenses.append(i.split(','))
+            if expense_dict_values['personal_expenses']:
+                for i in expense_dict_values['personal_expenses']:
+                    individual_expenses.append(i.split(','))
     # print("get amount expense dict run")
     if data_code in [3, 4]:
         for j in expense_dict['group_expenses']:
-            print('jnjnknknkjjjjjjj',j)
-            temp_dict = transaction_dict[j]
-            shared_expenses.append([temp_dict['created_at'], temp_dict['category'], temp_dict['members'][chat_id]])
+            print('jnjnknknkjjjjjjj', j)
+            temp_dict = transaction_dict_values[j]
+            shared_expenses.append([
+                temp_dict['created_at'],
+                temp_dict['category'],
+                temp_dict['members'][chat_id]
+            ])
     total_expenses = individual_expenses + shared_expenses
     total_expenses_df = pd.DataFrame(
         total_expenses,
         columns=['Date', 'Category', 'Amount']
     )
     total_expenses_df['Amount'] = total_expenses_df['Amount'].astype(float)
-    total_expenses_df['Date'] = pd.to_datetime(total_expenses_df['Date'], format=dateFormat + ' ' + timeFormat)
+    total_expenses_df['Date'] = pd.to_datetime(
+        total_expenses_df['Date'],
+        format=DATE_FORMAT + ' ' + TIME_FORMAT
+    )
     print(total_expenses_df)
     return total_expenses_df
- 
- 
-def check_data_present(chat_id, expense_dict):
-    ## checking if chat id has any data
+
+
+def check_data_present(chat_id, expense_dict_values):
+    """This is the check data present function"""
+    # checking if chat id has any data
     print('check_data_rpresnt')
-    '''
-   1 : data not present in both individual data and shared transactions
-   2 : data present in individual data but not in shared transactions
-   3 : data present in shared transaction but not in individual data
-   4 : data present in both individual data and shared transactions
-   '''
+
+    #  1 : data not present in both individual data and shared transactions
+    #  2 : data present in individual data but not in shared transactions
+    #  3 : data present in shared transaction but not in individual data
+    #  4 : data present in both individual data and shared transactions
+
     history = helper.get_user_history(chat_id)
     if history is None:
         return 1
@@ -154,6 +170,7 @@ def overall_plot(
             plt.savefig('overall_expenses.png', bbox_inches='tight')
             return 7
 
+
 def pie_plot(
     chat_id,
     start_date,
@@ -197,10 +214,20 @@ def pie_plot(
             # plt.xlabel('Category')
             # plt.xticks(rotation=45)
             # label_amount(sum_df['Amount'])
-            plt.pie(sum_df.Amount, labels=sum_df.Category, autopct='%.1f%%', explode=[0.1] * len(sum_df.index))
-            plt.legend(bbox_to_anchor=(1.0, 0.1), loc='upper left', borderaxespad=0)
+            plt.pie(
+                sum_df.Amount,
+                labels=sum_df.Category,
+                autopct='%.1f%%',
+                explode=[0.1] * len(sum_df.index)
+            )
+            plt.legend(
+                bbox_to_anchor=(1.0, 0.1),
+                loc='upper left',
+                borderaxespad=0
+            )
             plt.savefig("pie.png", dpi=200)
             return 7
+
 
 def box_plot(
     chat_id,
@@ -256,27 +283,51 @@ def categorical_plot(
     start_date,
     end_date,
     selected_cat,
-    expense_dict_values,
-    transaction_dict_values
+    expense_dict_values
 ):
     """This is the categorical plot function"""
     check_data_val = check_data_present(chat_id, expense_dict_values)
     if check_data_val == 1:
         return 1
     else:
-        total_expenses_df = get_amount_df(chat_id, check_data_val,expense_dict,transaction_dict, type="overall")
-        total_expenses_df = total_expenses_df[total_expenses_df['Date'] >= start_date]
+        total_expenses_df = get_amount_df(
+            chat_id,
+            check_data_val,
+            expense_dict,
+            transaction_dict, 
+            amount_type="overall"
+        )
+        total_expenses_df = total_expenses_df[
+            total_expenses_df['Date'] >= start_date
+        ]
         print(total_expenses_df)
-        total_expenses_df = total_expenses_df[total_expenses_df['Date'] <= end_date]
+        total_expenses_df = total_expenses_df[
+            total_expenses_df['Date'] <= end_date
+        ]
         print(total_expenses_df)
         print(selected_cat)
         print(total_expenses_df['Category'])
-        ## Error in next line
-        total_expenses_df = total_expenses_df[total_expenses_df['Category'].isin([selected_cat])]
+        # Error in next line
+        total_expenses_df = total_expenses_df[
+            total_expenses_df[
+                'Category'
+            ].isin(
+                [selected_cat]
+            )
+        ]
         print(total_expenses_df)
-        total_expenses_df['Month'] = total_expenses_df['Date'].apply(lambda x: month_dict[x.month])
+        total_expenses_df['Month'] = total_expenses_df[
+            'Date'
+        ].apply(
+            lambda x: month_dict[x.month]
+        )
         print(total_expenses_df)
-        sum_df = total_expenses_df[['Month', 'Amount']].groupby(['Month'], as_index=False).sum()
+        sum_df = total_expenses_df[
+            ['Month', 'Amount']
+        ].groupby(
+            ['Month'],
+            as_index=False
+        ).sum()
         if sum_df.shape[0] == 0:
             # 6 means "No expense data for selected dates and Category"
             return 6
@@ -297,32 +348,57 @@ def categorical_plot(
             helper.date_range = []
             return 7
 
+
 def hist_categorical_plot(
     chat_id,
     start_date,
     end_date,
     selected_cat,
-    expense_dict_values,
-    transaction_dict_values
+    expense_dict_values
 ):
     """This is the categorical plot function"""
     check_data_val = check_data_present(chat_id, expense_dict_values)
     if check_data_val == 1:
         return 1
     else:
-        total_expenses_df = get_amount_df(chat_id, check_data_val,expense_dict,transaction_dict, type="overall")
-        total_expenses_df = total_expenses_df[total_expenses_df['Date'] >= start_date]
+        total_expenses_df = get_amount_df(
+            chat_id,
+            check_data_val,
+            expense_dict,
+            transaction_dict,
+            amount_type="overall"
+        )
+        total_expenses_df = total_expenses_df[
+            total_expenses_df['Date'] >= start_date
+        ]
         print(total_expenses_df)
-        total_expenses_df = total_expenses_df[total_expenses_df['Date'] <= end_date]
+        total_expenses_df = total_expenses_df[
+            total_expenses_df['Date'] <= end_date
+        ]
         print(total_expenses_df)
         print(selected_cat)
         print(total_expenses_df['Category'])
-        ## Error in next line
-        total_expenses_df = total_expenses_df[total_expenses_df['Category'].isin([selected_cat])]
+        # Error in next line
+        total_expenses_df = total_expenses_df[
+            total_expenses_df[
+                'Category'
+            ].isin(
+                [selected_cat]
+            )
+        ]
         print(total_expenses_df)
-        total_expenses_df['Month'] = total_expenses_df['Date'].apply(lambda x: month_dict[x.month])
+        total_expenses_df['Month'] = total_expenses_df[
+            'Date'
+        ].apply(
+            lambda x: month_dict[x.month]
+        )
         print(total_expenses_df)
-        sum_df = total_expenses_df[['Month', 'Amount']].groupby(['Month'], as_index=False).sum()
+        sum_df = total_expenses_df[
+            ['Month', 'Amount']
+        ].groupby(
+            ['Month'],
+            as_index=False
+        ).sum()
         if sum_df.shape[0] == 0:
             # 6 means "No expense data for selected dates and Category"
             return 6
@@ -334,38 +410,67 @@ def hist_categorical_plot(
             # plt.xlabel('Month')
             # plt.xticks(rotation=45)
             # label_amount(sum_df['Amount'])
-            plt.hist(total_expenses_df['Amount'], bins=10, density=True, alpha=0.6, color='b')
+            plt.hist(
+                total_expenses_df['Amount'],
+                bins=10,
+                density=True,
+                alpha=0.6,
+                color='b'
+            )
             plt.title("Statistics for " + selected_cat)
             plt.savefig('hist.png', bbox_inches='tight')
             helper.date_range = []
             return 7
+
 
 def box_categorical_plot(
     chat_id,
     start_date,
     end_date,
     selected_cat,
-    expense_dict_values,
-    transaction_dict_values
+    expense_dict_values
 ):
     """This is the categorical plot function"""
     check_data_val = check_data_present(chat_id, expense_dict_values)
     if check_data_val == 1:
         return 1
     else:
-        total_expenses_df = get_amount_df(chat_id, check_data_val,expense_dict,transaction_dict, type="overall")
-        total_expenses_df = total_expenses_df[total_expenses_df['Date'] >= start_date]
+        total_expenses_df = get_amount_df(
+            chat_id,
+            check_data_val,
+            expense_dict,
+            transaction_dict,
+            amount_type="overall"
+        )
+        total_expenses_df = total_expenses_df[
+            total_expenses_df['Date'] >= start_date
+        ]
         print(total_expenses_df)
-        total_expenses_df = total_expenses_df[total_expenses_df['Date'] <= end_date]
+        total_expenses_df = total_expenses_df[
+            total_expenses_df['Date'] <= end_date
+        ]
         print(total_expenses_df)
         print(selected_cat)
         print(total_expenses_df['Category'])
-        ## Error in next line
-        total_expenses_df = total_expenses_df[total_expenses_df['Category'].isin([selected_cat])]
+        # Error in next line
+        total_expenses_df = total_expenses_df[
+            total_expenses_df['Category'].isin(
+                [selected_cat]
+            )
+        ]
         print(total_expenses_df)
-        total_expenses_df['Month'] = total_expenses_df['Date'].apply(lambda x: month_dict[x.month])
+        total_expenses_df['Month'] = total_expenses_df[
+            'Date'
+        ].apply(
+            lambda x: month_dict[x.month]
+        )
         print(total_expenses_df)
-        sum_df = total_expenses_df[['Month', 'Amount']].groupby(['Month'], as_index=False).sum()
+        sum_df = total_expenses_df[
+            ['Month', 'Amount']
+        ].groupby(
+            ['Month'],
+            as_index=False
+        ).sum()
         if sum_df.shape[0] == 0:
             # 6 means "No expense data for selected dates and Category"
             return 6
@@ -383,6 +488,7 @@ def box_categorical_plot(
             plt.savefig('box_cat.png')
             helper.date_range = []
             return 7
+
 
 def owe(chat_id, expense_dict_values, transaction_dict_values):
     """This is the owe function"""

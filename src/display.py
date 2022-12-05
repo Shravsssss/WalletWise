@@ -119,11 +119,22 @@ def expense_category(message, bot, expense_dict, transaction_dict):
             start_date,
             end_date,
             choice_category,
-            expense_dict,
-            transaction_dict
+            expense_dict
         )
-        check1 = plots.hist_categorical_plot(str(chat_id), start_date, end_date, choice_category, expense_dict,transaction_dict)
-        check2 = plots.box_categorical_plot(str(chat_id), start_date, end_date, choice_category, expense_dict, transaction_dict)
+        check1 = plots.hist_categorical_plot(
+            str(chat_id),
+            start_date,
+            end_date,
+            choice_category,
+            expense_dict
+        )
+        check2 = plots.box_categorical_plot(
+            str(chat_id),
+            start_date,
+            end_date,
+            choice_category,
+            expense_dict
+        )
         print(check)
         if check != 7 or check1 != 7 or check2 != 7:
             plotmsg = helper.get_data_availability_messages(check)
@@ -180,8 +191,20 @@ def display_total(message, bot, expense_dict, transaction_dict):
                 expense_dict,
                 transaction_dict
             )
-            check2 = plots.pie_plot(str(chat_id), start_date, end_date, expense_dict, transaction_dict)
-            check3 = plots.box_plot(str(chat_id), start_date, end_date, expense_dict, transaction_dict)
+            check2 = plots.pie_plot(
+                str(chat_id),
+                start_date,
+                end_date,
+                expense_dict,
+                transaction_dict
+            )
+            check3 = plots.box_plot(
+                str(chat_id),
+                start_date,
+                end_date,
+                expense_dict,
+                transaction_dict
+            )
             if check != 7 or check2 != 7 or check3 != 7:
                 plotmsg = helper.get_data_availability_messages(check)
                 bot.reply_to(message, plotmsg)

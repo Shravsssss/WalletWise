@@ -51,7 +51,7 @@ def test_get_amount_df():
         4,
         test_dict,
         trans_dict,
-        type="overall"
+        amount_type="overall"
     )
     assert isinstance(ret) == pd.core.frame.DataFrame
 
@@ -72,7 +72,7 @@ def test_individual_present_shared_present():
     # mocker.return_value =4
     ret_val = plots.check_data_present(
         chat_id="5718815807",
-        expense_dict=test_dict
+        expense_dict_values=test_dict
     )
     assert ret_val == 4
 
@@ -114,10 +114,10 @@ def test_individual_absent_shared_absent():
 
 
 def test_categorical_plot_no_data_for_dates_and_cat():
-    """This is the test function for categorical 
+    """This is the test function for categorical
     plot no data for dates and cat"""
     test_dict = test_read_expense_json()
-    trans_dict = test_read_transaction_json()
+    # trans_dict = test_read_transaction_json()
     start_date = datetime.datetime(2021, 12, 12)
     end_date = datetime.datetime(2022, 1, 12)
     ret_val = plots.categorical_plot(
@@ -125,8 +125,7 @@ def test_categorical_plot_no_data_for_dates_and_cat():
         start_date,
         end_date,
         "Food",
-        test_dict,
-        trans_dict
+        test_dict
     )
     assert ret_val == 6
 
@@ -134,7 +133,7 @@ def test_categorical_plot_no_data_for_dates_and_cat():
 def test_categorical_plot_no_data():
     """This is the test function for categorical plot no data"""
     test_dict = test_read_expense_json()
-    trans_dict = test_read_transaction_json()
+    # trans_dict = test_read_transaction_json()
     start_date = datetime.datetime(2021, 12, 12)
     end_date = datetime.datetime(2022, 1, 12)
     ret_val = plots.categorical_plot(
@@ -142,8 +141,7 @@ def test_categorical_plot_no_data():
         start_date,
         end_date,
         "Food",
-        test_dict,
-        trans_dict
+        test_dict
     )
     assert ret_val == 1
 
@@ -216,7 +214,7 @@ def test_overall_plot_data_present():
 def test_categorical_plot_data_present():
     """This is the test function for categorical plot data present"""
     test_dict = test_read_expense_json()
-    trans_dict = test_read_transaction_json()
+    # trans_dict = test_read_transaction_json()
     start_date = datetime.datetime(2022, 5, 1)
     end_date = datetime.datetime(2022, 10, 1)
     ret_val = plots.categorical_plot(
@@ -224,8 +222,7 @@ def test_categorical_plot_data_present():
         start_date,
         end_date,
         "Groceries",
-        test_dict,
-        trans_dict
+        test_dict
     )
     os.remove('categorical_expenses.png')
     assert ret_val == 7
