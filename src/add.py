@@ -34,6 +34,7 @@ def post_category_selection(message, bot):
                 'Invalid',
                 reply_markup=types.ReplyKeyboardRemove()
             )
+            selected_category = selected_category if selected_category else ""
             exception_message = "Sorry I don't recognise this category "
             exception_message += selected_category + "!"
             raise Exception(exception_message)
