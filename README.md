@@ -36,9 +36,9 @@ With simple commands, this bot allows you to:
 
 ### Components
 The components for the system are-
-- Frontend- It is made using python and telebot to import the functionalities on the telegram applicaton.
+- Frontend- It is made using Python and Telebot to import the functionalities on the Telegram applicaton.
 
-- Backend- JSON objects and MongoDb to maintain the data for implementing this project.
+- Backend- MongoDb to maintain the data for implementing this project.
 
 ## Previous version
 https://user-images.githubusercontent.com/21088141/194785646-d05f864c-af1e-42f3-b7a1-b68aef4c8fa9.mp4
