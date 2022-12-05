@@ -45,7 +45,7 @@ https://user-images.githubusercontent.com/21088141/194785646-d05f864c-af1e-42f3-
 
 ## Updated version
 
-Our new video will come here
+OUR NEW VIDEO GOES HERE
 
 ## Installation guide
 
@@ -88,9 +88,9 @@ The below instructions can be followed in order to set-up this bot at your end i
 ## Running publicly available bot:
 
 If you want to run publicly hosted bot then got to :
+<!-- https://t.me/niharrao_bot -->
 ```
-  <!-- https://t.me/niharrao_bot -->
-  Public link goes here
+  PUBLIC LINK GOES HERE
 ```
 send message to the bot named "sebot" and start managing your expanses using different functionalities.
 
@@ -170,3 +170,14 @@ Please have a look at the [guidelines](https://github.com/boscosylvester-john/se
 - Ankur Banerji [Github](https://github.com/ankurbanerji3)
 
 ---
+
+## Technical Stack
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+
+![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
+
+More to Add
+
+-----
