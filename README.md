@@ -1,7 +1,7 @@
 # WalletBuddy
 > This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 10.
 
-<a href="LICENSE">![MIT License](https://img.shields.io/github/license/tusharkini/WalletBuddy)</a>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7179471.svg)](https://doi.org/10.5281/zenodo.7179471)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/tusharkini/WalletBuddy)
 [![Python 3.8](https://img.shields.io/badge/Python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
@@ -41,11 +41,11 @@ The components for the system are-
 - Backend- JSON objects and MongoDb to maintain the data for implementing this project.
 
 ## Previous version
-https://user-images.githubusercontent.com/21088141/194785480-ecefae79-fe5a-4bcf-9513-965108726d94.mp4
+https://user-images.githubusercontent.com/21088141/194785646-d05f864c-af1e-42f3-b7a1-b68aef4c8fa9.mp4
 
 ## Updated version
 
-https://user-images.githubusercontent.com/21088141/194785646-d05f864c-af1e-42f3-b7a1-b68aef4c8fa9.mp4
+Our new video will come here
 
 ## Installation guide
 
@@ -89,7 +89,8 @@ The below instructions can be followed in order to set-up this bot at your end i
 
 If you want to run publicly hosted bot then got to :
 ```
-  https://t.me/niharrao_bot
+  <!-- https://t.me/niharrao_bot -->
+  Public link goes here
 ```
 send message to the bot named "sebot" and start managing your expanses using different functionalities.
 
@@ -147,7 +148,7 @@ send message to the bot named "sebot" and start managing your expanses using dif
 
 ## License
 
-<a href="LICENSE">![MIT License](https://img.shields.io/github/license/tusharkini/WalletBuddy)</a>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [License Guidelines](https://github.com/boscosylvester-john/parttimeScheduler/blob/main/LICENSE.md)
 
