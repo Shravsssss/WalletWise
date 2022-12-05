@@ -33,12 +33,37 @@ With simple commands, this bot allows you to:
 - Show the sum of your expenditure for the current day/month
 - Display your spendings plot : All expenses, Category expenses, Group Expenses
 - Clear/Erase all your records
+- Add/Manage Profile
 
 ### Components
 The components for the system are-
 - Frontend- It is made using Python and Telebot to import the functionalities on the Telegram applicaton.
 
 - Backend- MongoDb to maintain the data for implementing this project.
+
+---
+
+## Functionalities
+
+### Add/Record A New Spending
+The command to be entered is "/add". This prompts the user to first select a category such as food, transport, shopping, etc, and then enter the amount spent on the selected category. The user is then asked if he/she wants to view the expense charts with two choices "Yes" and "No".
+
+### Add Shared Expenses With Friends
+Upon entering the command "/addGroup", the user will be able to add expenditures carried out in a group of people. First, the user will be prompted to select a category out of food, transport, etc, then a comma separated list of users is to be entered followed by the amount spent in the group expense.
+
+### Display Spendings Plot
+Here, the user will be prompted to enter the start and end date upon entering the command "/display", and will be able to successfully view and analyze all the expenditures carried out in the mentioned dates. Apart from just the numbers, several plots will be shown consisting of bar graphs, pie charts, histograms and box plots.
+
+### Show the sum of your expenditure for the current day/month
+The command "/history" will show the user an extensive history of all the expenses he/she has carried out in the date range mentioned by the user. This includes both the individual and group expenses.
+
+### Clear/Erase All Records
+The command "/erase" will simply delete the complete history of the user.
+
+### Add/Manage Profile
+Here, the user will be asked for his/her email that will be validated by the application followed by a decision that the user is already existing or adding the new user to the database. The command used here is "/profile".
+
+---
 
 ## Previous version
 https://user-images.githubusercontent.com/21088141/194785646-d05f864c-af1e-42f3-b7a1-b68aef4c8fa9.mp4
