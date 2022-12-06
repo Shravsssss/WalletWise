@@ -14,6 +14,8 @@ from . import config
 from . import add_group
 from . import display_calendar
 from . import profile
+from . import show_owings
+from . import settleup
 from .pymongo_run import get_database
 
 # helper.set_config()
@@ -108,6 +110,15 @@ def command_erase(message):
     """This is the command erase function"""
     erase.run(message, bot)
 
+@bot.message_handler(commands=['showOwings'])
+def command_add(message):
+    """This is the command showOwings function"""
+    show_owings.run(message, bot)
+    
+@bot.message_handler(commands=['settleUp'])
+def command_add(message):
+    """This is the command settleUp function"""
+    settleup.run(message, bot)
 
 # function to show calendar for user to select dates
 @bot.callback_query_handler(
