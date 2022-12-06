@@ -71,6 +71,10 @@ https://user-images.githubusercontent.com/21088141/194785646-d05f864c-af1e-42f3-
 ## Updated version
 
 OUR NEW VIDEO GOES HERE
+https://user-images.githubusercontent.com/54414375/205833191-c314e58c-16da-4c61-94e0-0fe60888c595.mp4
+
+Please follow this link for better quality audio: https://github.com/tusharkini/WalletBuddy/blob/main/project2-showcase.mp4
+
 
 ## Installation guide
 
