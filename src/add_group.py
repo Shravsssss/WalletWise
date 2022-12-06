@@ -198,6 +198,13 @@ def post_amount_input(
                 }
                 collection_name1.insert_one(item)
 
+        manage_owing(
+            db=dbname["OWING_DETAILS"],
+            payer_chat_id=message.chat.id,
+            group_chat_id_list=chat_ids_present_in_expense,
+            divided_amount=member_share
+        )
+
     except Exception as exception_value:
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no. ' + str(exception_value))
@@ -209,6 +216,97 @@ def post_amount_input(
             display_text += command_value + "\n"
         bot.send_message(chat_id, 'Please select a menu option from below:')
         bot.send_message(chat_id, display_text)
+
+
+def manage_owing(db, payer_chat_id, group_chat_id_list, divided_amount):
+    """This is the manage owing function"""
+    for borrower_chat_id in group_chat_id_list:
+        if borrower_chat_id != payer_chat_id:
+            payer_owing_details = db.find_one(
+                {"payer_chatid": str(payer_chat_id)}
+            )
+            borrower_owing_details = db.find_one(
+                {"payer_chatid": str(borrower_chat_id)}
+            )
+            print(payer_owing_details)
+            print(borrower_owing_details)
+            # in payer entry
+            update_user_owe_value(
+                db=db,
+                payer_owing_details=payer_owing_details,
+                payer_chat_id=payer_chat_id,
+                borrower_chat_id=borrower_chat_id,
+                amount=divided_amount
+            )
+            
+            # in borrower entry
+            update_user_owe_value(
+                db=db,
+                payer_owing_details=borrower_owing_details,
+                payer_chat_id=borrower_chat_id,
+                borrower_chat_id=payer_chat_id,
+                amount=-divided_amount
+            )
+
+
+def update_user_owe_value(
+    db,
+    payer_owing_details,
+    payer_chat_id,
+    borrower_chat_id,
+    amount
+):
+    """This is the update user owe value function"""
+    # payer exists
+    # update in payer
+    if str(payer_chat_id) != str(borrower_chat_id):
+        # print("Payer", "does not exist" if not bool(payer_owing_details) else "exist")
+        if bool(payer_owing_details):
+            # print(payer_owing_details["borrowers"])
+            flag = True
+            borrower_list = payer_owing_details["borrowers"]
+            for borrower_index, val in enumerate(borrower_list):
+                current_borrower = borrower_list[borrower_index]["borrower_chatid"]
+                # borrower exists
+                if current_borrower == borrower_chat_id:
+                    # '+' meaning borrower has to pay the payer
+                    borrower_list[borrower_index]["amount"] += amount
+                    flag = False        
+                    db.update_one({
+                        "payer_chatid": str(payer_chat_id)}, {
+                            "$set": {
+                                "borrowers": borrower_list
+                            }
+                        })
+                    # print("# borrower exists")
+                    break              
+            # if borrower does not exist
+            if flag:
+                # print("# if borrower does not exist")
+                print(borrower_list)
+                borrower_list.append({
+                    "borrower_chatid": borrower_chat_id,
+                    "amount": amount}
+                )
+                print(borrower_list)
+                db.update_one({
+                        "payer_chatid": str(payer_chat_id)}, {
+                            "$set": {
+                                "borrowers": borrower_list
+                            }
+                        })
+        # payer does not exist
+        else:
+            db.insert_one({
+                "payer_chatid": str(payer_chat_id),
+                "borrowers": [{
+                        "borrower_chatid": borrower_chat_id,
+                        "amount": amount
+                    }]
+                }
+            )
+            # print("# payer does not exist")
+        # print("Inserted in: ", payer_chat_id, "Borrower: ", borrower_chat_id)
 
 
 def add_transaction_record(transaction_record):
