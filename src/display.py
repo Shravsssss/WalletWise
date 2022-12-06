@@ -57,16 +57,13 @@ def show_categories(message, bot):
         chat_id = message.chat.id
         opt = message.text
         if opt not in helper.get_decision_choices():
-            exception_message = "Sorry wrong option " + opt + "!" 
+            exception_message = "Sorry wrong option " + opt + "!"
             raise Exception(exception_message)
 
         if opt == 'Yes':
             expense_dict = helper.get_user_expenses_file()
             transaction_dict = helper.get_group_expenses_file()
             history = helper.get_user_history(chat_id)
-            print("bdkjd", expense_dict)
-            print('chatid', chat_id)
-            print("dede", history)
             if not history:
                 bot.send_message(
                     chat_id,
@@ -160,7 +157,6 @@ def expense_category(message, bot, expense_dict, transaction_dict):
 
 def display_total(message, bot, expense_dict, transaction_dict):
     """This is the display total function"""
-    print('display_total')
     try:
         chat_id = message.chat.id
         choice = message.text
