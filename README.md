@@ -145,52 +145,110 @@ send message to the bot named `tushar_wallet_bot` and start managing your expans
 (Note for Evaluator) If it is not running please ping a member of our team so that they can run it for you while you test it.
 
 ## Coverage Reports
-<table class="coverage-summary">
-<thead>
-<tr>
-   <th data-col="file" data-fmt="html" data-html="true" class="file">File</th>
-   <th data-col="pic" data-type="number" data-fmt="html" data-html="true" class="pic"></th>
-   <th data-col="statements" data-type="number" data-fmt="pct" class="pct">Statements</th>
-   <th data-col="statements_raw" data-type="number" data-fmt="html" class="abs"></th>
-   <th data-col="lines" data-type="number" data-fmt="pct" class="pct">Lines</th>
-   <th data-col="lines_raw" data-type="number" data-fmt="html" class="abs"></th>
-</tr>
-</thead>
-<tbody><tr>
-	<td class="file low" data-value="middleware">middleware</td>
-	<td data-value="29.54" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 29%"></div><div class="cover-empty" style="width: 71%"></div></div>
-	</td>
-	<td data-value="--" class="pct low">--</td>
-	<td data-value="--" class="abs low">--</td>
-	<td data-value="--" class="pct low">--</td>
-	<td data-value="--" class="abs low">--</td>
-	</tr>
-
-<tr>
-	<td class="file medium" data-value="models">models</td>
-	<td data-value="--" class="pic medium">
-	<div class="chart"><div class="cover-fill" style="width: 71%"></div><div class="cover-empty" style="width: 29%"></div></div>
-	</td>
-	<td data-value="--" class="pct medium">--</td>
-	<td data-value="--" class="abs medium">--</td>
-	<td data-value="--" class="pct medium">--</td>
-	<td data-value="--" class="abs medium">--</td>
-	</tr>
-
-<tr>
-	<td class="file low" data-value="routes">routes</td>
-	<td data-value="--" class="pic low">
-	<div class="chart"><div class="cover-fill" style="width: 30%"></div><div class="cover-empty" style="width: 70%"></div></div>
-	</td>
-	<td data-value="--" class="pct low">--</td>
-	<td data-value="--" class="abs low">--</td>
-	<td data-value="--" class="pct low">--</td>
-	<td data-value="--" class="abs low">--</td>
-	</tr>
-
-</tbody>
-</table>
+<table class="index" data-sortable>
+        <thead>
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left" aria-sort="none" data-shortcut="n">Module</th>
+                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="s">statements</th>
+                <th aria-sort="none" data-default-sort-order="descending" data-shortcut="m">missing</th>
+                <th class="right" aria-sort="none" data-shortcut="c">coverage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="file">
+                <td class="name left">src\add.py</td>
+                <td>74</td>
+                <td>5</td>
+                <td class="right" data-ratio="69 74">93%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\add_group.py</td>
+                <td>263</td>
+                <td>116</td>
+                <td class="right" data-ratio="147 263">56%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\config.py</td>
+                <td>4</td>
+                <td>4</td>
+                <td class="right" data-ratio="0 4">0%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\display.py</td>
+                <td>117</td>
+                <td>94</td>
+                <td class="right" data-ratio="23 117">20%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\display_calendar.py</td>
+                <td>10</td>
+                <td>10</td>
+                <td class="right" data-ratio="0 10">0%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\erase.py</td>
+                <td>20</td>
+                <td>17</td>
+                <td class="right" data-ratio="3 20">15%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\helper.py</td>
+                <td>102</td>
+                <td>42</td>
+                <td class="right" data-ratio="60 102">59%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\history.py</td>
+                <td>33</td>
+                <td>12</td>
+                <td class="right" data-ratio="21 33">64%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\main.py</td>
+                <td>73</td>
+                <td>73</td>
+                <td class="right" data-ratio="0 73">0%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\plots.py</td>
+                <td>322</td>
+                <td>237</td>
+                <td class="right" data-ratio="85 322">26%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\profile.py</td>
+                <td>29</td>
+                <td>1</td>
+                <td class="right" data-ratio="28 29">97%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\pymongo_run.py</td>
+                <td>7</td>
+                <td>1</td>
+                <td class="right" data-ratio="6 7">86%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\settle_up.py</td>
+                <td>74</td>
+                <td>74</td>
+                <td class="right" data-ratio="0 74">0%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left">src\show_owings.py</td>
+                <td>32</td>
+                <td>32</td>
+                <td class="right" data-ratio="0 32">0%</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>1160</td>
+                <td>718</td>
+                <td class="right" data-ratio="442 1160">38%</td>
+            </tr>
+        </tfoot>
+    </table>
 
 ---
 
