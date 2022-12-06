@@ -118,22 +118,22 @@ def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
     assert mock_value.send_message.called_with(11, ANY)
 
 
-# def test_add_user_record_nonworking(mocker):
-#     """This is the test function for add user record non working method"""
-#     mocker.patch.object(add, 'helper')
-#     add.helper.read_json.return_value = {}
-#     addeduserrecord = add.add_user_record(1, "record : test")
-#     assert addeduserrecord 
+def test_add_user_record_nonworking(mocker):
+    """This is the test function for add user record non working method"""
+    mocker.patch.object(add, 'helper')
+    add.helper.read_json.return_value = {}
+    addeduserrecord = add.add_user_record(1, "record : test")
+    assert addeduserrecord
 
 
-# def test_add_user_record_working(mocker):
-#     """This is the test function for add user record working function"""
-#     mock_user_data = test_read_json()
-#     mocker.patch.object(add, 'helper')
-#     add.helper.read_json.return_value = mock_user_data
-#     addeduserrecord = add.add_user_record(1, "record : test")
-#     if len(mock_user_data) + 1 == len(addeduserrecord):
-#         assert True
+def test_add_user_record_working(mocker):
+    """This is the test function for add user record working function"""
+    mock_user_data = read_json_for_testing()
+    mocker.patch.object(add, 'helper')
+    add.helper.read_json.return_value = mock_user_data
+    addeduserrecord = add.add_user_record(1, "record : test")
+    if len(mock_user_data) + 1 == len(addeduserrecord):
+        assert True
 
 
 def create_message(text):
@@ -141,3 +141,19 @@ def create_message(text):
     params = {'messagebody': text}
     chat = types.User(11, False, 'test')
     return types.Message(1, None, None, chat, 'text', params, "")
+
+
+def read_json_for_testing():
+    """This is the test function for read json method"""
+    try:
+        if not os.path.exists('./test/dummy_expense_record.json'):
+            with open('./test/dummy_expense_record.json', 'w') as json_file:
+                json_file.write('{}')
+            return json.dumps('{}')
+        elif os.stat('./test/dummy_expense_record.json').st_size != 0:
+            with open('./test/dummy_expense_record.json') as expense_record:
+                expense_record_data = json.load(expense_record)
+            return expense_record_data
+
+    except FileNotFoundError:
+        print("---------NO RECORDS FOUND---------")

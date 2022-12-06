@@ -1,5 +1,7 @@
 # Module providing regular expression functions
 import re
+import os
+import json
 import configparser
 from telebot_calendar import Calendar, CallbackData, ENGLISH_LANGUAGE
 from .pymongo_run import get_database
@@ -63,16 +65,6 @@ def load_config():
     config.read(CONFIG_FILE_NAME)
 
 
-def get_user_expenses_file():
-    """This is the get user expenses file function"""
-    # setConfig()
-    filename = get_database()["USER_EXPENSES"].find()
-    user_expenses_dict = {}
-    for doc in filename:
-        user_expenses_dict[doc["chatid"]] = doc
-    return user_expenses_dict
-
-
 def get_group_expenses_file():
     """This is the get group expenses file function"""
     # setConfig()
@@ -99,19 +91,20 @@ def get_user_profile_file():
     return user_profile_dict
 
 
-# def read_json(filename):
-#     try:
-#         if not os.path.exists(filename):
-#             with open(filename, 'w') as json_file:
-#                 json_file.write('{}')
-#             return json.dumps('{}')
-#         elif os.stat(filename).st_size != 0:
-#             with open(filename) as file:
-#                 file_data = json.load(file)
-#             return file_data
+def read_json(filename):
+    """This is the read json function"""
+    try:
+        if not os.path.exists(filename):
+            with open(filename, 'w') as json_file:
+                json_file.write('{}')
+            return json.dumps('{}')
+        elif os.stat(filename).st_size != 0:
+            with open(filename) as file:
+                file_data = json.load(file)
+            return file_data
 
-#     except FileNotFoundError:
-#         print("---------NO RECORDS FOUND---------")
+    except FileNotFoundError:
+        print("---------NO RECORDS FOUND---------")
 
 
 # def write_json(file_data, filename):
@@ -149,11 +142,6 @@ def get_user_history(chat_id):
     else:
         print("EMPTY")
         return None
-
-
-def create_new_user_record():
-    """This is the create new user record function"""
-    return user_expenses_format
 
 
 def get_spend_categories():
@@ -219,3 +207,15 @@ def get_month_format():
     """This is the get month format function"""
     month_format = '%b-%Y'
     return month_format
+
+
+def get_user_expenses_file():
+    """This is the get user expenses function"""
+    # setConfig()
+    filename = config['files']['UserExpenses']
+    return os.path.join("data", filename)
+
+
+def create_new_user_record():
+    """This is the create new user record function"""
+    return user_expenses_format
