@@ -28,7 +28,9 @@ commands = {
     'display': 'Show sum of expenditure for the current day/month',
     'history': 'Display spending history',
     'erase': 'Clear/Erase all your records',
-    'profile': 'Manage your user profile'
+    'profile': 'Manage your user profile',
+    'showOwings': 'Show owed amount details',
+    'settleUp': 'Settle up pending dues'
 }
 
 date_range = []
