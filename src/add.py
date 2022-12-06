@@ -119,3 +119,12 @@ def post_amount_input(message, bot, selected_category):
     except Exception as exception_value:
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no. ' + str(exception_value))
+
+
+def add_user_record(chat_id, record_to_be_added):
+    """This is the add user record function"""
+    user_list = helper.read_json(helper.get_user_expenses_file())
+    if str(chat_id) not in user_list:
+        user_list[str(chat_id)] = helper.create_new_user_record()
+    user_list[str(chat_id)]['personal_expenses'].append(record_to_be_added)
+    return user_list
