@@ -11,7 +11,7 @@ def run(message, bot):
     chat_id = str(message.chat.id)
     print(chat_id)
     db = get_database()["OWING_DETAILS"]
-    user_details = db.find_one({"payer_chatid": "chat_id"})
+    user_details = db.find_one({"payer_chatid": chat_id})
     display_text = ""
     if bool(user_details):
         user_owing_details = []
