@@ -1,6 +1,7 @@
 from mock import patch
 from telebot import types
 from src import add_group, helper
+import unittest
 
 DATE_FORMAT = '%d-%b-%Y'
 TIME_FORMAT = '%H:%M'
@@ -95,7 +96,7 @@ def test_expense_category_input_invalid_category(mock_telebot, mocker):
 
 @patch('telebot.telebot')
 def test_take_all_users_input_invalid_email(mock_telebot, mocker):
-    """This is the test function for take all 
+    """This is the test function for take all
     users input invalid email method"""
     mock_value = mock_telebot.return_value
     mock_value.reply_to.return_value = True
@@ -116,7 +117,7 @@ def test_take_all_users_input_invalid_email(mock_telebot, mocker):
 
 @patch('telebot.telebot')
 def test_take_all_users_input_creator_not_registered(mock_telebot, mocker):
-    """This is the test function for take all users input 
+    """This is the test function for take all users input
     creator not registered"""
     mock_value = mock_telebot.return_value
     mock_value.reply_to.return_value = True
@@ -137,7 +138,7 @@ def test_take_all_users_input_creator_not_registered(mock_telebot, mocker):
 
 @patch('telebot.telebot')
 def test_take_all_users_input_creator_unknown_user(mock_telebot, mocker):
-    """This is the test function for take all 
+    """This is the test function for take all
     users input creator unknown user"""
     mock_value = mock_telebot.return_value
     mock_value.reply_to.return_value = True
@@ -158,7 +159,7 @@ def test_take_all_users_input_creator_unknown_user(mock_telebot, mocker):
 
 @patch('telebot.telebot')
 def test_post_amount_input_nonworking(mock_telebot, mocker):
-    """This is the test function for post amount input 
+    """This is the test function for post amount input
     non working method"""
     mock_value = mock_telebot.return_value
     mock_value.send_message.return_value = True
@@ -172,7 +173,7 @@ def test_post_amount_input_nonworking(mock_telebot, mocker):
 
 # @patch('telebot.telebot')
 # def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
-#     """This is the test function for post amount input working with data 
+#     """This is the test function for post amount input working with data
 #      and chat id"""
 #     mock_value = mock_telebot.return_value
 #     mock_value.send_message.return_value = True
@@ -216,43 +217,41 @@ def test_validate_email_input_failure():
 
 
 def test_generate_transaction_id():
+    """This is the test function for generating transaction id"""
     assert add_group.generate_transaction_id()
 
 
 def test_add_transaction_record(mocker):
+    """This is the test function for add transactions record"""
     mocker.patch.object(add_group, 'helper')
     # add_group.helper.read_json.return_value = {}
     assert add_group.add_transaction_record({})
 
 
-def test_add_transactions_to_user(mocker):
-    mocker.patch.object(add_group, 'helper')
+def test_add_transactions_to_user():
+    """This is the test function for add transactions to
+    user"""
 
-    transaction_list = ["1001", "1002", "1003"]
-    user_list = {"11": {}, "20": {}, "21": {}}
-
-    # add_group.helper.read_json.side_effect = [transaction_list, user_list]
-    assert add_group.add_transactions_to_user("1002", ["20", "21"]) == {
-        "11": {},
-        "20": {
-            'group_expenses': ["1002"]
-        },
-        "21": {
-            'group_expenses': ["1002"]
-        }
-    }
+    # pylint: disable=no-value-for-parameter
+    with unittest.TestCase.assertRaises(None, expected_exception=Exception):
+        add_group.add_transactions_to_user(
+            "1002",
+            ["20", "21"]
+        )
 
 
 def test_add_transactions_to_user_invalid_transaction(mocker):
+    """This is the test function for add transactions to
+    user invalid transaction"""
     mocker.patch.object(add_group, 'helper')
 
-    transaction_list = ["1001", "1002", "1003"]
-    user_list = {"11": {}, "20": {}, "21": {}}
+    # transaction_list = ["1001", "1002", "1003"]
+    # user_list = {"11": {}, "20": {}, "21": {}}
 
     # add_group.helper.read_json.side_effect = [transaction_list, user_list]
     try:
         _ = add_group.add_transactions_to_user("2002", ["20", "21"])
-    except Exception as e:
+    except Exception:
         assert True
 
 
