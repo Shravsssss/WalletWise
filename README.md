@@ -22,8 +22,10 @@
 - 2 more types of plots namely box plot and pie chart is added to give a better understanding to the user about the expenses.
 - An important functionality was missing in the Project 1 version of WalletBuddy, where the users did not have a way to look at what a user owes other or is owed by others. This has been taken care of in this version with command `/showOwings`.
 - Also we have added another functionality where there is an option for the user to pay up/ settle up the expenses that are owed to other users. After paying them, a record can be kept to keep track of that transaction and the amount owed is reduced. The amount owed entry is deleted after the whole amount is payed back. The comman used is `/settleUp`.
-- In project 1 we had not used any code formatter. We have now used Pylint for the same.
-- In project 1 we had not used a style checker and in this project we have used pycodestyle as a style checker to conform with the PEP8 coding conventions.
+- In project 1 our group had not used any code formatter. We have now used Pylint for the same.
+- In project 1 our group had not used a style checker and in this project we have used pycodestyle as a style checker to conform with the PEP8 coding conventions.
+- In project 1 our group had not used any automated documentation generator. This time we have used `pdoc3` to generate documentation using the docstrings written during development.
+- For project 1 some important tests were failing in Github Actions, but this time we have got the tests to work on every push.
 
 ## Goal
 
