@@ -109,12 +109,12 @@ def read_json(filename):
         print("---------NO RECORDS FOUND---------")
 
 
-# def write_json(file_data, filename):
-#     try:
-#         with open(filename, 'w') as json_file:
-#             json.dump(file_data, json_file, ensure_ascii=False, indent=4)
-#     except FileNotFoundError:
-#         print('Sorry, the data file could not be found.')
+def write_json(file_data, filename):
+    try:
+        with open(filename, 'w') as json_file:
+            json.dump(file_data, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print('Sorry, the data file could not be found.')
 
 
 def validate_entered_amount(amount_entered):
