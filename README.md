@@ -2,7 +2,7 @@
 > This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 10.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7179471.svg)](https://doi.org/10.5281/zenodo.7179471)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.572729933.svg)](https://doi.org/10.5281/zenodo.572729933)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/tusharkini/WalletBuddy)
 [![Python 3.8](https://img.shields.io/badge/Python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![GitHub repo size](https://img.shields.io/github/repo-size/smanishs175/WalletBuddy)](https://github.com/smanishs175/WalletBuddy/)
