@@ -69,29 +69,33 @@ def test_expense_category_input_invalid_category(mock_telebot, mocker):
     assert mock_value.send_message.called_with(11, 'Invalid')
 
 
-# @patch('telebot.telebot')
-# def test_take_all_users_input(mock_telebot, mocker):
-#     """This is the test function for take all users input"""
-#     mock_value = mock_telebot.return_value
-#     mock_value.reply_to.return_value = True
-#     mock_value = mock_telebot.return_value
-#     mock_value.send_message.return_value = True
-#     mock_value.reply_to.return_value = True
-#     mocker.patch.object(add_group, 'helper')
-#     add_group.helper.read_json.return_value = {
-#         "11": "hello@gmail.com",
-#         "20": "abcd@gmail.com",
-#         "21": "xyz@gmail.com"
-#     }
+@patch('telebot.telebot')
+def test_take_all_users_input(mock_telebot, mocker):
+    """This is the test function for take all users input method"""
+    mock_value = mock_telebot.return_value
+    mock_value.reply_to.return_value = True
+    mock_value = mock_telebot.return_value
+    mock_value.send_message.return_value = True
+    mock_value.reply_to.return_value = True
+    mocker.patch.object(add_group, 'helper')
+    add_group.helper.read_json.return_value = {
+        "11": "hello@gmail.com",
+        "20": "abcd@gmail.com",
+        "21": "xyz@gmail.com"
+    }
 
-#     message = create_message("abcd@gmail.com, xyz@gmail.com")
-#     add_group.take_all_users_input(message, mock_value, "Groceries")
-#     assert mock_value.send_message.called
-#     assert not mock_value.reply_to.called
-#     assert mock_value.send_message.called_with(
-#         11,
-#         'How much did you spend on Groceries? \n(Enter numeric values only)'
-#     )
+    message = create_message("abcd@gmail.com, xyz@gmail.com")
+    add_group.take_all_users_input_with_other_handles(
+        message,
+        mock_value,
+        "Groceries"
+    )
+    assert mock_value.send_message.called
+    assert not mock_value.reply_to.called
+    assert mock_value.send_message.called_with(
+        11,
+        'How much did you spend on Groceries? \n(Enter numeric values only)'
+    )
 
 
 @patch('telebot.telebot')
@@ -171,36 +175,36 @@ def test_post_amount_input_nonworking(mock_telebot, mocker):
     assert mock_value.reply_to.called
 
 
-# @patch('telebot.telebot')
-# def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
-#     """This is the test function for post amount input working with data
-#      and chat id"""
-#     mock_value = mock_telebot.return_value
-#     mock_value.send_message.return_value = True
-#     mocker.patch.object(add_group, 'helper')
-#     add_group.helper.validate_entered_amount.return_value = 10
-#     add_group.helper.write_json.return_value = True
-#     add_group.helper.get_date_format.return_value = DATE_FORMAT
-#     add_group.helper.get_time_format.return_value = TIME_FORMAT
-#     mocker.patch.object(add_group, 'add_transaction_record')
-#     mocker.patch.object(add_group, 'add_transactions_to_user')
-#     add_group.add_transaction_record.return_value = 1001, [
-#         "sample transaction list"
-#     ]
-#     add_group.add_transactions_to_user.return_value = [
-#         "sample updated user list"
-#     ]
+@patch('telebot.telebot')
+def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
+    """This is the test function for post amount input working with data
+     and chat id"""
+    mock_value = mock_telebot.return_value
+    mock_value.send_message.return_value = True
+    mocker.patch.object(add_group, 'helper')
+    add_group.helper.validate_entered_amount.return_value = 10
+    add_group.helper.write_json.return_value = True
+    add_group.helper.get_date_format.return_value = DATE_FORMAT
+    add_group.helper.get_time_format.return_value = TIME_FORMAT
+    mocker.patch.object(add_group, 'add_transaction_record')
+    mocker.patch.object(add_group, 'add_transactions_to_user')
+    add_group.add_transaction_record.return_value = 1001, [
+        "sample transaction list"
+    ]
+    add_group.add_transactions_to_user_with_other_handles.return_value = [
+        "sample updated user list"
+    ]
 
-#     add_group.transaction_record = {}
-#     message = create_message("10")
-#     add_group.post_amount_input(
-#         message,
-#         mock_value,
-#         'Groceries',
-#         [11, 20, 21]
-#     )
-#     assert not mock_value.reply_to.called
-#     assert mock_value.send_message.called
+    add_group.transaction_record = {}
+    message = create_message("10")
+    add_group.post_amount_input_with_other_inputs(
+        message,
+        mock_value,
+        'Groceries',
+        [11, 20, 21]
+    )
+    assert not mock_value.reply_to.called
+    assert mock_value.send_message.called
 
 
 def test_validate_email_input():
@@ -253,6 +257,3 @@ def test_add_transactions_to_user_invalid_transaction(mocker):
         _ = add_group.add_transactions_to_user("2002", ["20", "21"])
     except Exception:
         assert True
-
-
-

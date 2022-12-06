@@ -260,13 +260,16 @@ def update_user_owe_value(
     # payer exists
     # update in payer
     if str(payer_chat_id) != str(borrower_chat_id):
-        # print("Payer", "does not exist" if not bool(payer_owing_details) else "exist")
         if bool(payer_owing_details):
             # print(payer_owing_details["borrowers"])
             flag = True
             borrower_list = payer_owing_details["borrowers"]
-            for borrower_index, val in enumerate(borrower_list):
-                current_borrower = borrower_list[borrower_index]["borrower_chatid"]
+            for borrower_index, _ in enumerate(borrower_list):
+                current_borrower = borrower_list[
+                    borrower_index
+                ][
+                    "borrower_chatid"
+                ]
                 # borrower exists
                 if current_borrower == borrower_chat_id:
                     # '+' meaning borrower has to pay the payer
@@ -357,3 +360,151 @@ def get_chat_id(email_id, emails_user_map):
     pos = list(emails_user_map.values()).index(email_id)
     user_id = list(emails_user_map.keys())[pos]
     return user_id
+
+
+def take_all_users_input_with_other_handles(message, bot, selected_category):
+    """This is the take all users input with other handles function"""
+    chat_id = str(message.chat.id)
+    try:
+        emails = message.text
+        email_ids = set([email.strip() for email in emails.split(",")])
+
+        if not validate_email_input(email_ids):
+            raise Exception(f"Sorry the email format is not correct: {emails}")
+
+        emails_user_map = helper.read_json(helper.get_user_profile_file())
+
+        if chat_id not in emails_user_map:
+            raise Exception("""Sorry your email is not registered with us.
+            Please use the /profile command to do so.""")
+
+        email_ids_present_in_expense = email_ids.intersection(
+            set(emails_user_map.values())
+        )
+        if len(email_ids_present_in_expense) != len(email_ids):
+            invalid_emails = list(
+                email_ids.difference(
+                    email_ids_present_in_expense
+                )
+            )
+            exception_message = """Sorry one or more of the email(s) 
+            are not registered with us:"""
+            exception_message += invalid_emails
+            raise Exception(exception_message)
+
+        chat_ids_present_in_expense = [
+            get_chat_id(
+                email_id,
+                emails_user_map
+            ) for email_id in email_ids_present_in_expense
+        ]
+        chat_ids_present_in_expense.insert(0, chat_id)
+
+        option[chat_id] = selected_category
+        msg_body = "How much did you spend on " + str(option[chat_id])
+        msg_body += "? \n(Enter numeric values only)"
+        message = bot.send_message(
+            chat_id,
+            msg_body
+        )
+        bot.register_next_step_handler(
+            message,
+            post_amount_input,
+            bot,
+            selected_category,
+            chat_ids_present_in_expense
+        )
+    except Exception as exception:
+        logging.exception(str(exception))
+        bot.reply_to(message, 'Oh no! ' + str(exception))
+        display_text = ""
+        commands = helper.get_commands()
+        # generate help text out of the commands dictionary defined at the top
+        for command_key, command_value in commands.items():
+            display_text += "/" + command_key + ": "
+            display_text += command_value + "\n"
+        bot.send_message(chat_id, 'Please select a menu option from below:')
+        bot.send_message(chat_id, display_text)
+
+
+def add_transactions_to_user_with_other_handles(transaction_id, chat_ids):
+    """This is the add transactions to user with other handles function"""
+    transaction_list = helper.read_json(helper.get_group_expenses_file())
+    user_list = helper.read_json(helper.get_user_expenses_file())
+
+    if str(transaction_id) not in transaction_list:
+        raise Exception("Transaction " + transaction_id + " does not exist")
+
+    for user_id in chat_ids:
+        existing_transactions = user_list[user_id].get('group_expenses', [])
+        existing_transactions.append(transaction_id)
+        user_list[user_id]['group_expenses'] = list(set(existing_transactions))
+
+    return user_list
+
+
+def post_amount_input_with_other_inputs(
+    message,
+    bot,
+    selected_category,
+    chat_ids_present_in_expense
+):
+    """This is the post amount input with other handles function"""
+    chat_id = message.chat.id
+    try:
+        transaction_record = {}
+        amount_entered = message.text
+        # validate
+        amount_value = helper.validate_entered_amount(amount_entered)
+        if amount_value == 0:  # cannot be $0 spending
+            raise Exception("Spent amount has to be a non-zero number.")
+        amount_value = float(amount_value)
+
+        num_members = len(chat_ids_present_in_expense)
+        member_share = amount_value / num_members
+        transaction_record["total"] = amount_value
+        transaction_record["category"] = str(selected_category)
+        transaction_record["created_by"] = chat_ids_present_in_expense[0]
+        transaction_record["members"] = {}
+
+        for chat_id in chat_ids_present_in_expense:
+            transaction_record["members"].update({chat_id: member_share})
+
+        # add user_ids input
+        date_of_entry = str(
+            datetime.today().strftime(
+                helper.get_date_format() + ' ' + helper.get_time_format()
+            )
+        )
+        transaction_record["created_at"] = date_of_entry
+        transaction_record["updated_at"] = None
+        t_id, transaction_list = add_transaction_record(transaction_record)
+        helper.write_json(transaction_list, helper.get_group_expenses_file())
+        updated_user_list = add_transactions_to_user(
+            t_id,
+            chat_ids_present_in_expense
+        )
+        helper.write_json(updated_user_list, helper.get_user_expenses_file())
+
+        bot.send_message(
+            chat_id,
+            "The following expenditure has been recorded: You, and " +
+            str(num_members - 1) +
+            " other member(s), have spent $" +
+            str(member_share) +
+            " for " +
+            str(selected_category) +
+            " on " +
+            date_of_entry
+        )
+    except Exception as exception:
+        logging.exception(str(exception))
+        bot.reply_to(message, 'Oh no. ' + str(exception))
+        display_text = ""
+        commands = helper.get_commands()
+        # generate help text out of the commands dictionary defined at the top
+        for command_key, command_value in commands.items():
+            display_text += "/" + command_key + ": "
+            display_text += command_value + "\n"
+        bot.send_message(chat_id, 'Please select a menu option from below:')
+        bot.send_message(chat_id, display_text)
