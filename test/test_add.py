@@ -24,7 +24,7 @@ def test_run(mock_telebot):
 
 @patch('telebot.telebot')
 def test_post_category_selection_working(mock_telebot):
-    """This is the test function for post 
+    """This is the test function for post
     category selection working method"""
     mock_value = mock_telebot.return_value
     mock_value.send_message.return_value = True
@@ -35,8 +35,8 @@ def test_post_category_selection_working(mock_telebot):
 
 
 @patch('telebot.telebot')
-def test_post_category_selection_noMatchingCategory(mock_telebot, mocker):
-    """This is the test function for post category 
+def test_post_category_selection_no_matching_category(mock_telebot, mocker):
+    """This is the test function for post category
     selection with no matching category method"""
     mock_value = mock_telebot.return_value
     mock_value.send_message.return_value = []
@@ -63,7 +63,7 @@ def test_post_amount_input_working(mock_telebot):
 
 @patch('telebot.telebot')
 def test_post_amount_input_working_withdata(mock_telebot, mocker):
-    """This is the test function for post amount input 
+    """This is the test function for post amount input
     working with data method"""
     mock_value = mock_telebot.return_value
     mock_value.send_message.return_value = True
@@ -141,19 +141,3 @@ def create_message(text):
     params = {'messagebody': text}
     chat = types.User(11, False, 'test')
     return types.Message(1, None, None, chat, 'text', params, "")
-
-
-def test_read_json():
-    """This is the test function for read json method"""
-    try:
-        if not os.path.exists('./test/dummy_expense_record.json'):
-            with open('./test/dummy_expense_record.json', 'w') as json_file:
-                json_file.write('{}')
-            return json.dumps('{}')
-        elif os.stat('./test/dummy_expense_record.json').st_size != 0:
-            with open('./test/dummy_expense_record.json') as expense_record:
-                expense_record_data = json.load(expense_record)
-            return expense_record_data
-
-    except FileNotFoundError:
-        print("---------NO RECORDS FOUND---------")

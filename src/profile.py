@@ -34,8 +34,8 @@ def post_email_input(message, bot):
         display_text = ""
         commands = helper.get_commands()
         # generate help text out of the commands dictionary defined at the top
-        for c in commands.items():
-            display_text += "/" + c + ": "
-            display_text += commands[c] + "\n"
+        for command_key, command_value in commands.items():
+            display_text += "/" + command_key + ": "
+            display_text += command_value + "\n"
         bot.send_message(chat_id, 'Please select a menu option from below:')
         bot.send_message(chat_id, display_text)

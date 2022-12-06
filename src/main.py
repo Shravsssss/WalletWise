@@ -61,9 +61,9 @@ def start_and_menu_command(m):
 
     commands = helper.get_commands()
     # generate help text out of the commands dictionary defined at the top
-    for command in commands.items():
-        text_intro += "/" + command + ": "
-        text_intro += commands[command] + "\n\n"
+    for command_key, command_value in commands.items():
+        text_intro += "/" + command_key + ": "
+        text_intro += command_value + "\n\n"
     bot.send_message(chat_id, text_intro)
     return True
 
