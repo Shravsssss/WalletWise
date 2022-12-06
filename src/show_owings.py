@@ -13,8 +13,8 @@ def run(message, bot):
     db = get_database()["OWING_DETAILS"]
     user_details = db.find_one({"payer_chatid": chat_id})
     display_text = ""
+    user_owing_details = []
     if bool(user_details):
-        user_owing_details = []
         for doc in user_details["borrowers"]:
             user_owing_details.append(doc)
 
@@ -37,4 +37,5 @@ def run(message, bot):
     else:
         display_text = "You have no shared spendings yet."
     bot.send_message(chat_id, display_text)
-    # bot.register_next_step_handler(msg, post_email_input, bot)
+    # bot.register_next_step_handler(msg, post_email_input, bot)   
+    return user_owing_details, user_details
