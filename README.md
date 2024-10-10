@@ -2,17 +2,11 @@
 > This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 93.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.572729933.svg)](https://doi.org/10.5281/zenodo.572729933)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/firasat/walletwise)
-[![Python 3.8](https://img.shields.io/badge/Python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
-[![GitHub repo size](https://img.shields.io/github/languages/code-size/firasat/walletwise)](https://img.shields.io/github/languages/code-size/firasat/walletwise)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/firasat/walletwise?color=purple)
-[![GitHub contributors](https://img.shields.io/github/contributors/firasat/walletwise)](https://github.com/firasat/walletwise/graphs/contributors/)
-![GitHub issues](https://img.shields.io/github/issues/firasat/walletwise?color=teal)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/firasat/walletwise?color=aqua)
-[![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![GitHub forks](https://img.shields.io/github/forks/firasat/walletwise?style=social)](https://github.com/firasat/walletwise/network/members)
-![example event parameter](https://github.com/firasat/walletwise/actions/workflows/tests.yaml/badge.svg?event=push)
+[![DOI](https://zenodo.org/badge/880744201.svg)](https://doi.org/10.5281/zenodo.14027332)
+![GitHub open issues](https://img.shields.io/github/issues-raw/MFirasatHussain/WalletWise)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/MFirasatHussain/WalletWise)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3111/)
+[![codecov](https://codecov.io/gh/MFirasatHussain/WalletWise/branch/firasat/graph/badge.svg?token=YOUR-TOKEN)](https://codecov.io/gh/MFirasatHussain/WalletWise)
 <hr>
 
 ## Delta from Project 1
@@ -91,7 +85,8 @@ https://user-images.githubusercontent.com/54414375/205833191-c314e58c-16da-4c61-
 
 ## Updated version
 
-OUR NEW VIDEO GOES HERE
+OUR NEW VIDEO GOES HERE:
+https://drive.google.com/drive/folders/1UH4dTulGGdwuYMUsUZozWx3M2cx7KV-c?usp=drive_link
 
 
 
