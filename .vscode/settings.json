@@ -1,5 +1,13 @@
 {
 	"python.linting.pycodestyleEnabled": true,
 	"python.linting.pylintEnabled": true,
-	"python.linting.pep8Enabled": true
+	"python.linting.pep8Enabled": true,
+	"files.exclude": {
+		"**/.git": false
+	},
+	"search.exclude": {
+		"**/*.code-search": false,
+		"**/bower_components": false,
+		"**/node_modules": false
+	}
 }
