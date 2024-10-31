@@ -109,7 +109,11 @@ def callback_inline(call: CallbackQuery):
 # Currency conversion command
 @bot.message_handler(commands=['currencyConvert'])
 def command_currency_convert(message):
-    currency_convert.start_currency_convert(bot, message)  # Calls function from currency_convert module
+    currency_convert.start_currency_convert(bot, message)
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith('currency_'))
+def currency_selection_callback(call):
+    currency_convert.handle_currency_selection(bot, call)
 
 # Main function
 def main():
