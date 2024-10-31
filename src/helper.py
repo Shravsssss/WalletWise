@@ -153,6 +153,12 @@ def get_spend_categories():
     categories = categories.split(",")
     return categories
 
+def get_currency_options():
+    """This is the get currency options function"""
+    categories = config.get('settings', 'CurrencyCategories')
+    categories = categories.split(",")
+    return categories
+
 
 def get_spend_display_options():
     """This is the get spend display options function"""
