@@ -30,7 +30,8 @@ commands = {
     'erase': 'Clear/Erase all your records',
     'profile': 'Manage your user profile',
     'showOwings': 'Show owed amount details',
-    'settleUp': 'Settle up pending dues'
+    'settleUp': 'Settle up pending dues',
+    'currencyConvert': 'Convert to a different Currency',
 }
 
 date_range = []

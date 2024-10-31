@@ -16,7 +16,7 @@ from . import display_calendar
 from . import profile
 from . import show_owings
 from . import settle_up
-from . import currency_convert  # New import for currency conversion
+from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
 
 # Load configuration
@@ -109,11 +109,11 @@ def callback_inline(call: CallbackQuery):
 # Currency conversion command
 @bot.message_handler(commands=['currencyConvert'])
 def command_currency_convert(message):
-    currency_convert.start_currency_convert(bot, message)
+    currencyConvert.start_currency_convert(bot, message)
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('currency_'))
 def currency_selection_callback(call):
-    currency_convert.handle_currency_selection(bot, call)
+    currencyConvert.handle_currency_selection(bot, call)
 
 # Main function
 def main():
