@@ -1,6 +1,6 @@
 import requests
 from telebot import types
-from .helper import get_spend_categories, validate_entered_amount
+from .helper import get_currency_options, validate_entered_amount
 
 # Insert your ExchangeRate-API key here
 EXCHANGE_RATE_API_KEY = "333481fb3782ac0721ff6bfc"
@@ -11,7 +11,7 @@ user_data = {}
 def create_currency_menu(bot, chat_id, prompt="Select currency:"):
     # Inline keyboard for currency selection
     markup = types.InlineKeyboardMarkup()
-    currencies = get_spend_categories()  # Replace with relevant currency list if needed
+    currencies = get_currency_options()  # Replace with relevant currency list if needed
     buttons = [types.InlineKeyboardButton(c, callback_data=f"currency_{c}") for c in currencies]
     markup.add(*buttons)
     bot.send_message(chat_id, prompt, reply_markup=markup)

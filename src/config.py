@@ -4,3 +4,4 @@ ExpenseCategories = [
     'Transport', 'Shopping', 'Miscellaneous']
 ExpenseChoices = ['Date', 'Category', 'Cost']
 DisplayChoices = ['All Expenses', 'Category Wise', 'Shared Expense']
+currencyCategories = ['USD', 'EUR', 'INR', 'GBP', 'JPY', 'RUB']
