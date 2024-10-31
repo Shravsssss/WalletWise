@@ -16,24 +16,22 @@ from . import display_calendar
 from . import profile
 from . import show_owings
 from . import settle_up
+from . import currency_convert  # New import for currency conversion
 from .pymongo_run import get_database
 
-# helper.set_config()
+# Load configuration
 helper.load_config()
-
 
 bot = telebot.TeleBot(config.TOKEN)
 dbname = get_database()
 collection_name = dbname["USER_EMAILS"]
 telebot.logger.setLevel(logging.INFO)
 
-
-# Define listener for requests by user
+# Listener for requests by user
 def listener(user_requests):
     """This is the listener function"""
     for req in user_requests:
         if req.content_type == 'text':
-            # print(req)
             print(
                 str(datetime.now()) +
                 "name:" +
@@ -44,11 +42,9 @@ def listener(user_requests):
                 str(req.text)
             )
 
-
 bot.set_update_listener(listener)
 
-
-# defines how the /start and /help commands have to be handled/processed
+# Start and menu commands
 @bot.message_handler(commands=['start', 'menu'])
 def start_and_menu_command(m):
     """This is the start and menu commands"""
@@ -62,84 +58,67 @@ def start_and_menu_command(m):
         assist you further: \n\n"""
 
     commands = helper.get_commands()
-    # generate help text out of the commands dictionary defined at the top
     for command_key, command_value in commands.items():
         text_intro += "/" + command_key + ": "
         text_intro += command_value + "\n\n"
     bot.send_message(chat_id, text_intro)
     return True
 
-
-# function to add a new individual expense
+# Add individual and group expenses
 @bot.message_handler(commands=['add'])
 def command_add(message):
-    """This is the command add function"""
     add.run(message, bot)
 
-
-# function to add a new group expense
 @bot.message_handler(commands=['addGroup'])
 def command_addgroup(message):
-    """This is the command add subgroup function"""
     add_group.run(message, bot)
 
-
-# function to fetch expenditure history of the user
+# Fetch expenditure history, profile, display, and erase commands
 @bot.message_handler(commands=['history'])
 def command_history(message):
-    """This is the command history function"""
     history.run(message, bot)
-
 
 @bot.message_handler(commands=['profile'])
 def command_profile(message):
-    """This is the command profile function"""
     profile.run(message, bot)
 
-
-# function to display total expenditure
 @bot.message_handler(commands=['display'])
 def command_display(message):
-    """This is the command display function"""
     display.run(message, bot)
 
-
-# handles "/delete" command
 @bot.message_handler(commands=['erase'])
 def command_erase(message):
-    """This is the command erase function"""
     erase.run(message, bot)
 
-# function to show owings of the user
+# Show owings and settle balances
 @bot.message_handler(commands=['showOwings'])
 def command_owings(message):
-    """This is the command showOwings function"""
     show_owings.run(message, bot)
 
-# function to settle balances
 @bot.message_handler(commands=['settleUp'])
 def command_settle(message):
-    """This is the command settleUp function"""
     settle_up.run(message, bot)
 
-# function to show calendar for user to select dates
+# Show calendar for date selection
 @bot.callback_query_handler(
     func=lambda call: call.data.startswith(helper.calendar_1_callback.prefix)
 )
 def callback_inline(call: CallbackQuery):
-    """This is the callback inline function"""
     display_calendar.run(call, bot)
 
+# Currency conversion command
+@bot.message_handler(commands=['currencyConvert'])
+def command_currency_convert(message):
+    currency_convert.start_currency_convert(bot, message)  # Calls function from currency_convert module
 
+# Main function
 def main():
-    """This is the main function"""
     try:
         bot.polling(none_stop=True)
     except Exception as exception:
         logging.exception(str(exception))
         time.sleep(3)
         print("Connection Timeout")
-
 
 if __name__ == '__main__':
     main()
