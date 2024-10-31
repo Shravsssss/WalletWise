@@ -30,7 +30,8 @@ commands = {
     'erase': 'Clear/Erase all your records',
     'profile': 'Manage your user profile',
     'showOwings': 'Show owed amount details',
-    'settleUp': 'Settle up pending dues'
+    'settleUp': 'Settle up pending dues',
+    'crypto' : 'Record or Add a new crypto spending'
 }
 
 date_range = []
@@ -51,9 +52,10 @@ def set_config():
     DB = get_database()
     config["settings"] = {
         # "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
-        "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
+        "ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
         "ExpenseCategories": """Food,Groceries,Utilities,
             Transport,Shopping,Miscellaneous""",
+        "CryptoCategories": """"Bitcoin,Ethereum,Ripple,Litecoin""",
         "ExpenseChoices": "Date,Category,Cost",
         "DisplayChoices": "All Expenses,Category Wise,Shared Expense"
     }
@@ -145,6 +147,11 @@ def get_user_history(chat_id):
         print("EMPTY")
         return None
 
+def get_crypto_types():
+    """This is the get crypto spend categories function"""
+    crypto_categories = config.get('settings', 'CryptoCategories')
+    crypto_categories = crypto_categories.split(",")
+    return crypto_categories
 
 def get_spend_categories():
     """This is the get spend categories function"""
