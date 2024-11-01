@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 def get_database():
     """This is the get database function"""
-    connection_string = """mongodb+srv://Firasat:GooglePixel@walletbuddy.hkpji.mongodb.net/WalletBuddy"""
+    connection_string = """mongodb+srv://shlokio:sLA3uByHAl844tQ5@cluster0.y9kiowx.mongodb.net/test"""
     client = MongoClient(connection_string)
     return client['telebot']
 
