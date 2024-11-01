@@ -161,15 +161,23 @@ def show_trend(message):
         bot.reply_to(message, f"Error: {str(e)}")
 
 @bot.message_handler(commands=['predict'])
-def predict_trend(message):
-    chat_id = str(message.chat.id)
-    predictions = predict_expenses(chat_id)
-    
-    response = "Expense predictions for the next 30 days:\n"
-    for i, pred in enumerate(predictions, 1):
-        response += f"Day {i}: ${pred:.2f}\n"
-    
-    bot.send_message(chat_id, response)
+def show_prediction(message):
+    try:
+        chat_id = str(message.chat.id)
+        plot_path, summary = predict_expenses(chat_id)
+        
+        # Send prediction plot
+        with open(plot_path, 'rb') as photo:
+            bot.send_photo(message.chat.id, photo, 
+                         caption="📈 Your Expense Predictions")
+        
+        # Send detailed summary
+        bot.send_message(message.chat.id, summary, 
+                        parse_mode='Markdown')
+            
+    except Exception as e:
+        print(f"Error in show_prediction: {str(e)}")
+        bot.reply_to(message, f"❌ Error: {str(e)}")
 
 if __name__ == '__main__':
     main()

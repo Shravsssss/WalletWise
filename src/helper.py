@@ -32,6 +32,7 @@ commands = {
     'showOwings': 'Show owed amount details',
     'settleUp': 'Settle up pending dues',
     'trend': 'View your expense trend over time',
+    'predict': 'Get expense predictions for the next 30 days'
 }
 
 date_range = []

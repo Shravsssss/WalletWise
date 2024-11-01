@@ -8,6 +8,11 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 from .pymongo_run import get_database
 import os
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import StandardScaler
+import logging
+import os
+from .pymongo_run import get_database
 if not os.path.exists('temp'):
     os.makedirs('temp')
 
@@ -872,3 +877,148 @@ def create_time_series_plot(chat_id):
         # logging.error(f"Error in create_time_series_plot: {str(e)}")
         raise Exception(f"Could not create trend plot: {str(e)}")
     
+def predict_expenses(chat_id, prediction_days=30):
+    try:
+        db = get_database()
+        collection = db["USER_EXPENSES"]
+        
+        user_doc = collection.find_one({"chatid": chat_id})
+        
+        if not user_doc or not user_doc.get('personal_expenses'):
+            raise Exception("No expense data found for prediction. Please add some expenses first.")
+
+        # Parse expenses with better date handling
+        expenses = []
+        for exp_str in user_doc['personal_expenses']:
+            try:
+                date_str, category, amount_str = exp_str.split(', ')
+                # Convert September to Sep for consistency
+                date_str = date_str.replace('Sept', 'Sep')
+                # Parse date with more flexible format
+                date = pd.to_datetime(date_str, format='mixed', dayfirst=True)
+                
+                expenses.append({
+                    'date': date,
+                    'category': category,
+                    'amount': float(amount_str)
+                })
+            except Exception as e:
+                print(f"Error parsing expense: {exp_str}, Error: {str(e)}")
+                continue
+
+        if not expenses:
+            raise Exception("No valid expenses found after parsing")
+
+        # Convert to DataFrame and sort
+        df = pd.DataFrame(expenses)
+        df = df.sort_values('date')
+        
+        # Create features for prediction
+        df['day_of_week'] = df['date'].dt.dayofweek
+        df['day_of_month'] = df['date'].dt.day
+        df['week_of_month'] = (df['date'].dt.day - 1) // 7 + 1
+        df['month'] = df['date'].dt.month
+        
+        categories = df['category'].unique()
+        predictions = {}
+        
+        plt.figure(figsize=(15, 5*len(categories)))
+        
+        for idx, category in enumerate(categories, 1):
+            category_data = df[df['category'] == category].copy()
+            
+            if len(category_data) < 2:
+                continue
+                
+            # Calculate rolling averages
+            category_data['rolling_7day_avg'] = category_data['amount'].rolling(window=7, min_periods=1).mean()
+            category_data['rolling_30day_avg'] = category_data['amount'].rolling(window=30, min_periods=1).mean()
+            
+            # Prepare features
+            feature_columns = ['day_of_week', 'day_of_month', 'week_of_month', 
+                             'month', 'rolling_7day_avg', 'rolling_30day_avg']
+            X = category_data[feature_columns]
+            y = category_data['amount']
+            
+            # Train model
+            model = RandomForestRegressor(n_estimators=100, random_state=42)
+            model.fit(X, y)
+            
+            # Generate future dates
+            last_date = category_data['date'].max()
+            future_dates = pd.date_range(start=last_date, periods=prediction_days+1, freq='D')[1:]
+            
+            # Create future features
+            future_data = pd.DataFrame({
+                'date': future_dates,
+                'day_of_week': future_dates.dayofweek,
+                'day_of_month': future_dates.day,
+                'week_of_month': ((future_dates.day - 1) // 7 + 1),
+                'month': future_dates.month,
+                'rolling_7day_avg': [category_data['amount'].rolling(window=7).mean().iloc[-1]] * len(future_dates),
+                'rolling_30day_avg': [category_data['amount'].rolling(window=30).mean().iloc[-1]] * len(future_dates)
+            })
+            
+            # Make predictions
+            future_amounts = model.predict(future_data[feature_columns])
+            
+            # Store predictions
+            predictions[category] = {
+                'dates': future_dates,
+                'amounts': future_amounts,
+                'current_avg': y.mean(),
+                'predicted_avg': future_amounts.mean(),
+                'importance': dict(zip(feature_columns, model.feature_importances_))
+            }
+            
+            # Plot
+            plt.subplot(len(categories), 1, idx)
+            plt.plot(category_data['date'], category_data['amount'], 
+                    'o-', label='Actual', alpha=0.5, markersize=4)
+            plt.plot(future_dates, future_amounts, 
+                    'r--', label='Predicted', linewidth=2)
+            
+            # Add confidence intervals
+            std_dev = y.std()
+            plt.fill_between(future_dates, 
+                           future_amounts - std_dev,
+                           future_amounts + std_dev,
+                           color='red', alpha=0.2,
+                           label='Confidence Interval')
+            
+            plt.title(f'{category} Expenses - Actual and Predicted')
+            plt.xlabel('Date')
+            plt.ylabel('Amount ($)')
+            plt.legend()
+            plt.grid(True)
+            plt.xticks(rotation=45)
+        
+        plt.tight_layout()
+        
+        # Save prediction plot
+        if not os.path.exists('temp'):
+            os.makedirs('temp')
+        plot_path = f"temp/{chat_id}_prediction.png"
+        plt.savefig(plot_path)
+        plt.close()
+        
+        # Prepare prediction summary
+        summary = "📊 Expense Predictions Summary:\n\n"
+        for category, pred in predictions.items():
+            percent_change = ((pred['predicted_avg'] - pred['current_avg']) / pred['current_avg']) * 100
+            
+            summary += f"💰 {category}:\n"
+            summary += f"   • Current average: ${pred['current_avg']:.2f}\n"
+            summary += f"   • Predicted average: ${pred['predicted_avg']:.2f}\n"
+            summary += f"   • Expected change: {percent_change:+.1f}%\n"
+            
+            # Add top factors
+            top_factors = sorted(pred['importance'].items(), 
+                               key=lambda x: x[1], reverse=True)[:3]
+            summary += f"   • Key factors: {', '.join(f[0] for f in top_factors)}\n\n"
+        
+        return plot_path, summary
+
+    except Exception as e:
+        # logging.error(f"Error in predict_expenses: {str(e)}")
+        raise Exception(f"Could not create prediction: {str(e)}")
