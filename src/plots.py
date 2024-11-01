@@ -2,6 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from . import helper
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+import numpy as np
+from .pymongo_run import get_database
+import os
+if not os.path.exists('temp'):
+    os.makedirs('temp')
 
 month_dict = {1: 'Jan', 2: 'Feb', 3: 'Mar',
               4: 'Mar', 5: 'Apr', 6: 'Jun',
@@ -782,3 +790,85 @@ def overall_plot_with_other_handles(
             )
             plt.savefig('overall_expenses.png', bbox_inches='tight')
             return 7
+
+
+
+def create_time_series_plot(chat_id):
+    try:
+        db = get_database()
+        collection = db["USER_EXPENSES"]
+        
+        user_doc = collection.find_one({"chatid": chat_id})
+        
+        if not user_doc or not user_doc.get('personal_expenses'):
+            raise Exception("No expense data found. Please add some expenses first.")
+
+        # Parse the expenses
+        expenses = []
+        for exp_str in user_doc['personal_expenses']:
+            try:
+                date_str, category, amount_str = exp_str.split(', ')
+                # Handle different date formats
+                try:
+                    # Try the standard format first
+                    date = pd.to_datetime(date_str, format='%d %b %Y %H:%M')
+                except:
+                    try:
+                        # Try with hyphens
+                        date = pd.to_datetime(date_str.replace('-', ' '), format='%d %b %Y %H:%M')
+                    except:
+                        # If all else fails, try flexible parsing
+                        date = pd.to_datetime(date_str, format='mixed', dayfirst=True)
+                
+                expenses.append({
+                    'date': date,
+                    'category': category,
+                    'amount': float(amount_str)
+                })
+            except Exception as e:
+                print(f"Error parsing expense: {exp_str}, Error: {str(e)}")
+                continue
+        
+        if not expenses:
+            raise Exception("No valid expenses found after parsing")
+
+        # Convert to DataFrame and sort
+        df = pd.DataFrame(expenses)
+        df = df.sort_values('date')
+
+        # Create figure with larger size
+        plt.figure(figsize=(15, 10))
+        
+        # Time series plot
+        plt.subplot(2, 1, 1)
+        plt.plot(df['date'], df['amount'], marker='o', linestyle='-', markersize=4)
+        plt.title('Your Daily Expenses Over Time')
+        plt.xlabel('Date')
+        plt.ylabel('Amount ($)')
+        plt.grid(True)
+        plt.xticks(rotation=45)
+
+        # Category plot
+        plt.subplot(2, 1, 2)
+        category_totals = df.groupby('category')['amount'].sum()
+        category_totals.plot(kind='bar')
+        plt.title('Expenses by Category')
+        plt.xlabel('Category')
+        plt.ylabel('Total Amount ($)')
+        plt.xticks(rotation=45)
+
+        plt.tight_layout()
+        
+        # Save plot
+        if not os.path.exists('temp'):
+            os.makedirs('temp')
+        plot_path = f"temp/{chat_id}_trend.png"
+        plt.savefig(plot_path)
+        plt.close()
+        
+        return plot_path
+
+    except Exception as e:
+        # logging.error(f"Error in create_time_series_plot: {str(e)}")
+        raise Exception(f"Could not create trend plot: {str(e)}")
+    

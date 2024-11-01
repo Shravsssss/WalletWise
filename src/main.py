@@ -17,6 +17,8 @@ from . import profile
 from . import show_owings
 from . import settle_up
 from .pymongo_run import get_database
+from .plots import create_time_series_plot, predict_expenses
+import os
 
 # helper.set_config()
 helper.load_config()
@@ -141,5 +143,35 @@ def main():
         print("Connection Timeout")
 
 
+@bot.message_handler(commands=['trend'])
+def show_trend(message):
+    try:
+        chat_id = str(message.chat.id)
+        plot_path = create_time_series_plot(chat_id)
+        
+        with open(plot_path, 'rb') as photo:
+            bot.send_photo(
+                message.chat.id, 
+                photo, 
+                caption="Here's your expense trend:\n- Top: Daily expenses over time\n- Bottom: Total by category"
+            )
+            
+    except Exception as e:
+        print(f"Debug - Error in show_trend: {str(e)}")
+        bot.reply_to(message, f"Error: {str(e)}")
+
+@bot.message_handler(commands=['predict'])
+def predict_trend(message):
+    chat_id = str(message.chat.id)
+    predictions = predict_expenses(chat_id)
+    
+    response = "Expense predictions for the next 30 days:\n"
+    for i, pred in enumerate(predictions, 1):
+        response += f"Day {i}: ${pred:.2f}\n"
+    
+    bot.send_message(chat_id, response)
+
 if __name__ == '__main__':
     main()
+
+

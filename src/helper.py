@@ -30,7 +30,8 @@ commands = {
     'erase': 'Clear/Erase all your records',
     'profile': 'Manage your user profile',
     'showOwings': 'Show owed amount details',
-    'settleUp': 'Settle up pending dues'
+    'settleUp': 'Settle up pending dues',
+    'trend': 'View your expense trend over time',
 }
 
 date_range = []
@@ -190,6 +191,7 @@ def get_decision_choices():
 
 def get_commands():
     """This is the get commands function"""
+
     return commands
 
 
