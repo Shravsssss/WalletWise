@@ -115,6 +115,10 @@ def command_currency_convert(message):
 def currency_selection_callback(call):
     currencyConvert.handle_currency_selection(bot, call)
 
+@bot.message_handler(func=lambda message: message.text.isdigit())
+def amount_input_handler(message):
+    currencyConvert.handle_amount_input(bot, message)
+
 # Main function
 def main():
     try:
