@@ -18,6 +18,8 @@ from . import show_owings
 from . import settle_up
 from . import crypto
 from .pymongo_run import get_database
+from .plots import create_time_series_plot, predict_expenses
+import os
 
 # helper.set_config()
 helper.load_config()
@@ -132,5 +134,44 @@ def main():
         time.sleep(3)
         print("Connection Timeout")
 
+
+@bot.message_handler(commands=['trend'])
+def show_trend(message):
+    try:
+        chat_id = str(message.chat.id)
+        plot_path = create_time_series_plot(chat_id)
+        
+        with open(plot_path, 'rb') as photo:
+            bot.send_photo(
+                message.chat.id, 
+                photo, 
+                caption="Here's your expense trend:\n- Top: Daily expenses over time\n- Bottom: Total by category"
+            )
+            
+    except Exception as e:
+        print(f"Debug - Error in show_trend: {str(e)}")
+        bot.reply_to(message, f"Error: {str(e)}")
+
+@bot.message_handler(commands=['predict'])
+def show_prediction(message):
+    try:
+        chat_id = str(message.chat.id)
+        plot_path, summary = predict_expenses(chat_id)
+        
+        # Send prediction plot
+        with open(plot_path, 'rb') as photo:
+            bot.send_photo(message.chat.id, photo, 
+                        caption="📈 Your Expense Predictions")
+        
+        # Send detailed summary
+        bot.send_message(message.chat.id, summary, 
+                        parse_mode='Markdown')
+            
+    except Exception as e:
+        print(f"Error in show_prediction: {str(e)}")
+        bot.reply_to(message, f"❌ Error: {str(e)}")
+
 if __name__ == '__main__':
     main()
+
+

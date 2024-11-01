@@ -31,7 +31,9 @@ commands = {
     'profile': 'Manage your user profile',
     'showOwings': 'Show owed amount details',
     'settleUp': 'Settle up pending dues',
-    'crypto' : 'Record or Add a new crypto spending'
+    'crypto' : 'Record or Add a new crypto spending',
+    'trend': 'View your expense trend over time',
+    'predict': 'Get expense predictions for the next 30 days'
 }
 
 date_range = []
@@ -197,6 +199,7 @@ def get_decision_choices():
 
 def get_commands():
     """This is the get commands function"""
+
     return commands
 
 
