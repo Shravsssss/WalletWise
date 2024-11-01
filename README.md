@@ -1,31 +1,29 @@
-# WalletBuddy2.0
-> This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 10.
+# WalletWise
+> This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 93.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.572729933.svg)](https://doi.org/10.5281/zenodo.572729933)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/tusharkini/WalletBuddy)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/firasat/walletwise)
 [![Python 3.8](https://img.shields.io/badge/Python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
-[![GitHub repo size](https://img.shields.io/github/languages/code-size/tusharkini/WalletBuddy)](https://img.shields.io/github/languages/code-size/tusharkini/WalletBuddy)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/tusharkini/WalletBuddy?color=purple)
-[![GitHub contributors](https://img.shields.io/github/contributors/tusharkini/WalletBuddy)](https://github.com/tusharkini/WalletBuddy/graphs/contributors/)
-![GitHub issues](https://img.shields.io/github/issues/tusharkini/WalletBuddy?color=teal)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/tusharkini/WalletBuddy?color=aqua)
+[![GitHub repo size](https://img.shields.io/github/languages/code-size/firasat/walletwise)](https://img.shields.io/github/languages/code-size/firasat/walletwise)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/firasat/walletwise?color=purple)
+[![GitHub contributors](https://img.shields.io/github/contributors/firasat/walletwise)](https://github.com/firasat/walletwise/graphs/contributors/)
+![GitHub issues](https://img.shields.io/github/issues/firasat/walletwise?color=teal)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/firasat/walletwise?color=aqua)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![GitHub forks](https://img.shields.io/github/forks/tusharkini/WalletBuddy?style=social)](https://github.com/tusharkini/WalletBuddy/network/members)
-![example event parameter](https://github.com/tusharkini/WalletBuddy/actions/workflows/tests.yaml/badge.svg?event=push)
+[![GitHub forks](https://img.shields.io/github/forks/firasat/walletwise?style=social)](https://github.com/firasat/walletwise/network/members)
+![example event parameter](https://github.com/firasat/walletwise/actions/workflows/tests.yaml/badge.svg?event=push)
 <hr>
 
 ## Delta from Project 1
-- To make the system more scalable over time, we have migrated the earlier database system from a file based system to a distribute and scalable database- MongoDb.
-- Analysis showed that for smaller database with relatively new users and less users, MongoDB would take more time due to access to the server than a small file system. In the long run when the number of records and also the number of users increases, MongoDB would be the clear winner. It would not matter if the data is 10X, 100X or 1000X, MondoDB can handle it due to its non relational and distributed design.
-- Also the file system was not encrypted which made the data vulnerable to attacks, MongoDB eradicates this problem.
-- 2 more types of plots namely box plot and pie chart is added to give a better understanding to the user about the expenses.
-- An important functionality was missing in the Project 1 version of WalletBuddy, where the users did not have a way to look at what a user owes other or is owed by others. This has been taken care of in this version with command `/showOwings`.
-- Also we have added another functionality where there is an option for the user to pay up/ settle up the expenses that are owed to other users. After paying them, a record can be kept to keep track of that transaction and the amount owed is reduced. The amount owed entry is deleted after the whole amount is payed back. The comman used is `/settleUp`.
-- In project 1 our group had not used any code formatter. We have now used Pylint for the same.
-- In project 1 our group had not used a style checker and in this project we have used pycodestyle as a style checker to conform with the PEP8 coding conventions.
-- In project 1 our group had not used any automated documentation generator. This time we have used `pdoc3` to generate documentation using the docstrings written during development.
-- For project 1 some important tests were failing in Github Actions, but this time we have got the tests to work on every push.
+- **Tracking Crypto Spendings:** In our current project, "WalletWise," we have introduced a feature to track cryptocurrency transactions and spending. This new functionality enhances the application's ability to manage and analyze digital financial activities, catering to the growing popularity of cryptocurrencies.
+
+- **Predicting Spendings Using ML Models:** We've leveraged machine learning algorithms to predict future spending patterns. This predictive functionality helps users better manage their finances by providing insights based on historical data, allowing for more informed financial planning.
+
+- **Currency Exchange:** The addition of a currency exchange feature provides users with the ability to convert between different currencies including cryptocurrencies. This is especially useful for users who engage in international transactions or travel, ensuring they can manage and track their expenses in multiple currencies seamlessly.
+
+These new features significantly enhance the functionality of WalletWise, making it a more comprehensive financial management tool compared to the first version of the project.
+
 
 ## Goal
 
@@ -37,7 +35,7 @@
 
 ## Features
 
-WalletBuddy is an easy-to-use Telegram Bot that assists you in recording your daily expenses on a local system without any hassle.
+walletwise is an easy-to-use Telegram Bot that assists you in recording your daily expenses on a local system without any hassle.
 With simple commands, this bot allows you to:
 - Add/Record a new spending 
 - Add shared expenses with friends
@@ -52,40 +50,49 @@ With simple commands, this bot allows you to:
 ## Functionalities
 
 ### Add/Record A New Spending
-The command to be entered is `/add`. This prompts the user to first select a category such as food, transport, shopping, etc, and then enter the amount spent on the selected category. After the successful data entry the bot replies with the data entered into the database.
+Use the `/add` command to log new spending. You will choose a category such as food, transport, or shopping, and then enter the amount. The bot confirms by saving and displaying the entered data.
 
 ### Add Shared Expenses With Friends
-Upon entering the command `/addGroup`, the user will be able to add expenditures carried out in a group of people. First, the user will be prompted to select a category out of food, transport, etc, then a comma separated list of users is to be entered followed by the amount spent in the group expense.
+The `/addGroup` command allows you to record expenses shared with friends. After selecting a category and entering a comma-separated list of users along with the amount, the expense is added to the group's record.
 
-### Display Spendings Plot
-Here, the user will be prompted to enter the start and end date upon entering the command `/display`, and will be able to successfully view and analyze all the expenditures carried out in the mentioned dates. Apart from just the numbers, several plots will be shown consisting of bar graphs, pie charts, histograms and box plots.The user is then asked if he/she wants to view the expense charts with two choices "Yes" and "No".
-### Show the sum of your expenditure for the current day/month
-The command `/history` will show the user an extensive history of all the expenses he/she has carried out in the date range mentioned by the user. This includes both the individual and group expenses.
+### Display Spending Plots
+Using `/display`, specify the start and end dates to view your expenses. The bot shows various visualizations such as bar graphs, pie charts, histograms, and box plots. You will then choose whether to view these charts with options "Yes" and "No".
 
-### Clear/Erase All Records
-The command `/erase` will simply delete the complete history of the user.
+### Show Daily/Monthly Expenditure Summary
+The `/history` command provides a detailed view of your spending history over a specified period, including both personal and group expenses.
+
+### Clear All Records
+Use `/erase` to delete all recorded spending data from your profile, effectively resetting your financial history.
 
 ### Add/Manage Profile
-Here, the user will be asked for his/her email that will be validated by the application followed by a decision that the user is already existing or adding the new user to the database. The command used here is `/profile`. This step is essential so that other users can add shared expenses using the email as an identifier.
+The `/profile` command is used for profile management. You will enter your email, which the application verifies, to either update your existing profile or add a new one to the database. This step is crucial for identifying users in shared expenses.
 
-### Show Owings/ Borrowings
-We can use  this added functionality to find what amount we own some other user or what other users owe me. The command for this functionality is `/showOwings`. This is an important functionality to keep track when group expenses are added and money exchange is to take place.
+### Show Owings/Borrowings
+The `/showOwings` command helps track outstanding debts—both owed and owing. This function is vital for managing finances when group expenses are involved.
 
-### Settle up expenses
-We use this functionality where we can settle up the ammount what we owe to other users. By using this command `/settleUp` we can add a transaction that nullifies the amount that we owe any specific user. This is to be used when we actually pay the person and keep a record with this telegram bot.
+### Settle Up Expenses
+With `/settleUp`, you can record payments made to others, clearing debts recorded in the bot. This function is used to keep track of repayments and update the owed amounts accordingly.
+
+### Track Crypto Spendings
+The `/trackCrypto` command enables users to log and monitor their cryptocurrency transactions. This feature helps manage and analyze digital financial activities seamlessly.
+
+### Predict Spendings Using ML Models
+Use `/predictSpendings` to forecast future spending patterns using sophisticated machine learning models. This feature provides insights based on historical data to help with financial planning.
+
+### Currency Exchange
+The `/exchange` command offers real-time currency conversion rates, allowing users to manage expenses in different currencies. This tool is particularly useful for international transactions or travel.
+
 
 ---
 
 ## Previous version
-This video is taken from the Project 1 of Group 18.
-https://user-images.githubusercontent.com/21088141/194785646-d05f864c-af1e-42f3-b7a1-b68aef4c8fa9.mp4
+This video is taken from the Project 1 of Group 10.
+https://user-images.githubusercontent.com/54414375/205833191-c314e58c-16da-4c61-94e0-0fe60888c595.mp4
 
 ## Updated version
 
 OUR NEW VIDEO GOES HERE
-https://user-images.githubusercontent.com/54414375/205833191-c314e58c-16da-4c61-94e0-0fe60888c595.mp4
 
-Please follow this link for better quality audio: https://github.com/tusharkini/WalletBuddy/blob/main/project2-showcase.mp4
 
 
 ## Getting Started
@@ -101,14 +108,14 @@ The below instructions below can be followed to set-up a Telegram bot in a span 
     ```
     $ python -m pip install --upgrade pip
     ```
-- Create working directory named `WalletBuddy` and go inside it
+- Create working directory named `walletwise` and go inside it
     ```bash
-    $ mkdir WalletBuddy
-    $ cd WalletBuddy
+    $ mkdir walletwise
+    $ cd walletwise
     ```
-- Clone this repository from [here](https://github.com/tusharkini/WalletBuddy) or use the following in GitBash
+- Clone this repository from [here](https://github.com/firasat/walletwise) or use the following in GitBash
     ```bash
-    $ git clone https://github.com/tusharkini/WalletBuddy.git
+    $ git clone https://github.com/firasat/walletwise.git
     ```
 - Install the required dependencies using the following-
 	```bash
@@ -257,14 +264,14 @@ send message to the bot named `tushar_wallet_bot` and start managing your expans
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[License Guidelines](https://github.com/tusharkini/WalletBuddy/blob/main/LICENSE)
+[License Guidelines](https://github.com/firasat/walletwise/blob/main/LICENSE)
 
 ---
 
 
 ## Contribute
 
-Please have a look at the [guidelines](https://github.com/tusharkini/WalletBuddy/blob/main/CONTRIBUTING.md) before contributing.
+Please have a look at the [guidelines](https://github.com/firasat/walletwise/blob/main/CONTRIBUTING.md) before contributing.
 
 ---
 
@@ -273,7 +280,7 @@ Please have a look at the [guidelines](https://github.com/tusharkini/WalletBuddy
 - Boscosylvester Chittilapilly [Github](https://github.com/boscosylvester-john)
 - Prasad Kamath [Github](https://github.com/kamathprasad9)
 - Shlok Naik [Github](https://github.com/shlokio)
-- Tushar Kini [Github](https://github.com/tusharkini)
+- Tushar Kini [Github](https://github.com/firasat)
 - Ankur Banerji [Github](https://github.com/ankurbanerji3)
 
 ---
