@@ -1,4 +1,4 @@
-TOKEN = "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8"
+TOKEN = "7835402356:AAFPFp2j8QLa7E_qFCMxVw5e0NTeSET9Jj8"
 ExpenseCategories = [
     'Food', 'Groceries', 'Utilities',
     'Transport', 'Shopping', 'Miscellaneous']
