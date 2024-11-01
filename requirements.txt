@@ -14,3 +14,5 @@ numpy
 telebot-calendar==1.2
 pymongo
 scikit-learn
+pytest
+pytest-cov

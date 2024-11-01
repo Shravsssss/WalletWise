@@ -33,7 +33,8 @@ commands = {
     'settleUp': 'Settle up pending dues',
     'crypto' : 'Record or Add a new crypto spending',
     'trend': 'View your expense trend over time',
-    'predict': 'Get expense predictions for the next 30 days'
+    'predict': 'Get expense predictions for the next 30 days',
+    'currencyConvert': 'Convert to a different Currency',
 }
 
 date_range = []
@@ -53,8 +54,8 @@ def set_config():
     global DB
     DB = get_database()
     config["settings"] = {
-        # "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
-        "ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
+        "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
+        # "ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
         "ExpenseCategories": """Food,Groceries,Utilities,
             Transport,Shopping,Miscellaneous""",
         "CryptoCategories": """"Bitcoin,Ethereum,Ripple,Litecoin""",
@@ -158,6 +159,12 @@ def get_crypto_types():
 def get_spend_categories():
     """This is the get spend categories function"""
     categories = config.get('settings', 'ExpenseCategories')
+    categories = categories.split(",")
+    return categories
+
+def get_currency_options():
+    """This is the get currency options function"""
+    categories = config.get('settings', 'CurrencyCategories')
     categories = categories.split(",")
     return categories
 
