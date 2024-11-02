@@ -85,7 +85,8 @@ https://user-images.githubusercontent.com/54414375/205833191-c314e58c-16da-4c61-
 
 ## Updated version
 
-OUR NEW VIDEO GOES HERE
+OUR NEW VIDEO GOES HERE:
+https://drive.google.com/drive/folders/1UH4dTulGGdwuYMUsUZozWx3M2cx7KV-c?usp=drive_link
 
 
 
