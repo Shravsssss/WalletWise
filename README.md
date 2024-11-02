@@ -5,6 +5,7 @@
 [![DOI](https://zenodo.org/badge/880744201.svg)](https://doi.org/10.5281/zenodo.14027332)
 ![GitHub open issues](https://img.shields.io/github/issues-raw/MFirasatHussain/WalletWise)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/MFirasatHussain/WalletWise)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3111/)
 <hr>
 
 ## Delta from Project 1
