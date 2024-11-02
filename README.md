@@ -2,7 +2,7 @@
 > This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 93.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.572729933.svg)](https://doi.org/10.5281/zenodo.572729933)
+[![DOI](https://zenodo.org/badge/880744201.svg)](https://doi.org/10.5281/zenodo.14027332)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/tusharkini/walletwise)
 [![Python 3.8](https://img.shields.io/badge/Python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![GitHub repo size](https://img.shields.io/github/languages/code-size/tusharkini/walletwise)](https://img.shields.io/github/languages/code-size/tusharkini/walletwise)
