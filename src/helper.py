@@ -54,8 +54,9 @@ def set_config():
     global DB
     DB = get_database()
     config["settings"] = {
-        # "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
-        "ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
+        "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
+        #"ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
+        #"ApiToken": "7835402356:AAFPFp2j8QLa7E_qFCMxVw5e0NTeSET9Jj8",
         "ExpenseCategories": """Food,Groceries,Utilities,
             Transport,Shopping,Miscellaneous""",
         "CryptoCategories": """"Bitcoin,Ethereum,Ripple,Litecoin""",

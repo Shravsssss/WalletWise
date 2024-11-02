@@ -1,6 +1,6 @@
 import requests
 from telebot import types
-from . import helper
+from src import helper
 
 # Insert your ExchangeRate-API key here
 EXCHANGE_RATE_API_KEY = "333481fb3782ac0721ff6bfc"
