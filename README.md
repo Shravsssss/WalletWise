@@ -3,16 +3,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/880744201.svg)](https://doi.org/10.5281/zenodo.14027332)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/tusharkini/walletwise)
-[![Python 3.8](https://img.shields.io/badge/Python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
-[![GitHub repo size](https://img.shields.io/github/languages/code-size/tusharkini/walletwise)](https://img.shields.io/github/languages/code-size/tusharkini/walletwise)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/tusharkini/walletwise?color=purple)
-[![GitHub contributors](https://img.shields.io/github/contributors/tusharkini/walletwise)](https://github.com/tusharkini/walletwise/graphs/contributors/)
-![GitHub issues](https://img.shields.io/github/issues/tusharkini/walletwise?color=teal)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/tusharkini/walletwise?color=aqua)
-[![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-[![GitHub forks](https://img.shields.io/github/forks/tusharkini/walletwise?style=social)](https://github.com/tusharkini/walletwise/network/members)
-![example event parameter](https://github.com/tusharkini/walletwise/actions/workflows/tests.yaml/badge.svg?event=push)
+![GitHub open issues](https://img.shields.io/github/issues-raw/MFirasatHussain/WalletWise)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/MFirasatHussain/WalletWise)
 <hr>
 
 ## Delta from Project 1
