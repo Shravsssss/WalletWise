@@ -1,0 +1,3 @@
+[run]
+source = your_package_name
+omit = tests/*
