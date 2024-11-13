@@ -13,3 +13,4 @@ pandas
 numpy
 telebot-calendar==1.2
 pymongo
+telebot
