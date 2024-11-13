@@ -1,6 +1,6 @@
-name:  Build, Test and upload coverage report
+name: Build, Test, and Upload Coverage Report
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -22,11 +22,10 @@ jobs:
       - name: Run tests
         run: |
           python3 -m pytest -v test/
-      - name: Run test with coverage report and generate documentation
+      - name: Run test with coverage report
         run: |
           coverage run --source=. -m pytest && coverage xml
-      - name: Upload coverage report
+      - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v2
         with:
-          token: 56ba2a9a-8abc-4a62-82cc-20f66da78fa3
-
+          token: ${{ secrets.CODECOV_TOKEN }}
