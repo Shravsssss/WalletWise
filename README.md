@@ -7,6 +7,7 @@
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/MFirasatHussain/WalletWise)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3111/)
 [![codecov](https://codecov.io/gh/MFirasatHussain/WalletWise/branch/firasat/graph/badge.svg?token=YOUR-TOKEN)](https://codecov.io/gh/MFirasatHussain/WalletWise)
+![Python Style Check](https://img.shields.io/github/actions/workflow/status/MFirasatHussain/WalletWise/style_check.yml?label=style-check&branch=new)
 <hr>
 
 ## Delta from Project 1
