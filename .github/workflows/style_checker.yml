@@ -20,4 +20,4 @@ jobs:
         continue-on-error: true
       - name: Run Tests with Coverage
         run: |
-          pytest --cov=src --cov-report=xml --cov-report=term-missing
+          python3 -m pytest --cov=src --cov-report=xml --cov-report=term-missing
