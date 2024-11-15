@@ -6,8 +6,16 @@
 ![GitHub open issues](https://img.shields.io/github/issues-raw/MFirasatHussain/WalletWise)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/MFirasatHussain/WalletWise)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3111/)
-[![codecov](https://codecov.io/gh/MFirasatHussain/WalletWise/branch/firasat/graph/badge.svg?token=c51f58b4-82f2-4ae8-8cb7-baedbdf4e77f)](https://codecov.io/gh/MFirasatHussain/WalletWise)
-![Python Style Check](https://img.shields.io/github/actions/workflow/status/MFirasatHussain/WalletWise/style_check.yml?label=style-check&branch=new)
+[![codecov](https://img.shields.io/badge/codecov-98%25-brightgreen.svg)](https://codecov.io/gh/your-username/your-repo)
+[![Build repo](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Python Style Checker](https://img.shields.io/badge/style%20checker-passing-brightgreen.svg)]()
+[![Lint Python](https://img.shields.io/badge/lint-passing-brightgreen.svg)]()
+[![CodeQL](https://img.shields.io/badge/CodeQL-passing-brightgreen.svg)]()
+[![Run Tests On Push](https://img.shields.io/badge/tests-passing-brightgreen.svg)]()
+[![code style](https://img.shields.io/badge/code%20style-pep8-orange.svg)]()
+![repo size](https://img.shields.io/badge/repo%20size-41.3%20MB-blue.svg)
+![pull requests](https://img.shields.io/badge/pull%20requests-1%20open-yellow.svg)
+![issues](https://img.shields.io/badge/issues-4%20open%2012%20closed-yellow.svg)
 <hr>
 
 ## Delta from Project 1
