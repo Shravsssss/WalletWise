@@ -16,3 +16,7 @@ pymongo
 scikit-learn
 pytest
 pytest-cov
+telebot
+mock
+telebot
+pandas

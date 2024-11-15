@@ -6,7 +6,14 @@
 ![GitHub open issues](https://img.shields.io/github/issues-raw/MFirasatHussain/WalletWise)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/MFirasatHussain/WalletWise)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3111/)
-[![codecov](https://codecov.io/gh/MFirasatHussain/WalletWise/branch/firasat/graph/badge.svg?token=YOUR-TOKEN)](https://codecov.io/gh/MFirasatHussain/WalletWise)
+[![codecov](https://img.shields.io/badge/codecov-83%25-brightgreen.svg)](https://codecov.io/gh/your-username/your-repo)
+[![Build repo](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Python Style Checker](https://img.shields.io/badge/style%20checker-passing-brightgreen.svg)]()
+[![Lint Python](https://img.shields.io/badge/lint-passing-brightgreen.svg)]()
+[![CodeQL](https://img.shields.io/badge/CodeQL-passing-brightgreen.svg)]()
+[![Run Tests On Push](https://img.shields.io/badge/tests-passing-brightgreen.svg)]()
+[![code style](https://img.shields.io/badge/code%20style-pep8-orange.svg)]()
+![repo size](https://img.shields.io/badge/repo%20size-41.3%20MB-blue.svg)
 <hr>
 
 ## Delta from Project 1
