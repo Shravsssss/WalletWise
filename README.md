@@ -12,7 +12,7 @@
 [![Lint Python](https://img.shields.io/badge/lint-passing-brightgreen.svg)]()
 [![CodeQL](https://img.shields.io/badge/CodeQL-passing-brightgreen.svg)]()
 [![Run Tests On Push](https://img.shields.io/badge/tests-passing-brightgreen.svg)]()
-![Code Style](https://img.shields.io/github/actions/workflow/status/MFirasatHussain/WalletWise/style_check.yml?label=code%20style)
+[![code style](https://img.shields.io/badge/code%20style-pep8-orange.svg)]()
 ![repo size](https://img.shields.io/badge/repo%20size-41.3%20MB-blue.svg)
 <hr>
 
