@@ -5,6 +5,8 @@ import json
 import configparser
 from telebot_calendar import Calendar, CallbackData, ENGLISH_LANGUAGE
 from .pymongo_run import get_database
+from datetime import datetime
+import logging
 
 # calendar initialized
 calendar = Calendar(language=ENGLISH_LANGUAGE)
@@ -32,6 +34,8 @@ commands = {
     'showOwings': 'Show owed amount details',
     'settleUp': 'Settle up pending dues',
     'crypto' : 'Record or Add a new crypto spending',
+    'setBudget' : 'Set budget for current month by category',
+    'checkBudget' : 'Check the budget for current month',
     'setGoal' : 'Set a new savings goal',
     'checkGoals' : 'Check progress towards your savings goals',
     'addSavings' : 'Add saved money towards a specific goal',
@@ -58,7 +62,8 @@ def set_config():
     DB = get_database()
     config["settings"] = {
         "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
-        # "ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
+        #"ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
+        #"ApiToken": "7835402356:AAFPFp2j8QLa7E_qFCMxVw5e0NTeSET9Jj8",
         "ExpenseCategories": """Food,Groceries,Utilities,
             Transport,Shopping,Miscellaneous""",
         "CryptoCategories": """"Bitcoin,Ethereum,Ripple,Litecoin""",
@@ -243,6 +248,132 @@ def create_new_user_record():
     return user_expenses_format
 
 
+def get_budgets_collection():
+    """Returns the USER_BUDGETS collection."""
+    db = get_database()
+    return db["USER_BUDGETS"]
+
+
+def get_expenses_collection():
+    """Returns the USER_EXPENSES collection."""
+    db = get_database()
+    return db["USER_EXPENSES"]
+
+
+def save_budget_for_category(chat_id, category, amount):
+    """Saves or updates the budget for a specific category in the database."""
+    budgets_collection = get_budgets_collection()
+    budgets_collection.update_one(
+        {"chatid": str(chat_id)},
+        {"$set": {f"budgets.{category}": amount}},
+        upsert=True
+    )
+
+
+def fetch_user_budget(chat_id):
+    """Fetches the user's budget document from the database."""
+    budgets_collection = get_budgets_collection()
+    return budgets_collection.find_one({"chatid": str(chat_id)})
+
+
+def fetch_personal_expenses(chat_id):
+    """Fetches the user's personal expenses document from the database."""
+    expenses_collection = get_expenses_collection()
+    return expenses_collection.find_one({"chatid": str(chat_id)})
+
+
+def is_expense_in_current_month(date):
+    """Checks if a date is in the current month and year."""
+    now = datetime.now()
+    return date.month == now.month and date.year == now.year
+
+
+def calculate_monthly_expenses(expenses):
+    """Calculates total expenses per category for the current month."""
+    monthly_expenses = {}
+    for exp in expenses:
+        date_str, category, amount_str = exp.split(", ")
+        date = datetime.strptime(date_str, "%d-%b-%Y %H:%M")
+        
+        if is_expense_in_current_month(date):
+            amount = float(amount_str)
+            if category in monthly_expenses:
+                monthly_expenses[category] += amount
+            else:
+                monthly_expenses[category] = amount
+
+    return monthly_expenses
+
+
+def parse_budget_input(text):
+    """
+    Parses and validates the budget input format.
+
+    Ensures the input is in the format: [category] [amount]
+    and validates that the category exists in the allowed categories.
+    """
+    parts = text.split()
+    if len(parts) != 2:
+        raise ValueError("Invalid format. Please use the format: [category] [amount].")
+    
+    category = parts[0]
+    try:
+        amount = float(parts[1])
+    except ValueError:
+        raise ValueError("Amount must be a number.")
+    
+    # Fetch valid categories from configuration
+    categories = config.get('settings', 'ExpenseCategories').split(',')
+    
+    # Check if the category exists
+    if category not in categories:
+        raise ValueError(f"Invalid category. Allowed categories are: {', '.join(categories)}")
+    
+    return category, amount
+
+
+def is_budget_set(user_budget, chat_id, bot):
+    """Checks if the budget is set for the user."""
+    if not user_budget or "budgets" not in user_budget:
+        bot.send_message(chat_id, "You haven't set any budgets yet. Use /setBudget to set a budget.")
+        return False
+    return True
+
+
+def has_expenses_this_month(user_expenses, chat_id, bot):
+    """Checks if the user has any expenses for the current month."""
+    if not user_expenses or "personal_expenses" not in user_expenses:
+        bot.send_message(chat_id, "No expenses found for this month.")
+        return False
+    return True
+
+
+def build_budget_report(budgets, monthly_expenses):
+    """Builds the budget report message text."""
+    report = "📊 *Monthly Budget Report*\n\n"
+    for category, budget_amount in budgets.items():
+        spent = monthly_expenses.get(category, 0)
+        remaining = budget_amount - spent
+        report += f"*{category}*\n"
+        report += f"  - Budget: ${budget_amount:.2f}\n"
+        report += f"  - Spent: ${spent:.2f}\n"
+        report += f"  - Remaining: ${remaining:.2f}\n\n"
+        
+        # Add alerts for close-to or over budget
+        if remaining < 0:
+            report += f"⚠️ *Alert*: You have exceeded your budget for {category} by ${-remaining:.2f}!\n\n"
+        elif remaining < budget_amount * 0.2:
+            report += f"⚠️ *Warning*: You are close to reaching your budget for {category}.\n\n"
+
+    return report
+
+
+def log_and_reply_error(chat_id, bot, exception_value):
+    """Logs the exception and replies to the user with an error message."""
+    logging.exception(str(exception_value))
+    bot.send_message(chat_id, 'An error occurred: ' + str(exception_value))
+
+    
 def get_goals_collection():
     """Returns the goals collection."""
     db = get_database()

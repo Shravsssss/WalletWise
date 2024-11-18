@@ -17,6 +17,7 @@ from . import profile
 from . import show_owings
 from . import settle_up
 from . import crypto
+from . import budget
 from . import goals
 from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
@@ -114,6 +115,18 @@ def command_add(message):
     """This is the command add function"""
     crypto.run(message, bot)
 
+# Register /setBudget command
+@bot.message_handler(commands=['setBudget'])
+def command_setBudget(message):
+    """This is the command add function to run setBudget"""
+    budget.run(message, bot)
+
+# Register /checkBudget command
+@bot.message_handler(commands=['checkBudget'])
+def command_checkBudget(message):
+    """This is the command add function to run checkBudget"""
+    budget.run(message, bot)
+    
 # Register /setGoal command
 @bot.message_handler(commands=["setGoal"])
 def command_setGoal(message):
