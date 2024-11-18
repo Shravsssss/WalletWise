@@ -36,6 +36,9 @@ commands = {
     'crypto' : 'Record or Add a new crypto spending',
     'setBudget' : 'Set budget for current month by category',
     'checkBudget' : 'Check the budget for current month',
+    'setGoal' : 'Set a new savings goal',
+    'checkGoals' : 'Check progress towards your savings goals',
+    'addSavings' : 'Add saved money towards a specific goal',
     'trend': 'View your expense trend over time',
     'predict': 'Get expense predictions for the next 30 days',
     'currencyConvert': 'Convert to a different Currency',
@@ -369,3 +372,9 @@ def log_and_reply_error(chat_id, bot, exception_value):
     """Logs the exception and replies to the user with an error message."""
     logging.exception(str(exception_value))
     bot.send_message(chat_id, 'An error occurred: ' + str(exception_value))
+
+    
+def get_goals_collection():
+    """Returns the goals collection."""
+    db = get_database()
+    return db["USER_GOALS"]
