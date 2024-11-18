@@ -17,6 +17,7 @@ from . import profile
 from . import show_owings
 from . import settle_up
 from . import crypto
+from . import goals
 from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
 from .plots import create_time_series_plot, predict_expenses
@@ -112,6 +113,24 @@ def command_settle(message):
 def command_add(message):
     """This is the command add function"""
     crypto.run(message, bot)
+
+# Register /setGoal command
+@bot.message_handler(commands=["setGoal"])
+def command_setGoal(message):
+    """This is the command add function to run setGoal"""
+    goals.run(message, bot)
+
+# Register /checkGoals command
+@bot.message_handler(commands=["checkGoals"])
+def command_checkGoals(message):
+    """This is the command add function to run checkGoals"""
+    goals.run(message, bot)
+
+# Register /addSavings command
+@bot.message_handler(commands=["addSavings"])
+def command_addSavings(message):
+    """This is the command add function to run addSavings"""
+    goals.run(message, bot)
 
 # function to show calendar for user to select dates
 # Show calendar for date selection

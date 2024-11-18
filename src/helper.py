@@ -32,6 +32,9 @@ commands = {
     'showOwings': 'Show owed amount details',
     'settleUp': 'Settle up pending dues',
     'crypto' : 'Record or Add a new crypto spending',
+    'setGoal' : 'Set a new savings goal',
+    'checkGoals' : 'Check progress towards your savings goals',
+    'addSavings' : 'Add saved money towards a specific goal',
     'trend': 'View your expense trend over time',
     'predict': 'Get expense predictions for the next 30 days',
     'currencyConvert': 'Convert to a different Currency',
@@ -238,3 +241,9 @@ def get_user_expenses_file():
 def create_new_user_record():
     """This is the create new user record function"""
     return user_expenses_format
+
+
+def get_goals_collection():
+    """Returns the goals collection."""
+    db = get_database()
+    return db["USER_GOALS"]
