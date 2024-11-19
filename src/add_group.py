@@ -97,7 +97,7 @@ def take_all_users_input(message, bot, selected_category):
                 )
             )
             exception_message = """Sorry one or more of 
-                the email(s) are not registered with us: """ + invalid_emails
+                the email(s) are not registered with us: """ + ", ".join(invalid_emails)
             raise Exception(exception_message)
 
         chat_ids_present_in_expense = [

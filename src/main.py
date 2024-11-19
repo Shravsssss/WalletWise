@@ -19,6 +19,7 @@ from . import settle_up
 from . import crypto
 from . import budget
 from . import goals
+from . import export_expenses
 from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
 from .plots import create_time_series_plot, predict_expenses
@@ -144,6 +145,12 @@ def command_checkGoals(message):
 def command_addSavings(message):
     """This is the command add function to run addSavings"""
     goals.run(message, bot)
+
+# Register /exportExpenses command
+@bot.message_handler(commands=["exportExpenses"])
+def command_exportExpenses(message):
+    """This is the command add function to run exportExpenses"""
+    export_expenses.run(message, bot)
 
 # function to show calendar for user to select dates
 # Show calendar for date selection
