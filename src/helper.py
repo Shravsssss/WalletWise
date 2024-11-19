@@ -7,6 +7,8 @@ from telebot_calendar import Calendar, CallbackData, ENGLISH_LANGUAGE
 from .pymongo_run import get_database
 from datetime import datetime
 import logging
+import csv
+from fpdf import FPDF
 
 # calendar initialized
 calendar = Calendar(language=ENGLISH_LANGUAGE)
@@ -39,6 +41,7 @@ commands = {
     'setGoal' : 'Set a new savings goal',
     'checkGoals' : 'Check progress towards your savings goals',
     'addSavings' : 'Add saved money towards a specific goal',
+    'exportExpenses' : 'Export your expenses for a specific date range',
     'trend': 'View your expense trend over time',
     'predict': 'Get expense predictions for the next 30 days',
     'currencyConvert': 'Convert to a different Currency',
@@ -378,3 +381,53 @@ def get_goals_collection():
     """Returns the goals collection."""
     db = get_database()
     return db["USER_GOALS"]
+
+
+def generate_pdf(expenses, chat_id):
+    """Generates a PDF file for the expenses."""
+    file_name = f"expenses_{chat_id}.pdf"
+    pdf = FPDF()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    # Title and Metadata
+    pdf.cell(200, 10, txt="Expense Report", ln=True, align="C")
+    pdf.cell(200, 10, txt=f"Generated on {datetime.now().strftime('%Y-%m-%d')}", ln=True, align="C")
+    pdf.ln(10)
+
+    # Table Header
+    pdf.set_font("Arial", style="B", size=10)
+    pdf.cell(40, 10, txt="Type", border=1, align="C")  # Personal or Group
+    pdf.cell(50, 10, txt="Date", border=1, align="C")
+    pdf.cell(60, 10, txt="Category", border=1, align="C")
+    pdf.cell(40, 10, txt="Amount", border=1, align="C")
+    pdf.ln()
+
+    # Table Rows
+    pdf.set_font("Arial", size=10)
+    for expense in expenses:
+        pdf.cell(40, 10, txt=expense["type"], border=1)       # Type
+        pdf.cell(50, 10, txt=expense["date"], border=1)       # Date
+        pdf.cell(60, 10, txt=expense["category"], border=1)   # Category
+        pdf.cell(40, 10, txt=f"{expense['amount']}", border=1)  # Amount
+        pdf.ln()
+
+    pdf.output(file_name)
+    return file_name
+
+
+def generate_csv(expenses, chat_id):
+    """Generates a CSV file for the expenses."""
+    file_name = f"expenses_{chat_id}.csv"
+    with open(file_name, mode="w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=["Type", "Date", "Category", "Amount"])
+        writer.writeheader()
+        for expense in expenses:
+            writer.writerow({
+                "Type": expense["type"],       # "Personal" or "Group"
+                "Date": expense["date"],       # Date of expense
+                "Category": expense["category"],  # Expense category (e.g., Food, Utilities)
+                "Amount": expense["amount"]    # Amount spent
+            })
+    return file_name
