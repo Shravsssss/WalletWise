@@ -2,6 +2,7 @@ pyTelegramBotAPI
 pytest
 jproperties
 flake8
+fpdf2
 matplotlib
 coverage
 pytest-mock
