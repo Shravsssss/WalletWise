@@ -42,6 +42,8 @@ commands = {
     'checkGoals' : 'Check progress towards your savings goals',
     'addSavings' : 'Add saved money towards a specific goal',
     'exportExpenses' : 'Export your expenses for a specific date range',
+    'weeklyReport' : 'Summary report of your expenses for the past week',
+    'monthlyReport' : 'Summary report of your expenses for the past week',
     'trend': 'View your expense trend over time',
     'predict': 'Get expense predictions for the next 30 days',
     'currencyConvert': 'Convert to a different Currency',
@@ -376,7 +378,7 @@ def log_and_reply_error(chat_id, bot, exception_value):
     logging.exception(str(exception_value))
     bot.send_message(chat_id, 'An error occurred: ' + str(exception_value))
 
-    
+
 def get_goals_collection():
     """Returns the goals collection."""
     db = get_database()
