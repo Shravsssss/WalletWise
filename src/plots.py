@@ -2,17 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from . import helper
-import matplotlib.pyplot as plt
-import pandas as pd
 from sklearn.linear_model import LinearRegression
-import numpy as np
 from .pymongo_run import get_database
 import os
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, IsolationForest
 from sklearn.preprocessing import StandardScaler
 import logging
-import os
-from .pymongo_run import get_database
 if not os.path.exists('temp'):
     os.makedirs('temp')
 
@@ -886,31 +881,27 @@ def create_time_series_plot(chat_id):
 
 
 def predict_expenses(chat_id, prediction_days=30):
+    """Predict future expenses with anomaly detection and generate visual insights."""
     try:
+        # Load data from the database
         db = get_database()
         collection = db["USER_EXPENSES"]
-
         user_doc = collection.find_one({"chatid": chat_id})
 
         if not user_doc or not user_doc.get('personal_expenses'):
             raise Exception(
                 "No expense data found for prediction. Please add some expenses first.")
 
-        # Parse expenses with better date handling
+        # Parse and preprocess expense data
         expenses = []
         for exp_str in user_doc['personal_expenses']:
             try:
                 date_str, category, amount_str = exp_str.split(', ')
-                # Convert September to Sep for consistency
-                date_str = date_str.replace('Sept', 'Sep')
-                # Parse date with more flexible format
-                date = pd.to_datetime(date_str, format='mixed', dayfirst=True)
-
-                expenses.append({
-                    'date': date,
-                    'category': category,
-                    'amount': float(amount_str)
-                })
+                date_str = date_str.replace(
+                    'Sept', 'Sep')  # Handle month abbreviation
+                date = pd.to_datetime(date_str, dayfirst=True)  # Parse date
+                expenses.append(
+                    {'date': date, 'category': category, 'amount': float(amount_str)})
             except Exception as e:
                 print(f"Error parsing expense: {exp_str}, Error: {str(e)}")
                 continue
@@ -918,11 +909,8 @@ def predict_expenses(chat_id, prediction_days=30):
         if not expenses:
             raise Exception("No valid expenses found after parsing")
 
-        # Convert to DataFrame and sort
-        df = pd.DataFrame(expenses)
-        df = df.sort_values('date')
-
-        # Create features for prediction
+        # Convert to DataFrame and sort by date
+        df = pd.DataFrame(expenses).sort_values('date')
         df['day_of_week'] = df['date'].dt.dayofweek
         df['day_of_month'] = df['date'].dt.day
         df['week_of_month'] = (df['date'].dt.day - 1) // 7 + 1
@@ -939,13 +927,19 @@ def predict_expenses(chat_id, prediction_days=30):
             if len(category_data) < 2:
                 continue
 
-            # Calculate rolling averages
+            # Anomaly Detection
+            iso_forest = IsolationForest(contamination=0.05, random_state=42)
+            category_data['anomaly'] = iso_forest.fit_predict(
+                category_data[['amount']])
+            anomalies = category_data[category_data['anomaly'] == -1]
+
+            # Calculate rolling averages for feature engineering
             category_data['rolling_7day_avg'] = category_data['amount'].rolling(
                 window=7, min_periods=1).mean()
             category_data['rolling_30day_avg'] = category_data['amount'].rolling(
                 window=30, min_periods=1).mean()
 
-            # Prepare features
+            # Prepare features for prediction
             feature_columns = [
                 'day_of_week',
                 'day_of_month',
@@ -956,11 +950,11 @@ def predict_expenses(chat_id, prediction_days=30):
             X = category_data[feature_columns]
             y = category_data['amount']
 
-            # Train model
+            # Train the model
             model = RandomForestRegressor(n_estimators=100, random_state=42)
             model.fit(X, y)
 
-            # Generate future dates
+            # Generate future dates for prediction
             last_date = category_data['date'].max()
             future_dates = pd.date_range(
                 start=last_date,
@@ -975,11 +969,11 @@ def predict_expenses(chat_id, prediction_days=30):
                 'day_of_month': future_dates.day,
                 'week_of_month': ((future_dates.day - 1) // 7 + 1),
                 'month': future_dates.month,
-                'rolling_7day_avg': [category_data['amount'].rolling(window=7).mean().iloc[-1]] * len(future_dates),
-                'rolling_30day_avg': [category_data['amount'].rolling(window=30).mean().iloc[-1]] * len(future_dates)
+                'rolling_7day_avg': [category_data['rolling_7day_avg'].iloc[-1]] * len(future_dates),
+                'rolling_30day_avg': [category_data['rolling_30day_avg'].iloc[-1]] * len(future_dates)
             })
 
-            # Make predictions
+            # Predict future expenses
             future_amounts = model.predict(future_data[feature_columns])
 
             # Store predictions
@@ -988,25 +982,43 @@ def predict_expenses(chat_id, prediction_days=30):
                 'amounts': future_amounts,
                 'current_avg': y.mean(),
                 'predicted_avg': future_amounts.mean(),
-                'importance': dict(zip(feature_columns, model.feature_importances_))
+                'importance': dict(zip(feature_columns, model.feature_importances_)),
+                'anomalies': anomalies[['date', 'amount']]
             }
 
-            # Plot
+            # Plot actual, predicted, and anomalies
             plt.subplot(len(categories), 1, idx)
-            plt.plot(category_data['date'], category_data['amount'],
-                     'o-', label='Actual', alpha=0.5, markersize=4)
-            plt.plot(future_dates, future_amounts,
-                     'r--', label='Predicted', linewidth=2)
+            plt.plot(
+                category_data['date'],
+                category_data['amount'],
+                'o-',
+                label='Actual',
+                alpha=0.5,
+                markersize=4)
+            plt.plot(
+                future_dates,
+                future_amounts,
+                'r--',
+                label='Predicted',
+                linewidth=2)
+            plt.scatter(
+                anomalies['date'],
+                anomalies['amount'],
+                color='red',
+                label='Anomaly',
+                marker='x')
 
-            # Add confidence intervals
+            # Confidence intervals
             std_dev = y.std()
-            plt.fill_between(future_dates,
-                             future_amounts - std_dev,
-                             future_amounts + std_dev,
-                             color='red', alpha=0.2,
-                             label='Confidence Interval')
+            plt.fill_between(
+                future_dates,
+                future_amounts - std_dev,
+                future_amounts + std_dev,
+                color='red',
+                alpha=0.2,
+                label='Confidence Interval')
 
-            plt.title(f'{category} Expenses - Actual and Predicted')
+            plt.title(f'{category} Expenses - Actual, Predicted & Anomalies')
             plt.xlabel('Date')
             plt.ylabel('Amount ($)')
             plt.legend()
@@ -1018,12 +1030,12 @@ def predict_expenses(chat_id, prediction_days=30):
         # Save prediction plot
         if not os.path.exists('temp'):
             os.makedirs('temp')
-        plot_path = f"temp/{chat_id}_prediction.png"
+        plot_path = f"temp/{chat_id}_prediction_anomalies.png"
         plt.savefig(plot_path)
         plt.close()
 
         # Prepare prediction summary
-        summary = "📊 Expense Predictions Summary:\n\n"
+        summary = "📊 Expense Predictions & Anomaly Detection Summary:\n\n"
         for category, pred in predictions.items():
             percent_change = (
                 (pred['predicted_avg'] - pred['current_avg']) / pred['current_avg']) * 100
@@ -1034,9 +1046,20 @@ def predict_expenses(chat_id, prediction_days=30):
                 pred['predicted_avg']:.2f}\n"
             summary += f"   • Expected change: {percent_change:+.1f}%\n"
 
-            # Add top factors
-            top_factors = sorted(pred['importance'].items(),
-                                 key=lambda x: x[1], reverse=True)[:3]
+            # Include anomalies if any
+            if not pred['anomalies'].empty:
+                summary += f"   • Anomalies Detected:\n"
+                for _, row in pred['anomalies'].iterrows():
+                    summary += f"      - {
+                        row['date'].strftime('%d-%b-%Y')}: ${
+                        row['amount']:.2f}\n"
+
+            # Add top factors for prediction
+            top_factors = sorted(
+                pred['importance'].items(),
+                key=lambda x: x[1],
+                reverse=True)[
+                :3]
             summary += f"   • Key factors: {
                 ', '.join(
                     f[0] for f in top_factors)}\n\n"
@@ -1044,5 +1067,6 @@ def predict_expenses(chat_id, prediction_days=30):
         return plot_path, summary
 
     except Exception as e:
-        # logging.error(f"Error in predict_expenses: {str(e)}")
-        raise Exception(f"Could not create prediction: {str(e)}")
+        raise Exception(
+            f"Could not create prediction and anomaly detection: {
+                str(e)}")
