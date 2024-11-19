@@ -1,128 +1,142 @@
-# export_expenses.py
-
-# Module providing export functionality for Telegram bot
-import csv
 import os
-import logging
-from fpdf import FPDF
-from telebot import types
 from datetime import datetime
-from .helper import fetch_personal_expenses, log_and_reply_error, load_config
+from telebot import types
+from .helper import (
+    fetch_personal_expenses,
+    get_group_expenses_file,
+    generate_pdf,
+    generate_csv,
+    log_and_reply_error,
+)
 
-load_config()
+# Temporary storage for user-specific export preferences
+user_export_preferences = {}
 
 def run(message, bot):
     """Run function for export commands."""
     chat_id = message.chat.id
-    text = message.text.lower()
+    user_export_preferences[chat_id] = {}  # Initialize user preferences
+    prompt_export_format(message, bot)
 
-    if text.startswith("/exportexpenses"):
-        prompt_export_expenses(message, bot)
-    else:
+def prompt_export_format(message, bot):
+    """Prompts user to select the export format."""
+    chat_id = message.chat.id
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+    markup.add("CSV", "PDF")
+    msg = bot.reply_to(message, "Select the format for exporting expenses (CSV or PDF):", reply_markup=markup)
+    bot.register_next_step_handler(msg, prompt_start_date, bot)
+
+def prompt_start_date(message, bot):
+    """Prompts the user to input the start date."""
+    chat_id = message.chat.id
+    export_format = message.text.upper()
+
+    if export_format not in ["CSV", "PDF"]:
+        bot.reply_to(message, "Invalid format. Please restart the process with /exportexpenses.")
         return
 
-def prompt_export_expenses(message, bot):
-    """Prompts user to specify format and date range for exporting expenses."""
+    # Save user preference for export format
+    user_export_preferences[chat_id]["format"] = export_format
+    msg = bot.reply_to(message, "Enter the start date (format: YYYY-MM-DD):")
+    bot.register_next_step_handler(msg, prompt_end_date, bot)
+
+def prompt_end_date(message, bot):
+    """Prompts the user to input the end date."""
     chat_id = message.chat.id
-    msg = bot.send_message(
-        chat_id,
-        "Enter the format (csv or pdf) and date range for export in the format:\n"
-        "[format] [start_date] [end_date]\n"
-        "Example: csv 2024-01-01 2024-01-31"
-    )
-    bot.register_next_step_handler(msg, process_export_request, bot)
+    try:
+        start_date = datetime.strptime(message.text.strip(), "%Y-%m-%d")
+        user_export_preferences[chat_id]["start_date"] = start_date
+        msg = bot.reply_to(message, "Enter the end date (format: YYYY-MM-DD):")
+        bot.register_next_step_handler(msg, process_export_request, bot)
+    except ValueError:
+        bot.reply_to(message, "Invalid date format. Please restart the process with /exportexpenses.")
 
 def process_export_request(message, bot):
     """Processes the export request and generates the requested file."""
+    chat_id = message.chat.id
     try:
-        chat_id = message.chat.id
-        parts = message.text.split(maxsplit=3)
-        if len(parts) != 3:
-            raise ValueError("Invalid format. Use: [format] [start_date] [end_date].")
-        
-        export_format, start_date, end_date = parts
-        export_format = export_format.lower()
-        start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        end_date = datetime.strptime(message.text.strip(), "%Y-%m-%d")
+        start_date = user_export_preferences[chat_id]["start_date"]
 
-        if export_format not in ["csv", "pdf"]:
-            raise ValueError("Format must be either 'csv' or 'pdf'.")
+        if start_date > end_date:
+            bot.reply_to(message, "Start date must be earlier than end date. Please restart the process.")
+            return
 
-        # Fetch expenses from database
-        expenses = fetch_expenses_for_date_range(chat_id, start_date, end_date)
+        export_format = user_export_preferences[chat_id]["format"]
+
+        # Fetch expenses for the selected date range
+        personal_expenses = fetch_personal_expenses_for_date_range(chat_id, start_date, end_date)
+        group_expenses = fetch_group_expenses_for_date_range(chat_id, start_date, end_date)
+        expenses = personal_expenses + group_expenses
+
         if not expenses:
-            bot.send_message(chat_id, "No expenses found for the specified date range.")
+            bot.send_message(chat_id, "No expenses found for the selected date range.")
             return
 
         # Generate and send the file
-        if export_format == "csv":
+        if export_format == "CSV":
             file_path = generate_csv(expenses, chat_id)
-        elif export_format == "pdf":
+        elif export_format == "PDF":
             file_path = generate_pdf(expenses, chat_id)
 
         with open(file_path, "rb") as file:
             bot.send_document(chat_id, file)
 
-        # Clean up the generated file
+        # Clean up
         os.remove(file_path)
 
-    except ValueError as e:
-        bot.send_message(chat_id, str(e))
+    except ValueError:
+        bot.reply_to(message, "Invalid date format. Please restart the process.")
     except Exception as e:
         log_and_reply_error(chat_id, bot, e)
 
-def fetch_expenses_for_date_range(chat_id, start_date, end_date):
-    """Fetches expenses for the user within a specified date range."""
+def fetch_personal_expenses_for_date_range(chat_id, start_date, end_date):
+    """Fetches personal expenses for the user within a date range."""
     user_expenses = fetch_personal_expenses(chat_id)
     if not user_expenses or "personal_expenses" not in user_expenses:
         return []
 
-    # Filter expenses by date range
     filtered_expenses = []
     for expense in user_expenses["personal_expenses"]:
         date_str, category, amount_str = expense.split(", ")
         expense_date = datetime.strptime(date_str, "%d-%b-%Y %H:%M")
         if start_date <= expense_date <= end_date:
-            filtered_expenses.append({"date": date_str, "category": category, "amount": amount_str})
-    
+            filtered_expenses.append({
+                "type": "Personal",
+                "date": date_str,
+                "category": category,
+                "amount": amount_str
+            })
+
     return filtered_expenses
 
-def generate_csv(expenses, chat_id):
-    """Generates a CSV file for the expenses."""
-    file_name = f"expenses_{chat_id}.csv"
-    with open(file_name, mode="w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=["Date", "Category", "Amount"])
-        writer.writeheader()
-        for expense in expenses:
-            writer.writerow({"Date": expense["date"], "Category": expense["category"], "Amount": expense["amount"]})
-    return file_name
+def fetch_group_expenses_for_date_range(chat_id, start_date, end_date):
+    """Fetches group expenses for the user within a date range."""
+    # Fetch the user's group expense IDs
+    user_expenses = fetch_personal_expenses(chat_id)
+    if not user_expenses or "group_expenses" not in user_expenses:
+        return []
 
-def generate_pdf(expenses, chat_id):
-    """Generates a PDF file for the expenses."""
-    file_name = f"expenses_{chat_id}.pdf"
-    pdf = FPDF()
-    pdf.set_auto_page_break(auto=True, margin=15)
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
+    group_expense_ids = user_expenses["group_expenses"]
+    group_expenses_collection = get_group_expenses_file()  # Access GROUP_EXPENSES collection
+    filtered_expenses = []
 
-    pdf.cell(200, 10, txt="Expense Report", ln=True, align="C")
-    pdf.cell(200, 10, txt=f"Generated on {datetime.now().strftime('%Y-%m-%d')}", ln=True, align="C")
-    pdf.ln(10)
+    # Iterate through group expense IDs to fetch data
+    for expense_id in group_expense_ids:
+        group_expense = group_expenses_collection.get(expense_id)
+        if not group_expense:
+            continue  # Skip if expense ID is invalid
 
-    # Table header
-    pdf.set_font("Arial", style="B", size=10)
-    pdf.cell(60, 10, txt="Date", border=1, align="C")
-    pdf.cell(60, 10, txt="Category", border=1, align="C")
-    pdf.cell(60, 10, txt="Amount", border=1, align="C")
-    pdf.ln()
+        # Parse the group expense data
+        expense_date = datetime.strptime(group_expense["created_at"], "%d-%b-%Y %H:%M")
+        if start_date <= expense_date <= end_date:
+            user_share = group_expense["members"].get(str(chat_id))
+            if user_share:  # Include only if the user has a share
+                filtered_expenses.append({
+                    "type": "Group",
+                    "date": group_expense["created_at"],
+                    "category": group_expense["category"],
+                    "amount": f"{user_share:.2f}"  # Include only the user's share
+                })
 
-    # Table rows
-    pdf.set_font("Arial", size=10)
-    for expense in expenses:
-        pdf.cell(60, 10, txt=expense["date"], border=1)
-        pdf.cell(60, 10, txt=expense["category"], border=1)
-        pdf.cell(60, 10, txt=expense["amount"], border=1)
-        pdf.ln()
-
-    pdf.output(file_name)
-    return file_name
+    return filtered_expenses
