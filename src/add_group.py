@@ -83,7 +83,7 @@ def take_all_users_input(message, bot, selected_category):
         print(emails_user_map)
 
         if chat_id not in emails_user_map:
-            exception_message = """Sorry your email is not registered with us. 
+            exception_message = """Sorry your email is not registered with us.
             Please use the /profile command to do so."""
             raise Exception(exception_message)
 
@@ -96,7 +96,7 @@ def take_all_users_input(message, bot, selected_category):
                     email_ids_present_in_expense
                 )
             )
-            exception_message = """Sorry one or more of 
+            exception_message = """Sorry one or more of
                 the email(s) are not registered with us: """ + ", ".join(invalid_emails)
             raise Exception(exception_message)
 
@@ -125,7 +125,7 @@ def take_all_users_input(message, bot, selected_category):
         bot.reply_to(message, 'Oh no! ' + str(exception_value))
         display_text = ""
         commands = helper.get_commands()
-        # generate help text out of the commands dictionary defined at the top	
+        # generate help text out of the commands dictionary defined at the top
         for command_key, command_value in commands.items():
             display_text += "/" + command_key + ": "
             display_text += command_value + "\n"
@@ -184,7 +184,7 @@ def post_amount_input(
             for i in item_details:
                 if i['chatid'] == str(chat):
                     flag += 1
-                    k = i['group_expenses']+[id_group]
+                    k = i['group_expenses'] + [id_group]
                     collection_name1.update_one(
                         {"chatid": str(chat)},
                         {'$set': {"group_expenses": k}}
@@ -238,7 +238,7 @@ def manage_owing(db, payer_chat_id, group_chat_id_list, divided_amount):
                 borrower_chat_id=borrower_chat_id,
                 amount=divided_amount
             )
-            
+
             # in borrower entry
             update_user_owe_value(
                 db=db,
@@ -274,15 +274,15 @@ def update_user_owe_value(
                 if current_borrower == borrower_chat_id:
                     # '+' meaning borrower has to pay the payer
                     borrower_list[borrower_index]["amount"] += amount
-                    flag = False        
+                    flag = False
                     db.update_one({
                         "payer_chatid": str(payer_chat_id)}, {
                             "$set": {
                                 "borrowers": borrower_list
                             }
-                        })
+                    })
                     # print("# borrower exists")
-                    break              
+                    break
             # if borrower does not exist
             if flag:
                 # print("# if borrower does not exist")
@@ -293,20 +293,20 @@ def update_user_owe_value(
                 )
                 print(borrower_list)
                 db.update_one({
-                        "payer_chatid": str(payer_chat_id)}, {
-                            "$set": {
-                                "borrowers": borrower_list
-                            }
-                        })
+                    "payer_chatid": str(payer_chat_id)}, {
+                    "$set": {
+                        "borrowers": borrower_list
+                    }
+                })
         # payer does not exist
         else:
             db.insert_one({
                 "payer_chatid": str(payer_chat_id),
                 "borrowers": [{
-                        "borrower_chatid": borrower_chat_id,
-                        "amount": amount
-                    }]
-                }
+                    "borrower_chatid": borrower_chat_id,
+                    "amount": amount
+                }]
+            }
             )
             # print("# payer does not exist")
         # print("Inserted in: ", payer_chat_id, "Borrower: ", borrower_chat_id)
@@ -331,7 +331,7 @@ def validate_email_input(email_ids):
 
 def generate_transaction_id():
     """This is the generate transaction id function"""
-    r = random.randint(1000, 9999)*random.randint(1000, 9999)
+    r = random.randint(1000, 9999) * random.randint(1000, 9999)
     return r
 
 
@@ -387,7 +387,7 @@ def take_all_users_input_with_other_handles(message, bot, selected_category):
                     email_ids_present_in_expense
                 )
             )
-            exception_message = """Sorry one or more of the email(s) 
+            exception_message = """Sorry one or more of the email(s)
             are not registered with us:"""
             exception_message += invalid_emails
             raise Exception(exception_message)

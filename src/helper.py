@@ -35,15 +35,15 @@ commands = {
     'profile': 'Manage your user profile',
     'showOwings': 'Show owed amount details',
     'settleUp': 'Settle up pending dues',
-    'crypto' : 'Record or Add a new crypto spending',
-    'setBudget' : 'Set budget for current month by category',
-    'checkBudget' : 'Check the budget for current month',
-    'setGoal' : 'Set a new savings goal',
-    'checkGoals' : 'Check progress towards your savings goals',
-    'addSavings' : 'Add saved money towards a specific goal',
-    'exportExpenses' : 'Export your expenses for a specific date range',
-    'weeklyReport' : 'Summary report of your expenses for the past week',
-    'monthlyReport' : 'Summary report of your expenses for the past week',
+    'crypto': 'Record or Add a new crypto spending',
+    'setBudget': 'Set budget for current month by category',
+    'checkBudget': 'Check the budget for current month',
+    'setGoal': 'Set a new savings goal',
+    'checkGoals': 'Check progress towards your savings goals',
+    'addSavings': 'Add saved money towards a specific goal',
+    'exportExpenses': 'Export your expenses for a specific date range',
+    'weeklyReport': 'Summary report of your expenses for the past week',
+    'monthlyReport': 'Summary report of your expenses for the past week',
     'trend': 'View your expense trend over time',
     'predict': 'Get expense predictions for the next 30 days',
     'currencyConvert': 'Convert to a different Currency',
@@ -67,8 +67,8 @@ def set_config():
     DB = get_database()
     config["settings"] = {
         "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
-        #"ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
-        #"ApiToken": "7835402356:AAFPFp2j8QLa7E_qFCMxVw5e0NTeSET9Jj8",
+        # "ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
+        # "ApiToken": "7835402356:AAFPFp2j8QLa7E_qFCMxVw5e0NTeSET9Jj8",
         "ExpenseCategories": """Food,Groceries,Utilities,
             Transport,Shopping,Miscellaneous""",
         "CryptoCategories": """"Bitcoin,Ethereum,Ripple,Litecoin""",
@@ -163,17 +163,20 @@ def get_user_history(chat_id):
         print("EMPTY")
         return None
 
+
 def get_crypto_types():
     """This is the get crypto spend categories function"""
     crypto_categories = config.get('settings', 'CryptoCategories')
     crypto_categories = crypto_categories.split(",")
     return crypto_categories
 
+
 def get_spend_categories():
     """This is the get spend categories function"""
     categories = config.get('settings', 'ExpenseCategories')
     categories = categories.split(",")
     return categories
+
 
 def get_currency_options():
     """This is the get currency options function"""
@@ -299,7 +302,7 @@ def calculate_monthly_expenses(expenses):
     for exp in expenses:
         date_str, category, amount_str = exp.split(", ")
         date = datetime.strptime(date_str, "%d-%b-%Y %H:%M")
-        
+
         if is_expense_in_current_month(date):
             amount = float(amount_str)
             if category in monthly_expenses:
@@ -319,28 +322,33 @@ def parse_budget_input(text):
     """
     parts = text.split()
     if len(parts) != 2:
-        raise ValueError("Invalid format. Please use the format: [category] [amount].")
-    
+        raise ValueError(
+            "Invalid format. Please use the format: [category] [amount].")
+
     category = parts[0]
     try:
         amount = float(parts[1])
     except ValueError:
         raise ValueError("Amount must be a number.")
-    
+
     # Fetch valid categories from configuration
     categories = config.get('settings', 'ExpenseCategories').split(',')
-    
+
     # Check if the category exists
     if category not in categories:
-        raise ValueError(f"Invalid category. Allowed categories are: {', '.join(categories)}")
-    
+        raise ValueError(
+            f"Invalid category. Allowed categories are: {
+                ', '.join(categories)}")
+
     return category, amount
 
 
 def is_budget_set(user_budget, chat_id, bot):
     """Checks if the budget is set for the user."""
     if not user_budget or "budgets" not in user_budget:
-        bot.send_message(chat_id, "You haven't set any budgets yet. Use /setBudget to set a budget.")
+        bot.send_message(
+            chat_id,
+            "You haven't set any budgets yet. Use /setBudget to set a budget.")
         return False
     return True
 
@@ -363,10 +371,11 @@ def build_budget_report(budgets, monthly_expenses):
         report += f"  - Budget: ${budget_amount:.2f}\n"
         report += f"  - Spent: ${spent:.2f}\n"
         report += f"  - Remaining: ${remaining:.2f}\n\n"
-        
+
         # Add alerts for close-to or over budget
         if remaining < 0:
-            report += f"⚠️ *Alert*: You have exceeded your budget for {category} by ${-remaining:.2f}!\n\n"
+            report += f"⚠️ *Alert*: You have exceeded your budget for {category} by ${
+                -remaining:.2f}!\n\n"
         elif remaining < budget_amount * 0.2:
             report += f"⚠️ *Warning*: You are close to reaching your budget for {category}.\n\n"
 
@@ -395,7 +404,13 @@ def generate_pdf(expenses, chat_id):
 
     # Title and Metadata
     pdf.cell(200, 10, txt="Expense Report", ln=True, align="C")
-    pdf.cell(200, 10, txt=f"Generated on {datetime.now().strftime('%Y-%m-%d')}", ln=True, align="C")
+    pdf.cell(
+        200,
+        10,
+        txt=f"Generated on {
+            datetime.now().strftime('%Y-%m-%d')}",
+        ln=True,
+        align="C")
     pdf.ln(10)
 
     # Table Header
@@ -423,13 +438,20 @@ def generate_csv(expenses, chat_id):
     """Generates a CSV file for the expenses."""
     file_name = f"expenses_{chat_id}.csv"
     with open(file_name, mode="w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=["Type", "Date", "Category", "Amount"])
+        writer = csv.DictWriter(
+            file,
+            fieldnames=[
+                "Type",
+                "Date",
+                "Category",
+                "Amount"])
         writer.writeheader()
         for expense in expenses:
             writer.writerow({
                 "Type": expense["type"],       # "Personal" or "Group"
                 "Date": expense["date"],       # Date of expense
-                "Category": expense["category"],  # Expense category (e.g., Food, Utilities)
+                # Expense category (e.g., Food, Utilities)
+                "Category": expense["category"],
                 "Amount": expense["amount"]    # Amount spent
             })
     return file_name

@@ -10,6 +10,7 @@ load_config()
 
 option = {}
 
+
 def run(message, bot):
     """This is the run function for budget commands."""
     chat_id = message.chat.id
@@ -20,7 +21,7 @@ def run(message, bot):
         markup.add(opt)
 
     text = message.text.lower()
-    
+
     if text.startswith("/setbudget"):
         prompt_set_budget(message, bot)
     elif text.startswith("/checkbudget"):
@@ -28,15 +29,16 @@ def run(message, bot):
     else:
         return
 
+
 def prompt_set_budget(message, bot):
     """Prompts user to enter budget category and amount."""
     chat_id = message.chat.id
     msg = bot.send_message(
         chat_id,
         "Please enter the category and amount you want to set for the budget in the format: [category] [amount]\n"
-        "Example: Food 200"
-    )
+        "Example: Food 200")
     bot.register_next_step_handler(msg, process_budget_input, bot)
+
 
 def process_budget_input(message, bot):
     """Processes budget category and amount input."""
@@ -49,6 +51,7 @@ def process_budget_input(message, bot):
         bot.send_message(chat_id, str(exception_value))
     except Exception as exception_value:
         log_and_reply_error(chat_id, bot, exception_value)
+
 
 def show_budget_status(message, bot):
     """Displays current budget status and sends alerts if close to or over budget."""
@@ -63,7 +66,8 @@ def show_budget_status(message, bot):
             return
 
         budgets = user_budget["budgets"]
-        monthly_expenses = calculate_monthly_expenses(user_expenses["personal_expenses"])
+        monthly_expenses = calculate_monthly_expenses(
+            user_expenses["personal_expenses"])
         report = build_budget_report(budgets, monthly_expenses)
         bot.send_message(chat_id, report, parse_mode="Markdown")
     except Exception as exception_value:

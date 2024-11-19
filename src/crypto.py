@@ -10,6 +10,7 @@ from .pymongo_run import get_database
 
 option = {}
 
+
 def run(message, bot):
     """This is the run function"""
     chat_id = message.chat.id
@@ -20,6 +21,7 @@ def run(message, bot):
         markup.add(c)
     msg = bot.reply_to(message, 'Select Cryptocurrency', reply_markup=markup)
     bot.register_next_step_handler(msg, post_crypto_selection, bot)
+
 
 def post_crypto_selection(message, bot):
     """This is the post cryptocurrency selection"""
@@ -32,14 +34,15 @@ def post_crypto_selection(message, bot):
                 'Invalid',
                 reply_markup=types.ReplyKeyboardRemove()
             )
-            raise Exception(f"Sorry I don't recognize this cryptocurrency {selected_crypto}!")
+            raise Exception(
+                f"Sorry I don't recognize this cryptocurrency {selected_crypto}!")
 
         option[chat_id] = selected_crypto
         message = bot.send_message(
-            chat_id,
-            f"How much would you like to add to {option[chat_id]}? \n(Enter numeric values only)"
-        )
-        bot.register_next_step_handler(message, post_amount_input, bot, selected_crypto)
+            chat_id, f"How much would you like to add to {
+                option[chat_id]}? \n(Enter numeric values only)")
+        bot.register_next_step_handler(
+            message, post_amount_input, bot, selected_crypto)
     except Exception as exception_value:
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no! ' + str(exception_value))
@@ -49,6 +52,7 @@ def post_crypto_selection(message, bot):
             display_text += f"/{command_key}: {command_value}\n"
         bot.send_message(chat_id, 'Please select a menu option from below:')
         bot.send_message(chat_id, display_text)
+
 
 def post_amount_input(message, bot, selected_crypto):
     """This is the post amount input function"""
@@ -88,11 +92,12 @@ def post_amount_input(message, bot, selected_crypto):
 
         bot.send_message(
             chat_id,
-            f"The following transaction has been recorded: You added {amount_value} to {option[chat_id]} on {date_of_entry}"
-        )
+            f"The following transaction has been recorded: You added {amount_value} to {
+                option[chat_id]} on {date_of_entry}")
     except Exception as exception_value:
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no. ' + str(exception_value))
+
 
 def add_user_record(chat_id, record_to_be_added):
     """This is the add user record function"""
