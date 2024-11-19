@@ -20,6 +20,7 @@ from . import crypto
 from . import budget
 from . import goals
 from . import export_expenses
+from . import report
 from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
 from .plots import create_time_series_plot, predict_expenses
@@ -151,6 +152,18 @@ def command_addSavings(message):
 def command_exportExpenses(message):
     """This is the command add function to run exportExpenses"""
     export_expenses.run(message, bot)
+
+# Register /weeklyReport command
+@bot.message_handler(commands=["weeklyReport"])
+def command_weeklyReport(message):
+    """This is the command add function to run weeklyReport"""
+    report.run(message, bot)
+
+# Register /monthlyReport command
+@bot.message_handler(commands=["monthlyReport"])
+def command_monthlyReport(message):
+    """This is the command add function to run monthlyReport"""
+    report.run(message, bot)
 
 # function to show calendar for user to select dates
 # Show calendar for date selection
