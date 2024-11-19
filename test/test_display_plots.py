@@ -30,7 +30,7 @@ def test_read_expense_json():
 
 def test_read_transaction_json():
     """This is the test function for read transaction json"""
-    filename = "test_group_expenses.json" 
+    filename = "test_group_expenses.json"
     filepath = os.path.join("data", "testdata", filename)
     try:
         if os.stat(filepath).st_size != 0:

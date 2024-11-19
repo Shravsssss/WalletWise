@@ -1,20 +1,26 @@
+from src.currencyConvert import start_currency_convert, handle_currency_selection, handle_amount_input, convert_currency, user_data
 import unittest
 from unittest.mock import Mock, patch
 import sys
 import os
 
 # Insert the path to the 'src' folder
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-
-from src.currencyConvert import start_currency_convert, handle_currency_selection, handle_amount_input, convert_currency, user_data
+sys.path.insert(
+    0,
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__),
+            '../src')))
 
 
 class TestCurrencyConversionBot(unittest.TestCase):
 
     def setUp(self):
         # Initialize user_data[12345] to avoid KeyError
-        user_data[12345] = {'input_currency': 'USD', 'output_currency': None, 'amount': None}
-
+        user_data[12345] = {
+            'input_currency': 'USD',
+            'output_currency': None,
+            'amount': None}
 
     def test_currency_selection_eur(self):
         bot = Mock()
@@ -31,7 +37,6 @@ class TestCurrencyConversionBot(unittest.TestCase):
         call.data = 'currency_INR'
         handle_currency_selection(bot, call)
         self.assertEqual(user_data[12345]['output_currency'], 'INR')
-
 
     def test_currency_selection_gbp(self):
         bot = Mock()
@@ -96,8 +101,6 @@ class TestCurrencyConversionBot(unittest.TestCase):
         call.data = 'currency_OMR'
         handle_currency_selection(bot, call)
         self.assertEqual(user_data[12345]['output_currency'], 'OMR')
-
-
 
     @patch('requests.get')
     def test_convert_currency_medium_amount(self, mock_get):
@@ -219,8 +222,6 @@ class TestCurrencyConversionBot(unittest.TestCase):
         result = convert_currency('USD', 'OMR', 100)
         self.assertEqual(result, 100 * 0.39)
 
-
-    
 
 if __name__ == '__main__':
     unittest.main()

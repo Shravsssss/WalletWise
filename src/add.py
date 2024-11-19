@@ -93,7 +93,7 @@ def post_amount_input(message, bot, selected_category):
         for i in item_details:
             if i['chatid'] == str(chat_id):
                 flag += 1
-                k = i['personal_expenses']+[text_string]
+                k = i['personal_expenses'] + [text_string]
                 collection_name.update_one(
                     {"chatid": str(chat_id)},
                     {'$set': {"personal_expenses": k}}
