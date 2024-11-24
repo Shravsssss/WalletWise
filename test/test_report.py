@@ -14,6 +14,8 @@ from datetime import datetime
 #     client.drop_database("test_walletwise")  # Cleanup after tests
 
 # Add mock data to the database
+
+
 @pytest.fixture
 def setup_mock_data():
     expense_collection = helper.get_expenses_collection()
@@ -57,7 +59,8 @@ def test_run_with_weekly_report(mock_bot, mock_fetch_personal_expenses):
         mock_fetch_personal_expenses: Mocked fetch_personal_expenses function.
     """
     mock_bot_instance = mock_bot.return_value
-    mock_fetch_personal_expenses.return_value = {"personal_expenses": ["20-Nov-2024 10:00, Food, 50"]}
+    mock_fetch_personal_expenses.return_value = {
+        "personal_expenses": ["20-Nov-2024 10:00, Food, 50"]}
 
     message = create_message("/weeklyreport")
     report.run(message, mock_bot_instance)
@@ -76,7 +79,8 @@ def test_run_with_monthly_report(mock_bot, mock_fetch_personal_expenses):
         mock_fetch_personal_expenses: Mocked fetch_personal_expenses function.
     """
     mock_bot_instance = mock_bot.return_value
-    mock_fetch_personal_expenses.return_value = {"personal_expenses": ["01-Nov-2024 10:00, Travel, 200"]}
+    mock_fetch_personal_expenses.return_value = {
+        "personal_expenses": ["01-Nov-2024 10:00, Travel, 200"]}
 
     message = create_message("/monthlyreport")
     report.run(message, mock_bot_instance)
@@ -121,7 +125,8 @@ def test_fetch_personal_expenses_for_period(setup_mock_data):
 
 @patch('src.helper.get_group_expenses_file')
 @patch('src.helper.fetch_personal_expenses')
-def test_fetch_group_expenses_for_period(mock_fetch_personal_expenses, mock_get_group_expenses_file):
+def test_fetch_group_expenses_for_period(
+        mock_fetch_personal_expenses, mock_get_group_expenses_file):
     """
     Test the fetch_group_expenses_for_period function with updated format.
     """
@@ -156,7 +161,6 @@ def test_fetch_group_expenses_for_period(mock_fetch_personal_expenses, mock_get_
     assert expenses[0]["amount"] == 33.33
 
 
-
 def test_generate_summary_report():
     report_text = report.generate_summary_report(
         "Weekly",
@@ -177,7 +181,6 @@ def test_detect_anomalies():
 
     assert len(anomalies) == 1
     assert "High spending on Food" in anomalies[0]
-
 
 
 def test_aggregate_expenses():

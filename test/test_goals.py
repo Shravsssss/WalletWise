@@ -73,7 +73,8 @@ def test_process_set_goal_valid(mock_telebot, mocker):
     mock_value = mock_telebot.return_value
     mocker.patch('src.helper.get_goals_collection')
     goals_collection_mock = helper.get_goals_collection.return_value
-    goals_collection_mock.find_one.return_value = {"chatid": "12345", "goals": {}}
+    goals_collection_mock.find_one.return_value = {
+        "chatid": "12345", "goals": {}}
 
     message = create_message("Trip 500")
     goals.process_set_goal(message, mock_value)
