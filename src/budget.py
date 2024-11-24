@@ -4,12 +4,11 @@
 import logging
 from telebot import types
 from datetime import datetime
-from .helper import save_budget_for_category, fetch_user_budget, fetch_personal_expenses, calculate_monthly_expenses, parse_budget_input, log_and_reply_error, is_budget_set, has_expenses_this_month, build_budget_report, get_decision_choices, load_config
+from . import helper
 
-load_config()
+helper.load_config()
 
 option = {}
-
 
 def run(message, bot):
     """This is the run function for budget commands."""
@@ -17,11 +16,10 @@ def run(message, bot):
     option.pop(chat_id, None)  # remove any previous choices
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.row_width = 2
-    for opt in get_decision_choices():
+    for opt in helper.get_decision_choices():
         markup.add(opt)
 
-    text = message.text.lower()
-
+    text = message.json['text'].lower()
     if text.startswith("/setbudget"):
         prompt_set_budget(message, bot)
     elif text.startswith("/checkbudget"):
@@ -44,31 +42,29 @@ def process_budget_input(message, bot):
     """Processes budget category and amount input."""
     try:
         chat_id = message.chat.id
-        category, amount = parse_budget_input(message.text)
-        save_budget_for_category(chat_id, category, amount)
+        category, amount = helper.parse_budget_input(message.text)
+        helper.save_budget_for_category(chat_id, category, amount)
         bot.send_message(chat_id, f"Budget set for {category}: ${amount:.2f}")
     except ValueError as exception_value:
         bot.send_message(chat_id, str(exception_value))
     except Exception as exception_value:
-        log_and_reply_error(chat_id, bot, exception_value)
-
+        helper.log_and_reply_error(chat_id, bot, exception_value)
 
 def show_budget_status(message, bot):
     """Displays current budget status and sends alerts if close to or over budget."""
     try:
         chat_id = message.chat.id
-        user_budget = fetch_user_budget(chat_id)
-        user_expenses = fetch_personal_expenses(chat_id)
+        user_budget = helper.fetch_user_budget(chat_id)
+        user_expenses = helper.fetch_personal_expenses(chat_id)
 
-        if not is_budget_set(user_budget, chat_id, bot):
+        if not helper.is_budget_set(user_budget, chat_id, bot):
             return
-        if not has_expenses_this_month(user_expenses, chat_id, bot):
+        if not helper.has_expenses_this_month(user_expenses, chat_id, bot):
             return
 
         budgets = user_budget["budgets"]
-        monthly_expenses = calculate_monthly_expenses(
-            user_expenses["personal_expenses"])
-        report = build_budget_report(budgets, monthly_expenses)
+        monthly_expenses = helper.calculate_monthly_expenses(user_expenses["personal_expenses"])
+        report = helper.build_budget_report(budgets, monthly_expenses)
         bot.send_message(chat_id, report, parse_mode="Markdown")
     except Exception as exception_value:
-        log_and_reply_error(chat_id, bot, exception_value)
+        helper.log_and_reply_error(chat_id, bot, exception_value)
