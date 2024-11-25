@@ -55,10 +55,7 @@ def process_set_goal(message, bot):
         goals_collection.update_one({"chatid": str(chat_id)}, {
                                     "$set": user_goals}, upsert=True)
 
-        bot.send_message(
-            chat_id,
-            f"🎯 Goal '{goal_name}' set with a target of ${
-                target_amount:.2f}!")
+        bot.send_message(chat_id,f"🎯 Goal '{goal_name}' set with a target of ${target_amount:.2f}!")
     except ValueError:
         bot.send_message(chat_id, "Target amount must be a valid number.")
     except Exception as e:
@@ -82,11 +79,8 @@ def show_goals_status(message, bot):
         for goal_name, details in user_goals["goals"].items():
             target, saved = details["target"], details["saved"]
             progress = (saved / target) * 100 if target > 0 else 0
-            status = "✅ Completed!" if saved >= target else f"{
-                progress:.2f}% achieved"
-            report += f"*{goal_name}*\n  - Target: ${
-                target:.2f}\n  - Saved: ${
-                saved:.2f}\n  - Progress: {status}\n\n"
+            status = "✅ Completed!" if saved >= target else f"{progress:.2f}% achieved"
+            report += f"*{goal_name}*\n  - Target: ${target:.2f}\n  - Saved: ${saved:.2f}\n  - Progress: {status}\n\n"
 
         bot.send_message(chat_id, report, parse_mode="Markdown")
     except Exception as e:
@@ -127,9 +121,7 @@ def process_add_savings(message, bot):
         goals_collection.update_one(
             {"chatid": str(chat_id)}, {"$set": user_goals})
 
-        bot.send_message(
-            chat_id, f"💰 Added ${
-                amount_saved:.2f} to '{goal_name}'.")
+        bot.send_message(chat_id, f"💰 Added ${amount_saved:.2f} to '{goal_name}'.")
     except ValueError:
         bot.send_message(chat_id, "Amount must be a valid number.")
     except Exception as e:

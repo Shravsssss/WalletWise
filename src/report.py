@@ -100,8 +100,7 @@ def generate_summary_report(report_period, total_expenses, category_totals):
         return f"📊 *{report_period} Expense Report*\n\nNo expenses recorded during this period."
 
     report = f"📊 *{report_period} Expense Report*\n\n"
-    report += f"🗓 *Period:* Last {
-        7 if report_period == 'Weekly' else 30} Days\n"
+    report += f"🗓 *Period:* Last {7 if report_period == 'Weekly' else 30} Days\n"
     report += f"💸 *Total Spending:* ${total_expenses:.2f}\n\n"
     report += "*Top Categories:*\n"
 
@@ -128,6 +127,5 @@ def detect_anomalies(category_totals, total_expenses):
     for category, amount in category_totals.items():
         if amount > total_expenses * \
                 0.5:  # Example: More than 50% of total spending in one category
-            anomalies.append(
-                f"🚨 High spending on {category}: ${amount:.2f} ({(amount / total_expenses) * 100:.1f}%)")
+            anomalies.append(f"🚨 High spending on {category}: ${amount:.2f} ({(amount / total_expenses) * 100:.1f}%)")
     return anomalies

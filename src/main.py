@@ -19,6 +19,7 @@ from . import settle_up
 from . import crypto
 from . import budget
 from . import goals
+from . import recurring_expenses
 from . import export_expenses
 from . import report
 from . import currencyConvert  # New import for currency conversion
@@ -178,6 +179,23 @@ def command_addSavings(message):
     """This is the command add function to run addSavings"""
     goals.run(message, bot)
 
+# Register /addRecurringExpenses command
+
+
+@bot.message_handler(commands=["addRecurringExpense"])
+def command_addRecurringExpense(message):
+    """This is the command add function to run addRecurringExpense"""
+    recurring_expenses.run(message, bot)
+
+# Register /listRecurringExpenses command
+
+
+@bot.message_handler(commands=["listRecurringExpenses"])
+def command_listRecurringExpenses(message):
+    """This is the command add function to run listRecurringExpenses"""
+    recurring_expenses.run(message, bot)
+
+
 # Register /exportExpenses command
 
 
@@ -228,6 +246,8 @@ def currency_selection_callback(call):
 @bot.message_handler(func=lambda message: message.text.isdigit())
 def amount_input_handler(message):
     currencyConvert.handle_amount_input(bot, message)
+
+
 
 # Main function
 

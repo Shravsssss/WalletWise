@@ -4,11 +4,8 @@ from pymongo import MongoClient
 
 def get_database():
     """This is the get database function"""
-    connection_string = """mongodb+srv://Firasat:GooglePixel@walletbuddy.hkpji.mongodb.net/WalletBuddy"""
+    connection_string = """mongodb+srv://meliiw_amd:Shaghayegh_69@cluster0.kmhof.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"""
     client = MongoClient(connection_string)
-    client = pymongo.MongoClient(
-        "mongodb+srv://<username>:<password>@walletbuddy.hkpji.mongodb.net/<dbname>?retryWrites=true&w=majority",
-        ssl=True)
 
     return client['telebot']
 
