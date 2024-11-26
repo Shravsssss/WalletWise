@@ -3,6 +3,7 @@ import logging
 from telebot import types
 from datetime import datetime
 from .helper import calculate_next_due_date, list_recurring_expenses, log_and_reply_error
+from apscheduler.schedulers.background import BackgroundScheduler
 
 # We do not add the recurring expenses automatically
 # There will be an automatic reminder sent to the user though
@@ -33,6 +34,11 @@ def prompt_set_recurring_expenses(message, bot):
 def process_set_recurring_expenses(message, bot):
     """Processes the input for setting a new recurring expenses."""
     try:
+         # Start the APScheduler
+        global scheduler
+        scheduler = BackgroundScheduler()
+        scheduler.start()
+
         chat_id = message.chat.id
         parts = message.text.split(maxsplit=3)
         if len(parts) != 3:
@@ -56,6 +62,14 @@ def process_set_recurring_expenses(message, bot):
 
         bot.send_message(chat_id,f"🎯 Recurring Expense '{category}' set with an amount of ${amount:.2f} with {interval} intervals!")
         bot.send_message(chat_id,f"Your nexy due date for '{category}' will be on {next_due_date}")
+        message = f"Your nexy due date for '{category}' will be on {next_due_date}"
+        scheduler.add_job(
+            send_reminder,
+            'date',
+            run_date=next_due_date,
+            args=[chat_id, message, bot]
+        )
+
     except ValueError:
         bot.send_message(chat_id, "Amount must be a valid number.")
     except Exception as e:
@@ -78,10 +92,12 @@ def prompt_list_recurring_expenses(message, bot):
         # Get the list of expenses
         report = "📊 *Your Recurring Expenses List:*\n\n"
         for category, details in user_goals["recurring_expenses"].items():
-            amount, interval = details["amount"], details["interval"]
-            report += f"*{category}*\n  - Amount: ${amount:.2f}\n  - Interval: ${interval}\n\n"
+            amount, interval, next = details["amount"], details["interval"], details["next"]
+            report += f"*{category}*\n  - Amount: ${amount:.2f}\n  - Interval: ${interval}. The next due date is on {next}\n\n"
 
         bot.send_message(chat_id, report, parse_mode="Markdown")
     except Exception as e:
         log_and_reply_error(chat_id, bot, e)
 
+def send_reminder(chat_id, message, bot):
+    bot.send_message(chat_id, message)

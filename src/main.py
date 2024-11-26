@@ -39,7 +39,6 @@ telebot.logger.setLevel(logging.INFO)
 # Define listener for requests by user
 # Listener for requests by user
 
-
 def listener(user_requests):
     """This is the listener function"""
     for req in user_requests:
