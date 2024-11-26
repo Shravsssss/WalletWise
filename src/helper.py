@@ -9,6 +9,7 @@ from datetime import datetime
 import logging
 import csv
 from fpdf import FPDF
+from datetime import datetime, timedelta
 
 # calendar initialized
 calendar = Calendar(language=ENGLISH_LANGUAGE)
@@ -44,6 +45,10 @@ commands = {
     'exportExpenses': 'Export your expenses for a specific date range',
     'weeklyReport': 'Summary report of your expenses for the past week',
     'monthlyReport': 'Summary report of your expenses for the past week',
+    'addRecurringExpense': 'Set recurring expenses and get reminders before the due date',
+    'listRecurringExpenses': 'List all the recurring expenses added',
+    'addIncome': 'Add your income',
+    'netSavings': 'Display net savings for the month',
     'trend': 'View your expense trend over time',
     'predict': 'Get expense predictions for the next 30 days',
     'currencyConvert': 'Convert to a different Currency',
@@ -66,7 +71,8 @@ def set_config():
     global DB
     DB = get_database()
     config["settings"] = {
-        "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
+        "ApiToken": "7648139378:AAH05PKxHspN6OWfZi5bK0YIPggVjIJ9Iio",
+        # "ApiToken": "5835138340:AAHjrLvMQtVgOwAGstAoEdb20WqjJZ1sQK4",
         # "ApiToken": "8113186837:AAEu20LqkGTx2CGS9lqunMuvDw1JzUAPJx8",
         # "ApiToken": "7835402356:AAFPFp2j8QLa7E_qFCMxVw5e0NTeSET9Jj8",
         "ExpenseCategories": """Food,Groceries,Utilities,
@@ -309,8 +315,8 @@ def calculate_monthly_expenses(expenses):
                 monthly_expenses[category] += amount
             else:
                 monthly_expenses[category] = amount
-
     return monthly_expenses
+    
 
 
 def parse_budget_input(text):
@@ -336,9 +342,7 @@ def parse_budget_input(text):
 
     # Check if the category exists
     if category not in categories:
-        raise ValueError(
-            f"Invalid category. Allowed categories are: {
-                ', '.join(categories)}")
+        raise ValueError(f"Invalid category. Allowed categories are: {', '.join(categories)}")
 
     return category, amount
 
@@ -374,8 +378,7 @@ def build_budget_report(budgets, monthly_expenses):
 
         # Add alerts for close-to or over budget
         if remaining < 0:
-            report += f"⚠️ *Alert*: You have exceeded your budget for {category} by ${
-                -remaining:.2f}!\n\n"
+            report += f"⚠️ *Alert*: You have exceeded your budget for {category} by ${-remaining:.2f}!\n\n"
         elif remaining < budget_amount * 0.2:
             report += f"⚠️ *Warning*: You are close to reaching your budget for {category}.\n\n"
 
@@ -407,8 +410,7 @@ def generate_pdf(expenses, chat_id):
     pdf.cell(
         200,
         10,
-        txt=f"Generated on {
-            datetime.now().strftime('%Y-%m-%d')}",
+        txt=f"Generated on {datetime.now().strftime('%Y-%m-%d')}",
         ln=True,
         align="C")
     pdf.ln(10)
@@ -455,3 +457,42 @@ def generate_csv(expenses, chat_id):
                 "Amount": expense["amount"]    # Amount spent
             })
     return file_name
+
+def calculate_next_due_date(interval):
+    now = datetime.now()
+    if interval == 'daily':
+        return now + timedelta(days=1)
+    elif interval == 'weekly':
+        return now + timedelta(weeks=1)
+    elif interval == 'biweekly':
+        return now + timedelta(weeks=2)
+    elif interval == 'monthly':
+        return now + timedelta(days=30)
+    elif type(interval) == int:
+         return now + timedelta(days=interval)
+    return now
+
+# List recurring expenses
+def list_recurring_expenses():
+    """Returns the recurring expenses."""
+    db = get_database()
+    return db["USER_RECURRING_EXPENSES"]
+
+# List all income sources for each month
+def list_income_sources():
+    """Returns the income sources."""
+    db = get_database()
+    return db["USER_INCOME_SOURCES"]
+
+def calculate_monthly_income(income):
+    """Calculates total income per description for the current month."""
+    now = datetime.now()
+    
+    monthly_income = 0
+    for category, details in income["income_sources"].items():
+        inc, date = details["income"], details["date"]
+        if date.month == now.month and date.year == now.year:
+            amount = float(inc)
+            monthly_income += amount
+
+    return monthly_income

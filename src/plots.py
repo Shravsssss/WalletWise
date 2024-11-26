@@ -1042,17 +1042,14 @@ def predict_expenses(chat_id, prediction_days=30):
 
             summary += f"💰 {category}:\n"
             summary += f"   • Current average: ${pred['current_avg']:.2f}\n"
-            summary += f"   • Predicted average: ${
-                pred['predicted_avg']:.2f}\n"
+            summary += f"   • Predicted average: ${pred['predicted_avg']:.2f}\n"
             summary += f"   • Expected change: {percent_change:+.1f}%\n"
 
             # Include anomalies if any
             if not pred['anomalies'].empty:
                 summary += f"   • Anomalies Detected:\n"
                 for _, row in pred['anomalies'].iterrows():
-                    summary += f"      - {
-                        row['date'].strftime('%d-%b-%Y')}: ${
-                        row['amount']:.2f}\n"
+                    summary += f"      - {row['date'].strftime('%d-%b-%Y')}: ${row['amount']:.2f}\n"
 
             # Add top factors for prediction
             top_factors = sorted(
@@ -1060,13 +1057,9 @@ def predict_expenses(chat_id, prediction_days=30):
                 key=lambda x: x[1],
                 reverse=True)[
                 :3]
-            summary += f"   • Key factors: {
-                ', '.join(
-                    f[0] for f in top_factors)}\n\n"
+            summary += f"   • Key factors: {', '.join(f[0] for f in top_factors)}\n\n"
 
         return plot_path, summary
 
     except Exception as e:
-        raise Exception(
-            f"Could not create prediction and anomaly detection: {
-                str(e)}")
+        raise Exception(f"Could not create prediction and anomaly detection: {str(e)}")

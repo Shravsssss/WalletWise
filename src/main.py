@@ -19,8 +19,10 @@ from . import settle_up
 from . import crypto
 from . import budget
 from . import goals
+from . import recurring_expenses
 from . import export_expenses
 from . import report
+from . import income
 from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
 from .plots import create_time_series_plot, predict_expenses
@@ -36,7 +38,6 @@ telebot.logger.setLevel(logging.INFO)
 
 # Define listener for requests by user
 # Listener for requests by user
-
 
 def listener(user_requests):
     """This is the listener function"""
@@ -178,6 +179,40 @@ def command_addSavings(message):
     """This is the command add function to run addSavings"""
     goals.run(message, bot)
 
+# Register /addRecurringExpenses command
+
+
+@bot.message_handler(commands=["addRecurringExpense"])
+def command_addRecurringExpense(message):
+    """This is the command add function to run addRecurringExpense"""
+    recurring_expenses.run(message, bot)
+
+# Register /listRecurringExpenses command
+
+
+@bot.message_handler(commands=["listRecurringExpenses"])
+def command_listRecurringExpenses(message):
+    """This is the command add function to run listRecurringExpenses"""
+    recurring_expenses.run(message, bot)
+
+# Register /addIncome command
+
+
+@bot.message_handler(commands=["addIncome"])
+def command_addIncome(message):
+    """This is the command add function to run addIncome"""
+    income.run(message, bot)
+
+
+# Register /netSavings command
+
+
+@bot.message_handler(commands=["netSavings"])
+def command_netSavings(message):
+    """This is the command add function to run netSavings"""
+    income.run(message, bot)
+
+
 # Register /exportExpenses command
 
 
@@ -228,6 +263,8 @@ def currency_selection_callback(call):
 @bot.message_handler(func=lambda message: message.text.isdigit())
 def amount_input_handler(message):
     currencyConvert.handle_amount_input(bot, message)
+
+
 
 # Main function
 
