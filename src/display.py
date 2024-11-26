@@ -170,7 +170,7 @@ def display_total(message, bot, expense_dict, transaction_dict):
 
         history = helper.get_user_history(chat_id)
         if history is None:
-            exception_message = """Oops! Looks like you do not 
+            exception_message = """Oops! Looks like you do not
             have any spending records!"""
             raise Exception(exception_message)
 

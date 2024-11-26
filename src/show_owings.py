@@ -29,7 +29,7 @@ def run(message, bot):
                         borrower_email = doc[key]
                         break
             if borrower_amount < 0:
-                display_text += "You owe " + borrower_email 
+                display_text += "You owe " + borrower_email
                 display_text += str(abs(borrower_amount)) + "\n"
             else:
                 display_text += borrower_email + " owes you "
@@ -37,5 +37,5 @@ def run(message, bot):
     else:
         display_text = "You have no shared spendings yet."
     bot.send_message(chat_id, display_text)
-    # bot.register_next_step_handler(msg, post_email_input, bot)   
+    # bot.register_next_step_handler(msg, post_email_input, bot)
     return user_owing_details, user_details

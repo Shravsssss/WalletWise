@@ -1,7 +1,9 @@
+autopep8
 pyTelegramBotAPI
 pytest
 jproperties
 flake8
+fpdf2
 matplotlib
 coverage
 pytest-mock
@@ -13,3 +15,10 @@ pandas
 numpy
 telebot-calendar==1.2
 pymongo
+scikit-learn
+pytest
+pytest-cov
+telebot
+mock
+telebot
+pandas

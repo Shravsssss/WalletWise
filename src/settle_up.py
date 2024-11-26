@@ -20,13 +20,13 @@ def run(message, bot):
             bot,
             user_owing_details,
             user_details
-        )                
+        )
     else:
         msg = bot.reply_to(
             message,
             'No users to settle up with'
         )
-    
+
 
 def input_settle_up_value(message, bot, user_owing_details, user_details):
     """This is the post email input function"""
@@ -72,7 +72,6 @@ def input_settle_up_value(message, bot, user_owing_details, user_details):
         bot.send_message(chat_id, display_text)
 
 
-
 def post_amount_input(
     message,
     bot,
@@ -80,7 +79,7 @@ def post_amount_input(
     user_details,
     borrower_chatid,
     borrower_email
-    ):
+):
     """This is the post amount input function"""
     try:
         chat_id = message.chat.id
@@ -100,7 +99,8 @@ def post_amount_input(
                 flag = False
                 break
         if flag:
-            raise Exception("You don't have a shared expense with the entered email.")
+            raise Exception(
+                "You don't have a shared expense with the entered email.")
         dbname = get_database()
         collection_name = dbname["OWING_DETAILS"]
 
@@ -115,7 +115,7 @@ def post_amount_input(
 
         change_payer_info_in_borrower_helper_array = collection_name.find_one({
             "payer_chatid": borrower_chatid
-            })["borrowers"]
+        })["borrowers"]
         for payer in change_payer_info_in_borrower_helper_array:
             p_chatid = payer["borrower_chatid"]
             if p_chatid == chat_id:
