@@ -91,6 +91,12 @@ def load_config():
     config.read(CONFIG_FILE_NAME)
 
 
+def get_group_expenses():
+    """This is the get group expenses file function"""
+    # setConfig()
+    return get_database()["GROUP_EXPENSES"]
+
+
 def get_group_expenses_file():
     """This is the get group expenses file function"""
     # setConfig()
