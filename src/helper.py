@@ -47,6 +47,8 @@ commands = {
     'monthlyReport': 'Summary report of your expenses for the past week',
     'addRecurringExpense': 'Set recurring expenses and get reminders before the due date',
     'listRecurringExpenses': 'List all the recurring expenses added',
+    'addIncome': 'Add your income',
+    'netSavings': 'Display net savings for the month',
     'trend': 'View your expense trend over time',
     'predict': 'Get expense predictions for the next 30 days',
     'currencyConvert': 'Convert to a different Currency',
@@ -313,8 +315,8 @@ def calculate_monthly_expenses(expenses):
                 monthly_expenses[category] += amount
             else:
                 monthly_expenses[category] = amount
-
     return monthly_expenses
+    
 
 
 def parse_budget_input(text):
@@ -475,3 +477,22 @@ def list_recurring_expenses():
     """Returns the recurring expenses."""
     db = get_database()
     return db["USER_RECURRING_EXPENSES"]
+
+# List all income sources for each month
+def list_income_sources():
+    """Returns the income sources."""
+    db = get_database()
+    return db["USER_INCOME_SOURCES"]
+
+def calculate_monthly_income(income):
+    """Calculates total income per description for the current month."""
+    now = datetime.now()
+    
+    monthly_income = 0
+    for category, details in income["income_sources"].items():
+        inc, date = details["income"], details["date"]
+        if date.month == now.month and date.year == now.year:
+            amount = float(inc)
+            monthly_income += amount
+
+    return monthly_income

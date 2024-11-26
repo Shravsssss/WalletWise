@@ -22,6 +22,7 @@ from . import goals
 from . import recurring_expenses
 from . import export_expenses
 from . import report
+from . import income
 from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
 from .plots import create_time_series_plot, predict_expenses
@@ -194,6 +195,23 @@ def command_addRecurringExpense(message):
 def command_listRecurringExpenses(message):
     """This is the command add function to run listRecurringExpenses"""
     recurring_expenses.run(message, bot)
+
+# Register /addIncome command
+
+
+@bot.message_handler(commands=["addIncome"])
+def command_addIncome(message):
+    """This is the command add function to run addIncome"""
+    income.run(message, bot)
+
+
+# Register /netSavings command
+
+
+@bot.message_handler(commands=["netSavings"])
+def command_netSavings(message):
+    """This is the command add function to run netSavings"""
+    income.run(message, bot)
 
 
 # Register /exportExpenses command
