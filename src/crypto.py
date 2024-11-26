@@ -39,8 +39,7 @@ def post_crypto_selection(message, bot):
 
         option[chat_id] = selected_crypto
         message = bot.send_message(
-            chat_id, f"How much would you like to add to {
-                option[chat_id]}? \n(Enter numeric values only)")
+            chat_id, f"How much would you like to add to {option[chat_id]}? \n(Enter numeric values only)")
         bot.register_next_step_handler(
             message, post_amount_input, bot, selected_crypto)
     except Exception as exception_value:
@@ -90,10 +89,7 @@ def post_amount_input(message, bot, selected_crypto):
             }
             collection_name.insert_one(item)
 
-        bot.send_message(
-            chat_id,
-            f"The following transaction has been recorded: You added {amount_value} to {
-                option[chat_id]} on {date_of_entry}")
+        bot.send_message(chat_id,f"The following transaction has been recorded: You added {amount_value} to {option[chat_id]} on {date_of_entry}")
     except Exception as exception_value:
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no. ' + str(exception_value))
