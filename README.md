@@ -1,5 +1,5 @@
 # WalletWise
-> This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 93.
+> This is a requirement for NCSU's CSC510 Software Engineering Course project 3 for Group 54.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/880744201.svg)](https://doi.org/10.5281/zenodo.14027332)
