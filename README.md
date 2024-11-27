@@ -321,7 +321,7 @@ Please have a look at the [guidelines](https://github.com/firasat/walletwise/blo
 ---
 
 ## Found a Bug? 🐛
-We’d love to hear from you! Please [open an issue](https://github.com/Shravsssss/issues/WallestWise/) if you find any bugs or have feature requests.
+We’d love to hear from you! Please [open an issue](https://github.com/Shravsssss/WalletWise/issues) if you find any bugs or have feature requests.
 
 ---
 
