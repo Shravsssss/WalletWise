@@ -1,3 +1,14 @@
+# WalletWise
+
+# Version: 1.0.0
+# Date Released: 2024-11-26 
+# Authors: Sravya Yepuri, Chirag Hegde, Melika Ahmadi Ranjbar
+
+# Licensed under the MIT License.
+# You may obtain a copy of the License at
+
+#     https://opensource.org/licenses/MIT
+
 # income.py
 from datetime import datetime
 from .helper import calculate_monthly_income, log_and_reply_error, list_income_sources

@@ -1,3 +1,14 @@
+# WalletWise
+
+# Version: 1.0.0
+# Date Released: 2024-11-26 
+# Authors: Sravya Yepuri, Chirag Hegde, Melika Ahmadi Ranjbar
+
+# Licensed under the MIT License.
+# You may obtain a copy of the License at
+
+#     https://opensource.org/licenses/MIT
+
 # recurring_epenses.py
 from .helper import calculate_next_due_date, list_recurring_expenses, log_and_reply_error
 from apscheduler.schedulers.background import BackgroundScheduler
