@@ -104,7 +104,8 @@ def generate_summary_report(report_period, total_expenses, category_totals):
     report += "*Top Categories:*\n"
 
     sorted_categories = sorted(
-        category_totals.items(), key=lambda x: x[1], reverse=True)
+        category_totals.items(), key=lambda x: x[1], reverse=True
+    )
     for category, amount in sorted_categories[:5]:  # Show top 5 categories
         report += f"- {category}: ${amount:.2f}\n"
 
@@ -116,6 +117,7 @@ def generate_summary_report(report_period, total_expenses, category_totals):
         report += "No anomalies detected."
 
     return report
+
 
 
 def detect_anomalies(category_totals, total_expenses):
