@@ -1,99 +1,142 @@
 # WalletWise
-> This is a requirement for NCSU's CSC510 Software Engineering Course project 2 for Group 93.
+> This is a requirement for NCSU's CSC510 Software Engineering Course project 3 for Group 54.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/880744201.svg)](https://doi.org/10.5281/zenodo.14027332)
-![GitHub open issues](https://img.shields.io/github/issues-raw/MFirasatHussain/WalletWise)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/MFirasatHussain/WalletWise)
-[![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3111/)
-[![codecov](https://img.shields.io/badge/codecov-83%25-brightgreen.svg)](https://codecov.io/gh/your-username/your-repo)
-[![Build repo](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Python Style Checker](https://img.shields.io/badge/style%20checker-passing-brightgreen.svg)]()
-[![Lint Python](https://img.shields.io/badge/lint-passing-brightgreen.svg)]()
-[![CodeQL](https://img.shields.io/badge/CodeQL-passing-brightgreen.svg)]()
-[![Run Tests On Push](https://img.shields.io/badge/tests-passing-brightgreen.svg)]()
-[![code style](https://img.shields.io/badge/code%20style-pep8-orange.svg)]()
-![repo size](https://img.shields.io/badge/repo%20size-41.3%20MB-blue.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/880744201.svg)](https://doi.org/10.5281/zenodo.14027332) ![GitHub open issues](https://img.shields.io/github/issues-raw/Shravsssss/WalletWise) ![GitHub closed issues](https://img.shields.io/github/issues-closed/Shravsssss/WalletWise) [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/) [![codecov](https://img.shields.io/badge/codecov-83%25-brightgreen.svg)](https://codecov.io/gh/Shravsssss/WalletWise) [![Build repo](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/Shravsssss/WalletWise/actions) [![Python Style Checker](https://img.shields.io/badge/style%20checker-passing-brightgreen.svg)](https://github.com/Shravsssss/WalletWise/actions) [![Lint Python](https://img.shields.io/badge/lint-passing-brightgreen.svg)](https://github.com/Shravsssss/WalletWise/actions) [![CodeQL](https://img.shields.io/badge/CodeQL-passing-brightgreen.svg)](https://github.com/Shravsssss/WalletWise/security/code-scanning) [![Run Tests On Push](https://img.shields.io/badge/tests-passing-brightgreen.svg)](https://github.com/Shravsssss/WalletWise/actions) [![Code Style](https://img.shields.io/badge/code%20style-pep8-orange.svg)]() ![Repo Size](https://img.shields.io/badge/repo%20size-41.3%20MB-blue.svg)  
+
 <hr>
 
+# <b>Table of Contents</b>
+
+- [Delta from Project 1](#Delta-from-Project-1)
+- [Goal](#Goal)
+- [Motivation](#Motivation)
+- [Features](#Features)
+- [Functionalities](#Functionalities)
+- [Previous Version](#Previous-Version)
+- [Updated Version](#Updated-Version)
+- [Getting Started](#Getting-Started)
+- [Code Coverage Reports](#Code-Coverage-Reports)
+- [License](#License)
+- [Contribute](#Contribute)
+- [Found a Bug?](#found-a-bug-)
+- [Authors](#Authors)
+- [Technology Stack](#Technology-Stack)
+
 ## Delta from Project 1
-- **Tracking Crypto Spendings:** In our current project, "WalletWise," we have introduced a feature to track cryptocurrency transactions and spending. This new functionality enhances the application's ability to manage and analyze digital financial activities, catering to the growing popularity of cryptocurrencies.
+**Advanced Predictive Analytics for Spending Patterns**: In the current project, "WalletWise," we have introduced advanced predictive analytics to implement category-specific expenditure forecasting and anomaly detection. This functionality provides users with precise, real-time spending insights, allowing them to make data-driven financial decisions effortlessly.
 
-- **Predicting Spendings Using ML Models:** We've leveraged machine learning algorithms to predict future spending patterns. This predictive functionality helps users better manage their finances by providing insights based on historical data, allowing for more informed financial planning.
+**Budget Setting and Alerts**: Users can now set monthly or weekly budgets for specific categories (e.g., Food, Transport) and receive alerts as they approach their budget limit. This proactive budgeting feature, available through commands like /setBudget [category] [amount] and /checkBudget, empowers users to stay on top of their spending and avoid overspending.
 
-- **Currency Exchange:** The addition of a currency exchange feature provides users with the ability to convert between different currencies including cryptocurrencies. This is especially useful for users who engage in international transactions or travel, ensuring they can manage and track their expenses in multiple currencies seamlessly.
+**Recurring Expense Reminders**: We've added the ability for users to set recurring expenses (e.g., rent, utility bills) and receive reminders before their due dates. Using commands like /addRecurringExpense [category] [amount] [interval] and /listRecurringExpenses, users can manage recurring payments efficiently and stay on track with their obligations.
 
-These new features significantly enhance the functionality of WalletWise, making it a more comprehensive financial management tool compared to the first version of the project.
+**Goal Setting and Progress Tracking**: Users can now set financial goals (e.g., saving $500 for a trip) and track their progress based on spending habits. This feature, accessible via commands like /setGoal [goal_name] [target_amount] and /checkGoals, helps users stay motivated and on track to meet their financial targets.
+
+**Income Tracking and Net Savings Calculation**: We've introduced support for tracking income and calculating net savings (income minus expenses). Using commands like /addIncome [amount] [description] and /netSavings, users can gain a clear view of their financial health.
+
+**Export Expenses as CSV or PDF**: Users can now export their expenses for a specific date range in CSV or PDF format, making it easier to analyze spending offline or share reports. The feature is accessible through the /exportExpenses [format] [start_date] [end_date] command, and the generated files are delivered via Telegram.
+
+**Monthly or Weekly Summary Reports**: A summary report feature has been added, allowing users to receive detailed insights into their expenses for the past week or month. The reports include total spending, top categories, and any anomalies detected, and are generated using the /monthlyReport command.
+
+These newly added features significantly enhance the functionality of WalletWise, transforming it into a comprehensive, user-friendly financial management tool.
 
 
 ## Goal
 
-> Design a dynamic application to assist a person in effectively managing and tracking his or her expenses on a regular basis using the popular Telegram API
+> Develop a dynamic Telegram-based application to help users manage, track, and forecast expenses effortlessly. Features include budget setting, savings goals, predictive analytics, recurring reminders, cryptocurrency tracking, currency conversion, and detailed reports for comprehensive financial management.
 ---
 
 ## Motivation
-> Manually trying to keep a track of the expenses and dividing the amount among a group (for group expenses) is a highly time-consuming task. Many standalone apps can be installed on the mobile but they take up additional space and need the user to open and enter the spendings in it. This application will aid the user to efficiently track and therefore manage all the expenses with help of simple commands in the popularily used Telegram App. No need to install any additional app, use what you are using already to track expenses.
+> Managing personal and group finances manually can be tedious and time-consuming, especially when it involves tasks like tracking expenses, forecasting spending patterns, and managing recurring payments. While standalone mobile apps exist, they often require additional storage, frequent updates, and manual input from users. With the updated "WalletWise" project, we aim to simplify financial management by integrating these features directly into the popular Telegram app. Users can efficiently track expenses, set budgets, receive reminders, monitor financial goals, and even analyze spending patterns with the help of simple Telegram commands. By eliminating the need for additional apps, WalletWise ensures seamless, real-time financial management within a familiar platform, making it an ideal solution for modern, busy lifestyles.
 
 ## Features
 
-walletwise is an easy-to-use Telegram Bot that assists you in recording your daily expenses on a local system without any hassle.
-With simple commands, this bot allows you to:
-- Add/Record a new spending 
-- Add shared expenses with friends
-- Show the sum of your expenditure for the current day/month
-- Display your spendings plot : All expenses, Category expenses, Group Expenses
-- Clear/Erase all your records
-- Add/Manage Profile
-- Show Owings/ Borrowings
-- Settle up expenses
+WalletWise is an easy-to-use Telegram Bot that assists you in managing and recording your daily expenses seamlessly within a familiar platform. With simple commands, this bot allows you to:
+
+- Add/Record a new spending.
+- Add shared expenses with friends.
+- Show the sum of your expenditure for the current day or month.
+- Display your spending history and trends over time.
+- Clear/Erase all your records.
+- Add/Manage your profile.
+- Show owings/borrowings and settle up pending dues with ease.
+- Set monthly or weekly budgets for specific categories and receive alerts as you approach your limits.
+- Record and track cryptocurrency transactions.
+- Set and track financial goals, including savings progress for trips, purchases, or other milestones.
+- Add savings towards specific goals and monitor your progress.
+- Receive reminders for recurring expenses such as rent or utility bills.
+- Export your expenses for a specific date range in CSV or PDF format.
+- View detailed weekly or monthly summary reports of your expenses, including total spending, top categories, and anomalies.
+- Predict future spending patterns using advanced machine learning models for the next 30 days.
+- Convert expenses between currencies, including cryptocurrencies, for seamless international tracking.
+WalletWise transforms financial management into a convenient, intuitive, and efficient experience directly on Telegram!
 
 
 ## Functionalities
 
 ### Add/Record A New Spending
-Use the `/add` command to log new spending. You will choose a category such as food, transport, or shopping, and then enter the amount. The bot confirms by saving and displaying the entered data.
+Use the /add command to log new spending. Choose a category (e.g., food, transport, shopping) and enter the amount. The bot confirms by saving and displaying the entered data.
 
 ### Add Shared Expenses With Friends
-The `/addGroup` command allows you to record expenses shared with friends. After selecting a category and entering a comma-separated list of users along with the amount, the expense is added to the group's record.
+The /addGroup command allows you to record expenses shared with friends. Select a category, enter a comma-separated list of users along with the amount, and the bot updates the group's record.
 
 ### Display Spending Plots
-Using `/display`, specify the start and end dates to view your expenses. The bot shows various visualizations such as bar graphs, pie charts, histograms, and box plots. You will then choose whether to view these charts with options "Yes" and "No".
+Using /display, specify the start and end dates to view your expenses. The bot generates visualizations like bar graphs, pie charts, histograms, and box plots, offering insights into your spending patterns.
 
 ### Show Daily/Monthly Expenditure Summary
-The `/history` command provides a detailed view of your spending history over a specified period, including both personal and group expenses.
+The /history command provides a detailed view of your spending history over a specified period, including personal and group expenses, helping you analyze past expenditures.
 
-### Clear All Records
-Use `/erase` to delete all recorded spending data from your profile, effectively resetting your financial history.
+#### Clear All Records
+Use /erase to delete all recorded spending data from your profile, effectively resetting your financial history when needed.
 
 ### Add/Manage Profile
-The `/profile` command is used for profile management. You will enter your email, which the application verifies, to either update your existing profile or add a new one to the database. This step is crucial for identifying users in shared expenses.
+The /profile command is used for profile management. Enter your email for verification, enabling you to update an existing profile or create a new one for accurate user identification.
 
 ### Show Owings/Borrowings
-The `/showOwings` command helps track outstanding debts—both owed and owing. This function is vital for managing finances when group expenses are involved.
+The /showOwings command tracks outstanding debts, both owed and owing. This feature simplifies managing finances when group expenses are involved.
 
 ### Settle Up Expenses
-With `/settleUp`, you can record payments made to others, clearing debts recorded in the bot. This function is used to keep track of repayments and update the owed amounts accordingly.
+Use /settleUp to record payments made to others, clearing debts and updating owed amounts. This feature ensures transparency in group finances.
 
 ### Track Crypto Spendings
-The `/trackCrypto` command enables users to log and monitor their cryptocurrency transactions. This feature helps manage and analyze digital financial activities seamlessly.
+With /crypto, users can log and monitor cryptocurrency transactions. This feature integrates digital financial activities into your expense tracking.
+
+### Set Budgets and Alerts
+The /setBudget command allows you to set monthly or weekly budgets for specific categories, while /checkBudget helps track your remaining budget. Alerts are sent when you approach or exceed your limit.
 
 ### Predict Spendings Using ML Models
-Use `/predictSpendings` to forecast future spending patterns using sophisticated machine learning models. This feature provides insights based on historical data to help with financial planning.
+Use /predict to forecast future spending patterns using advanced machine learning models. This feature provides insights to help users manage their finances proactively.
 
-### Currency Exchange
-The `/exchange` command offers real-time currency conversion rates, allowing users to manage expenses in different currencies. This tool is particularly useful for international transactions or travel.
+### Set and Track Savings Goals
+The /setGoal command enables users to define financial goals (e.g., saving for a trip), while /checkGoals monitors progress. Use /addSavings to add funds toward specific goals.
+
+### Receive Recurring Expense Reminders
+With /addRecurringExpense, users can set recurring expenses like rent or utility bills. The bot sends reminders before due dates, ensuring timely payments.
+
+### Export Expenses as CSV or PDF
+The /exportExpenses command lets users export their expense history for a specific date range in CSV or PDF format, providing flexibility for offline analysis or sharing reports.
+
+### View Weekly/Monthly Summary Reports
+The /weeklyReport and /monthlyReport commands generate detailed reports, including total spending, top categories, and anomalies, helping users stay informed about their financial habits.
+
+### View Spending Trends
+Use /trend to visualize your expense trends over time, offering insights into long-term financial behavior.
+
+#### Currency Exchange
+The /currencyConvert command provides real-time currency conversion rates, enabling users to manage international transactions or travel expenses easily.
+
+These functionalities make WalletWise a comprehensive, intuitive, and efficient financial management tool, catering to diverse user needs.
 
 
 ---
 
 ## Previous version
-This video is taken from the Project 1 of Group 10.
-https://user-images.githubusercontent.com/54414375/205833191-c314e58c-16da-4c61-94e0-0fe60888c595.mp4
+This video is taken from the Project 2 of Group 93.
+https://drive.google.com/drive/folders/1UH4dTulGGdwuYMUsUZozWx3M2cx7KV-c?usp=drive_link
 
 ## Updated version
 
 OUR NEW VIDEO GOES HERE:
-https://drive.google.com/drive/folders/1UH4dTulGGdwuYMUsUZozWx3M2cx7KV-c?usp=drive_link
+add here
 
 
 
@@ -277,8 +320,18 @@ Please have a look at the [guidelines](https://github.com/firasat/walletwise/blo
 
 ---
 
-## Authors
+## Found a Bug? 🐛
+We’d love to hear from you! Please [open an issue](https://github.com/Shravsssss/WalletWise/issues) if you find any bugs or have feature requests.
 
+---
+
+## Authors
+Current Authours
+- Sravya Yepuri [Github](https://github.com/Shravsssss)
+- Chirag Hegde [Github](https://github.com/Chirag-Hegde)
+- Melika Ahmadi Ranjbar [Github](https://github.com/meliiwamd)
+  
+Previous Authors
 - Boscosylvester Chittilapilly [Github](https://github.com/boscosylvester-john)
 - Prasad Kamath [Github](https://github.com/kamathprasad9)
 - Shlok Naik [Github](https://github.com/shlokio)
@@ -294,5 +347,18 @@ Please have a look at the [guidelines](https://github.com/firasat/walletwise/blo
 
 ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
 
+---
+## Copyright
+You can use below information for copyright.
 
+```bash
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - names: Sravya Yepuri, Chirag Hegde, Melika Ahmadi Ranjbar
+title: "WalletWise"
+version: "1.0.0"
+date-released: "2024-11-27"
+url: "https://github.com/Shravsssss/WalletWise"
+```
 -----

@@ -2,12 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from . import helper
-from sklearn.linear_model import LinearRegression
 from .pymongo_run import get_database
 import os
 from sklearn.ensemble import RandomForestRegressor, IsolationForest
-from sklearn.preprocessing import StandardScaler
-import logging
 if not os.path.exists('temp'):
     os.makedirs('temp')
 
@@ -1047,7 +1044,7 @@ def predict_expenses(chat_id, prediction_days=30):
 
             # Include anomalies if any
             if not pred['anomalies'].empty:
-                summary += f"   • Anomalies Detected:\n"
+                summary += "   • Anomalies Detected:\n"
                 for _, row in pred['anomalies'].iterrows():
                     summary += f"      - {row['date'].strftime('%d-%b-%Y')}: ${row['amount']:.2f}\n"
 
@@ -1062,4 +1059,5 @@ def predict_expenses(chat_id, prediction_days=30):
         return plot_path, summary
 
     except Exception as e:
-        raise Exception(f"Could not create prediction and anomaly detection: {str(e)}")
+        raise Exception(
+            f"Could not create prediction and anomaly detection: {str(e)}")

@@ -1,9 +1,7 @@
 # budget.py
 
 # Module providing budget functions for Telegram bot
-import logging
 from telebot import types
-from datetime import datetime
 from . import helper
 
 helper.load_config()

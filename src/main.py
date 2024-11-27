@@ -26,7 +26,6 @@ from . import income
 from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
 from .plots import create_time_series_plot, predict_expenses
-import os
 
 # Load configuration
 helper.load_config()
@@ -38,6 +37,7 @@ telebot.logger.setLevel(logging.INFO)
 
 # Define listener for requests by user
 # Listener for requests by user
+
 
 def listener(user_requests):
     """This is the listener function"""
@@ -135,7 +135,7 @@ def command_settle(message):
 
 
 @bot.message_handler(commands=['crypto'])
-def command_add(message):
+def command_crypto_add(message):
     """This is the command add function"""
     crypto.run(message, bot)
 
@@ -263,7 +263,6 @@ def currency_selection_callback(call):
 @bot.message_handler(func=lambda message: message.text.isdigit())
 def amount_input_handler(message):
     currencyConvert.handle_amount_input(bot, message)
-
 
 
 # Main function

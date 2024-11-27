@@ -1,15 +1,11 @@
 # goals.py
 
 # Module providing goal functions for Telegram bot
-import logging
-from telebot import types
-from datetime import datetime
 from .helper import get_goals_collection, log_and_reply_error
 
 
 def run(message, bot):
     """This is the run function for goal commands."""
-    chat_id = message.chat.id
     text = message.json['text'].lower()
 
     if text.startswith("/setgoal"):

@@ -1,12 +1,11 @@
 # income.py
-import logging
-from telebot import types
 from datetime import datetime
-from .helper import calculate_monthly_income, log_and_reply_error, list_income_sources, calculate_monthly_expenses, fetch_personal_expenses, has_expenses_this_month
+from .helper import calculate_monthly_income, log_and_reply_error, list_income_sources
+from .helper import calculate_monthly_expenses, fetch_personal_expenses, has_expenses_this_month
+
 
 def run(message, bot):
     """This is the run function for income & net saving commands."""
-    chat_id = message.chat.id
     text = message.text.lower()
 
     if text.startswith("/addincome"):
@@ -16,7 +15,8 @@ def run(message, bot):
         prompt_net_savings(message, bot)
     else:
         return
-    
+
+
 def prompt_set_income(message, bot):
     """Prompts user to set a new income expenses."""
     chat_id = message.chat.id
@@ -49,13 +49,15 @@ def process_set_income(message, bot):
         user_expense["income_sources"][description] = {
             "income": income, "date": now}
         expense_collection.update_one({"chatid": str(chat_id)}, {
-                                    "$set": user_expense}, upsert=True)
+            "$set": user_expense}, upsert=True)
 
-        bot.send_message(chat_id,f"💶 Income source '{description}' set with an amount of ${income:.2f}!")
+        bot.send_message(
+            chat_id, f"💶 Income source '{description}' set with an amount of ${income:.2f}!")
     except ValueError:
         bot.send_message(chat_id, "Amount must be a valid number.")
     except Exception as e:
         log_and_reply_error(chat_id, bot, e)
+
 
 def prompt_net_savings(message, bot):
     """Displays all the recurring expenses."""
@@ -78,14 +80,13 @@ def prompt_net_savings(message, bot):
             inc = calculate_monthly_income(user_income)
 
         net_savings = inc - ex
-        
+        report = ""
         if inc != 0 and ex != 0:
             if net_savings <= 0:
                 report += f"* 💸 OOPS! You gotta be careful, your net savings for this month is {net_savings}!\n\n"
             else:
                 report += f"* 💸 Your net savings for this month is {net_savings}!\n\n"
-        
+
             bot.send_message(chat_id, report, parse_mode="Markdown")
     except Exception as e:
         log_and_reply_error(chat_id, bot, e)
-
