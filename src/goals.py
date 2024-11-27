@@ -53,8 +53,7 @@ def process_set_goal(message, bot):
 
         bot.send_message(
             chat_id,
-            f"🎯 Goal '{goal_name}' set with a target of ${
-                target_amount:.2f}!")
+            f"🎯 Goal '{goal_name}' set with a target of ${target_amount:.2f}!")
     except ValueError:
         bot.send_message(chat_id, "Target amount must be a valid number.")
     except Exception as e:

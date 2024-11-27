@@ -100,8 +100,7 @@ def generate_summary_report(report_period, total_expenses, category_totals):
         return f"📊 *{report_period} Expense Report*\n\nNo expenses recorded during this period."
 
     report = f"📊 *{report_period} Expense Report*\n\n"
-    report += f"🗓 *Period:* Last {
-        7 if report_period == 'Weekly' else 30} Days\n"
+    report += f"🗓 *Period:* Last {7 if report_period == 'Weekly' else 30} Days\n"
     report += f"💸 *Total Spending:* ${total_expenses:.2f}\n\n"
     report += "*Top Categories:*\n"
 
