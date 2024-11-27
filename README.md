@@ -5,6 +5,24 @@
 
 <hr>
 
+# <b>Table of Contents</b>
+
+- [Delta from Project 1](#Delta-from-Project-1)
+- [Goal](#Goal)
+- [Motivation](#Motivation)
+- [Features](#Features)
+- [Functionalities](#Functionalities)
+- [Previous Version](#Previous-Version)
+- [Updated Version](#Updated-Version)
+- [Getting Started](#Getting-Started)
+- [Code Coverage Reports](#Code-Coverage-Reports)
+- [Found a Bug?](#Found-a-Bug?)
+- [License](#License)
+- [Contribute](#Contribute)
+- [Found a Bug?](#found-a-bug-)
+- [Authors](#Authors)
+- [Technology Stack](#Technology-Stack)
+
 ## Delta from Project 1
 **Advanced Predictive Analytics for Spending Patterns**: In the current project, "WalletWise," we have introduced advanced predictive analytics to implement category-specific expenditure forecasting and anomaly detection. This functionality provides users with precise, real-time spending insights, allowing them to make data-driven financial decisions effortlessly.
 
@@ -303,6 +321,11 @@ Please have a look at the [guidelines](https://github.com/firasat/walletwise/blo
 
 ---
 
+## Found a Bug? 🐛
+We’d love to hear from you! Please [open an issue](https://github.com/Shravsssss/WallestWise/issues) if you find any bugs or have feature requests.
+
+---
+
 ## Authors
 Current Authours
 - Sravya Yepuri [Github](https://github.com/Shravsssss)
@@ -325,5 +348,18 @@ Previous Authors
 
 ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
 
+---
+## Copyright
+You can use below information for copyright.
 
+```bash
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - names: Sravya Yepuri, Chirag Hegde, Melika Ahmadi Ranjbar
+title: "WalletWise"
+version: "1.0.0"
+date-released: "2024-11-27"
+url: "https://github.com/Shravsssss/WalletWise"
+```
 -----
