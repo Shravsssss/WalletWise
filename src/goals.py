@@ -36,24 +36,32 @@ def process_set_goal(message, bot):
         parts = message.text.split(maxsplit=2)
         if len(parts) != 2:
             raise ValueError(
-                "Invalid format. Use: [goal_name] [target_amount].")
+                "Invalid format. Use: [goal_name] [target_amount]."
+            )
 
         goal_name, target_amount = parts[0], float(parts[1])
 
         # Fetch or initialize user's goals
         goals_collection = get_goals_collection()
         user_goals = goals_collection.find_one({"chatid": str(chat_id)}) or {
-            "chatid": str(chat_id), "goals": {}}
+            "chatid": str(chat_id), "goals": {}
+        }
 
         # Add or update the goal
         user_goals["goals"][goal_name] = {
-            "target": target_amount, "saved": 0.0}
-        goals_collection.update_one({"chatid": str(chat_id)}, {
-                                    "$set": user_goals}, upsert=True)
+            "target": target_amount,
+            "saved": 0.0
+        }
+        goals_collection.update_one(
+            {"chatid": str(chat_id)},
+            {"$set": user_goals},
+            upsert=True
+        )
 
         bot.send_message(
             chat_id,
-            f"🎯 Goal '{goal_name}' set with a target of ${target_amount:.2f}!")
+            f"🎯 Goal '{goal_name}' set with a target of ${target_amount:.2f}!"
+        )
     except ValueError:
         bot.send_message(chat_id, "Target amount must be a valid number.")
     except Exception as e:

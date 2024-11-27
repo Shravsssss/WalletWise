@@ -121,6 +121,7 @@ def generate_summary_report(report_period, total_expenses, category_totals):
     return report
 
 
+
 def detect_anomalies(category_totals, total_expenses):
     """Detects anomalies in spending patterns."""
     anomalies = []
