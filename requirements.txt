@@ -1,3 +1,4 @@
+apscheduler
 autopep8
 pyTelegramBotAPI
 pytest
