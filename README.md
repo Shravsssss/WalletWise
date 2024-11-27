@@ -158,7 +158,7 @@ https://drive.google.com/drive/folders/1UH4dTulGGdwuYMUsUZozWx3M2cx7KV-c?usp=dri
 ## Updated version
 
 OUR NEW VIDEO GOES HERE:
-add here
+https://youtu.be/qaJs3BeX2Kk
 
 
 
