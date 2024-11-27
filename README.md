@@ -7,7 +7,7 @@
 
 # <b>Table of Contents</b>
 
-- [Delta from Project 1](#Delta-from-Project-1)
+- [Delta from Project 2](#Delta-from-Project-2)
 - [Goal](#Goal)
 - [Motivation](#Motivation)
 - [Features](#Features)
@@ -22,7 +22,7 @@
 - [Authors](#Authors)
 - [Technology Stack](#Technology-Stack)
 
-## Delta from Project 1
+## Delta from Project 2
 **Advanced Predictive Analytics for Spending Patterns**: In the current project, "WalletWise," we have introduced advanced predictive analytics to implement category-specific expenditure forecasting and anomaly detection. This functionality provides users with precise, real-time spending insights, allowing them to make data-driven financial decisions effortlessly.
 
 **Budget Setting and Alerts**: Users can now set monthly or weekly budgets for specific categories (e.g., Food, Transport) and receive alerts as they approach their budget limit. This proactive budgeting feature, available through commands like /setBudget [category] [amount] and /checkBudget, empowers users to stay on top of their spending and avoid overspending.
