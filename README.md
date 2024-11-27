@@ -5,6 +5,10 @@
 
 <hr>
 
+## Tired of juggling receipts? Let WalletWise do the heavy lifting!
+
+Keep your finances in check with ease—track, budget, and save, all through Telegram. Say goodbye to complicated apps and hello to smart spending! 💰📊"
+
 # <b>Table of Contents</b>
 
 - [Delta from Project 2](#Delta-from-Project-2)
