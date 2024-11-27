@@ -16,7 +16,6 @@
 - [Updated Version](#Updated-Version)
 - [Getting Started](#Getting-Started)
 - [Code Coverage Reports](#Code-Coverage-Reports)
-- [Found a Bug?](#Found-a-Bug?)
 - [License](#License)
 - [Contribute](#Contribute)
 - [Found a Bug?](#found-a-bug-)
