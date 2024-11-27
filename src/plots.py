@@ -1062,4 +1062,5 @@ def predict_expenses(chat_id, prediction_days=30):
         return plot_path, summary
 
     except Exception as e:
-        raise Exception(f"Could not create prediction and anomaly detection: {str(e)}")
+        raise Exception(
+            f"Could not create prediction and anomaly detection: {str(e)}")

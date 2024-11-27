@@ -39,6 +39,7 @@ telebot.logger.setLevel(logging.INFO)
 # Define listener for requests by user
 # Listener for requests by user
 
+
 def listener(user_requests):
     """This is the listener function"""
     for req in user_requests:
@@ -263,7 +264,6 @@ def currency_selection_callback(call):
 @bot.message_handler(func=lambda message: message.text.isdigit())
 def amount_input_handler(message):
     currencyConvert.handle_amount_input(bot, message)
-
 
 
 # Main function

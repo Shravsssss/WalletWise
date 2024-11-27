@@ -59,7 +59,8 @@ def test_process_set_recurring_expense_valid(mock_telebot, mocker):
     mock_value = mock_telebot.return_value
     mocker.patch('src.helper.list_recurring_expenses')
     recurring_expense_collection_mock = helper.list_recurring_expenses.return_value
-    recurring_expense_collection_mock.find_one.return_value = {"chatid": "79860", "recurring_expenses": {}}
+    recurring_expense_collection_mock.find_one.return_value = {
+        "chatid": "79860", "recurring_expenses": {}}
 
     message = create_message("Rent 700 monthly")
     recurring_expenses.process_set_recurring_expenses(message, mock_value)

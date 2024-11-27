@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 from .helper import fetch_personal_expenses, get_group_expenses_file, log_and_reply_error
 
+
 def run(message, bot):
     """Main entry point for /weeklyReport and /monthlyReport commands."""
     chat_id = message.chat.id
@@ -16,21 +17,26 @@ def run(message, bot):
         period_start = datetime.now() - timedelta(days=30)
         report_period = "Monthly"
     else:
-        bot.reply_to(message, "Invalid command. Use /weeklyReport or /monthlyReport.")
+        bot.reply_to(
+            message, "Invalid command. Use /weeklyReport or /monthlyReport.")
         return
 
     try:
         # Fetch and aggregate data
-        personal_expenses = fetch_personal_expenses_for_period(chat_id, period_start)
+        personal_expenses = fetch_personal_expenses_for_period(
+            chat_id, period_start)
         group_expenses = fetch_group_expenses_for_period(chat_id, period_start)
-        total_expenses, category_totals = aggregate_expenses(personal_expenses + group_expenses)
+        total_expenses, category_totals = aggregate_expenses(
+            personal_expenses + group_expenses)
 
         # Generate and send summary report
-        report_text = generate_summary_report(report_period, total_expenses, category_totals)
+        report_text = generate_summary_report(
+            report_period, total_expenses, category_totals)
         bot.send_message(chat_id, report_text, parse_mode="Markdown")
 
     except Exception as e:
         log_and_reply_error(chat_id, bot, e)
+
 
 def fetch_personal_expenses_for_period(chat_id, start_date):
     """Fetches personal expenses for the user within the specified period."""
@@ -43,9 +49,11 @@ def fetch_personal_expenses_for_period(chat_id, start_date):
         date_str, category, amount_str = expense.split(", ")
         expense_date = datetime.strptime(date_str, "%d-%b-%Y %H:%M")
         if expense_date >= start_date:
-            filtered_expenses.append({"type": "Personal", "category": category, "amount": float(amount_str)})
+            filtered_expenses.append(
+                {"type": "Personal", "category": category, "amount": float(amount_str)})
 
     return filtered_expenses
+
 
 def fetch_group_expenses_for_period(chat_id, start_date):
     """Fetches group expenses for the user within the specified period."""
@@ -62,13 +70,16 @@ def fetch_group_expenses_for_period(chat_id, start_date):
         if not group_expense:
             continue
 
-        expense_date = datetime.strptime(group_expense["created_at"], "%d-%b-%Y %H:%M")
+        expense_date = datetime.strptime(
+            group_expense["created_at"], "%d-%b-%Y %H:%M")
         if expense_date >= start_date:
             user_share = group_expense["members"].get(str(chat_id))
             if user_share:
-                filtered_expenses.append({"type": "Group", "category": group_expense["category"], "amount": user_share})
+                filtered_expenses.append(
+                    {"type": "Group", "category": group_expense["category"], "amount": user_share})
 
     return filtered_expenses
+
 
 def aggregate_expenses(expenses):
     """Aggregates expenses to calculate total spending and category-wise totals."""
@@ -81,6 +92,7 @@ def aggregate_expenses(expenses):
 
     return total_expenses, category_totals
 
+
 def generate_summary_report(report_period, total_expenses, category_totals):
     """Generates a text summary report."""
     if total_expenses == 0:
@@ -91,7 +103,8 @@ def generate_summary_report(report_period, total_expenses, category_totals):
     report += f"💸 *Total Spending:* ${total_expenses:.2f}\n\n"
     report += "*Top Categories:*\n"
 
-    sorted_categories = sorted(category_totals.items(), key=lambda x: x[1], reverse=True)
+    sorted_categories = sorted(
+        category_totals.items(), key=lambda x: x[1], reverse=True)
     for category, amount in sorted_categories[:5]:  # Show top 5 categories
         report += f"- {category}: ${amount:.2f}\n"
 
@@ -104,10 +117,12 @@ def generate_summary_report(report_period, total_expenses, category_totals):
 
     return report
 
+
 def detect_anomalies(category_totals, total_expenses):
     """Detects anomalies in spending patterns."""
     anomalies = []
     for category, amount in category_totals.items():
         if amount > total_expenses * 0.5:  # Example: More than 50% of total spending in one category
-            anomalies.append(f"🚨 High spending on {category}: ${amount:.2f} ({(amount / total_expenses) * 100:.1f}%)")
+            anomalies.append(
+                f"🚨 High spending on {category}: ${amount:.2f} ({(amount / total_expenses) * 100:.1f}%)")
     return anomalies

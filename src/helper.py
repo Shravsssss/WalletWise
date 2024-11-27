@@ -316,7 +316,6 @@ def calculate_monthly_expenses(expenses):
             else:
                 monthly_expenses[category] = amount
     return monthly_expenses
-    
 
 
 def parse_budget_input(text):
@@ -342,7 +341,8 @@ def parse_budget_input(text):
 
     # Check if the category exists
     if category not in categories:
-        raise ValueError(f"Invalid category. Allowed categories are: {', '.join(categories)}")
+        raise ValueError(
+            f"Invalid category. Allowed categories are: {', '.join(categories)}")
 
     return category, amount
 
@@ -458,6 +458,7 @@ def generate_csv(expenses, chat_id):
             })
     return file_name
 
+
 def calculate_next_due_date(interval):
     now = datetime.now()
     if interval == 'daily':
@@ -469,25 +470,30 @@ def calculate_next_due_date(interval):
     elif interval == 'monthly':
         return now + timedelta(days=30)
     elif type(interval) == int:
-         return now + timedelta(days=interval)
+        return now + timedelta(days=interval)
     return now
 
 # List recurring expenses
+
+
 def list_recurring_expenses():
     """Returns the recurring expenses."""
     db = get_database()
     return db["USER_RECURRING_EXPENSES"]
 
 # List all income sources for each month
+
+
 def list_income_sources():
     """Returns the income sources."""
     db = get_database()
     return db["USER_INCOME_SOURCES"]
 
+
 def calculate_monthly_income(income):
     """Calculates total income per description for the current month."""
     now = datetime.now()
-    
+
     monthly_income = 0
     for category, details in income["income_sources"].items():
         inc, date = details["income"], details["date"]

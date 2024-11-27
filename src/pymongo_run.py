@@ -8,5 +8,5 @@ def get_database():
     return client['telebot']
 
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
     dbname = get_database()

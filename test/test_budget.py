@@ -107,7 +107,8 @@ def test_show_budget_status_valid(mock_telebot, mocker):
     budget.helper.is_budget_set.return_value = True
     budget.helper.has_expenses_this_month.return_value = True
     budget.helper.fetch_user_budget.return_value = {"budgets": {"Food": 200}}
-    budget.helper.fetch_personal_expenses.return_value = {"personal_expenses": [{"category": "Food", "amount": 150}]}
+    budget.helper.fetch_personal_expenses.return_value = {
+        "personal_expenses": [{"category": "Food", "amount": 150}]}
     budget.helper.calculate_monthly_expenses.return_value = {"Food": 150}
     budget.helper.build_budget_report.return_value = "Budget report"
 
@@ -120,7 +121,8 @@ def test_show_budget_status_valid(mock_telebot, mocker):
 def test_show_budget_status_with_exception(mock_telebot, mocker):
     """Test the show_budget_status function with an exception."""
     mock_value = mock_telebot.return_value
-    mocker.patch.object(helper, 'fetch_user_budget', side_effect=Exception("Unexpected error"))
+    mocker.patch.object(helper, 'fetch_user_budget',
+                        side_effect=Exception("Unexpected error"))
     mocker.patch.object(helper, 'log_and_reply_error')
 
     message = create_message("/checkbudget")
@@ -153,5 +155,3 @@ def create_message(text: str) -> types.Message:
         options={},
         json_string={'text': text}
     )
-
-

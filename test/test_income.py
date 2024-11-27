@@ -59,7 +59,8 @@ def test_process_set_income_valid(mock_telebot, mocker):
     mock_value = mock_telebot.return_value
     mocker.patch('src.helper.list_income_sources')
     income_collection_mock = helper.list_income_sources.return_value
-    income_collection_mock.find_one.return_value = {"chatid": "79860", "income_sources": {}}
+    income_collection_mock.find_one.return_value = {
+        "chatid": "79860", "income_sources": {}}
 
     message = create_message("900 NCSU")
     income.process_set_income(message, mock_value)
@@ -78,8 +79,6 @@ def test_process_set_income_invalid(mock_telebot):
     message = create_message("Invalid input")
     income.prompt_set_income(message, mock_value)
     assert mock_value.send_message.called
-
-
 
 
 def create_message(text: str) -> types.Message:

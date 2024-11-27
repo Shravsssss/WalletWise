@@ -8,6 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # We do not add the recurring expenses automatically
 # There will be an automatic reminder sent to the user though
 
+
 def run(message, bot):
     """This is the run function for recurring expenses commands."""
     chat_id = message.chat.id
@@ -19,7 +20,8 @@ def run(message, bot):
         prompt_list_recurring_expenses(message, bot)
     else:
         return
-    
+
+
 def prompt_set_recurring_expenses(message, bot):
     """Prompts user to set a new recurring expenses."""
     chat_id = message.chat.id
@@ -31,10 +33,11 @@ def prompt_set_recurring_expenses(message, bot):
     )
     bot.register_next_step_handler(msg, process_set_recurring_expenses, bot)
 
+
 def process_set_recurring_expenses(message, bot):
     """Processes the input for setting a new recurring expenses."""
     try:
-         # Start the APScheduler
+        # Start the APScheduler
         global scheduler
         scheduler = BackgroundScheduler()
         scheduler.start()
@@ -58,10 +61,12 @@ def process_set_recurring_expenses(message, bot):
         user_expense["recurring_expenses"][category] = {
             "amount": amount, "interval": interval, "next": next_due_date}
         expense_collection.update_one({"chatid": str(chat_id)}, {
-                                    "$set": user_expense}, upsert=True)
+            "$set": user_expense}, upsert=True)
 
-        bot.send_message(chat_id,f"🎯 Recurring Expense '{category}' set with an amount of ${amount:.2f} with {interval} intervals!")
-        bot.send_message(chat_id,f"Your nexy due date for '{category}' will be on {next_due_date}")
+        bot.send_message(
+            chat_id, f"🎯 Recurring Expense '{category}' set with an amount of ${amount:.2f} with {interval} intervals!")
+        bot.send_message(
+            chat_id, f"Your nexy due date for '{category}' will be on {next_due_date}")
         message = f"Your nexy due date for '{category}' will be on {next_due_date}"
         scheduler.add_job(
             send_reminder,
@@ -74,7 +79,6 @@ def process_set_recurring_expenses(message, bot):
         bot.send_message(chat_id, "Amount must be a valid number.")
     except Exception as e:
         log_and_reply_error(chat_id, bot, e)
-
 
 
 def prompt_list_recurring_expenses(message, bot):
@@ -98,6 +102,7 @@ def prompt_list_recurring_expenses(message, bot):
         bot.send_message(chat_id, report, parse_mode="Markdown")
     except Exception as e:
         log_and_reply_error(chat_id, bot, e)
+
 
 def send_reminder(chat_id, message, bot):
     bot.send_message(chat_id, message)

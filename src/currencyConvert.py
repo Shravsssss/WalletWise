@@ -57,7 +57,8 @@ def handle_amount_input(bot, message):
                 input_currency, output_currency, user_data[chat_id]['amount'])
 
             if converted_amount:
-                bot.send_message(chat_id, f"{amount} {input_currency} is {converted_amount:.2f} {output_currency}")
+                bot.send_message(
+                    chat_id, f"{amount} {input_currency} is {converted_amount:.2f} {output_currency}")
             else:
                 bot.send_message(
                     chat_id, "Error retrieving conversion rate. Please try again later.")

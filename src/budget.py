@@ -10,6 +10,7 @@ helper.load_config()
 
 option = {}
 
+
 def run(message, bot):
     """This is the run function for budget commands."""
     chat_id = message.chat.id
@@ -50,6 +51,7 @@ def process_budget_input(message, bot):
     except Exception as exception_value:
         helper.log_and_reply_error(chat_id, bot, exception_value)
 
+
 def show_budget_status(message, bot):
     """Displays current budget status and sends alerts if close to or over budget."""
     try:
@@ -63,7 +65,8 @@ def show_budget_status(message, bot):
             return
 
         budgets = user_budget["budgets"]
-        monthly_expenses = helper.calculate_monthly_expenses(user_expenses["personal_expenses"])
+        monthly_expenses = helper.calculate_monthly_expenses(
+            user_expenses["personal_expenses"])
         report = helper.build_budget_report(budgets, monthly_expenses)
         bot.send_message(chat_id, report, parse_mode="Markdown")
     except Exception as exception_value:

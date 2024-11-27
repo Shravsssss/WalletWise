@@ -24,10 +24,12 @@ def test_process_export_request_with_csv(
     """
     # Mock fetch expenses functions
     mock_fetch_personal_expenses.return_value = [
-        {"type": "Personal", "date": "2024-11-18 10:00", "category": "Food", "amount": "50"}
+        {"type": "Personal", "date": "2024-11-18 10:00",
+            "category": "Food", "amount": "50"}
     ]
     mock_fetch_group_expenses.return_value = [
-        {"type": "Group", "date": "2024-11-18 20:00", "category": "Dinner", "amount": "30"}
+        {"type": "Group", "date": "2024-11-18 20:00",
+            "category": "Dinner", "amount": "30"}
     ]
 
     # Mock CSV generation
@@ -50,7 +52,8 @@ def test_process_export_request_with_csv(
 
     # Assertions
     mock_generate_csv.assert_called_once()
-    bot.send_document.assert_called_once_with("12345", mock_open_file.return_value)
+    bot.send_document.assert_called_once_with(
+        "12345", mock_open_file.return_value)
     mock_os_remove.assert_called_once_with("/tmp/test.csv")
 
 
@@ -69,10 +72,12 @@ def test_process_export_request_with_pdf(
     """
     # Mock fetch expenses functions
     mock_fetch_personal_expenses.return_value = [
-        {"type": "Personal", "date": "2024-11-18 10:00", "category": "Food", "amount": "50"}
+        {"type": "Personal", "date": "2024-11-18 10:00",
+            "category": "Food", "amount": "50"}
     ]
     mock_fetch_group_expenses.return_value = [
-        {"type": "Group", "date": "2024-11-18 20:00", "category": "Dinner", "amount": "30"}
+        {"type": "Group", "date": "2024-11-18 20:00",
+            "category": "Dinner", "amount": "30"}
     ]
 
     # Mock PDF generation
@@ -95,7 +100,8 @@ def test_process_export_request_with_pdf(
 
     # Assertions
     mock_generate_pdf.assert_called_once()
-    bot.send_document.assert_called_once_with("12345", mock_open_file.return_value)
+    bot.send_document.assert_called_once_with(
+        "12345", mock_open_file.return_value)
     mock_os_remove.assert_called_once_with("/tmp/test.pdf")
 
 
