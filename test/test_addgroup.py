@@ -49,7 +49,8 @@ def test_expense_category_input(mock_telebot, mocker):
     message = create_message("Groceries")
     add_group.expense_category_input(message, mock_value)
     assert mock_value.send_message.called
-    assert mock_value.send_message.called_with(11)
+    mock_value.send_message.assert_called_with(11, 'Please enter comma separated email ids of all the \
+        users you want to add in the expense. \n')
 
 
 @patch('telebot.telebot')
@@ -66,7 +67,7 @@ def test_expense_category_input_invalid_category(mock_telebot, mocker):
     message = create_message("blah")
     add_group.expense_category_input(message, mock_value)
     assert mock_value.send_message.called
-    assert mock_value.send_message.called_with(11, 'Invalid')
+    mock_value.send_message.assert_called_with(11, '')
 
 
 @patch('telebot.telebot')
@@ -92,9 +93,9 @@ def test_take_all_users_input(mock_telebot, mocker):
     )
     assert mock_value.send_message.called
     assert not mock_value.reply_to.called
-    assert mock_value.send_message.called_with(
-        11,
-        'How much did you spend on Groceries? \n(Enter numeric values only)'
+    mock_value.send_message.assert_called_with(
+        "11",
+        "How much did you spend on Groceries? \n(Enter numeric values only)"
     )
 
 

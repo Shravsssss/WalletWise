@@ -1,227 +1,123 @@
-from src.currencyConvert import start_currency_convert, handle_currency_selection, handle_amount_input, convert_currency, user_data
 import unittest
 from unittest.mock import Mock, patch
-import sys
-import os
-
-# Insert the path to the 'src' folder
-sys.path.insert(
-    0,
-    os.path.abspath(
-        os.path.join(
-            os.path.dirname(__file__),
-            '../src')))
-
+from src.helper import set_config, get_database
+from src.currencyConvert import (
+    start_currency_convert,
+    handle_currency_selection,
+    handle_amount_input,
+    convert_currency,
+    user_data
+)
 
 class TestCurrencyConversionBot(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        """Set up mock database before running tests."""
+        set_config()  # Ensure the default settings are set for tests.
+        cls.mock_db = get_database()
+
+        # Insert mock data into the database
+        cls.mock_db["USER_EXPENSES"].insert_one({
+            "chatid": "12345",
+            "input_currency": "USD",
+            "output_currency": None,
+            "amount": None
+        })
+
+    @classmethod
+    def tearDownClass(cls):
+        """Clean up the mock database after tests."""
+        cls.mock_db["USER_EXPENSES"].delete_many({"chatid": "12345"})
+
     def setUp(self):
-        # Initialize user_data[12345] to avoid KeyError
-        user_data[12345] = {
-            'input_currency': 'USD',
-            'output_currency': None,
-            'amount': None}
+        # Initialize user_data for testing
+        user_data[12345] = {'input_currency': 'USD', 'output_currency': None, 'amount': None}
 
-    def test_currency_selection_eur(self):
+    def test_default_input_currency_usd(self):
+        bot = Mock()
+        message = Mock()
+        message.chat.id = 12345
+        start_currency_convert(bot, message)
+        self.assertEqual(user_data[12345]['input_currency'], 'USD')
+
+    def test_default_output_currency_none(self):
+        bot = Mock()
+        message = Mock()
+        message.chat.id = 12345
+        start_currency_convert(bot, message)
+        self.assertIsNone(user_data[12345]['output_currency'])
+
+    def test_currency_selection(self):
         bot = Mock()
         call = Mock()
         call.message.chat.id = 12345
-        call.data = 'currency_EUR'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'EUR')
+        for currency in ['EUR', 'INR', 'GBP', 'JPY', 'RUB', 'AUD', 'NZD', 'KWD', 'BHD', 'OMR']:
+            with self.subTest(currency=currency):
+                call.data = f'currency_{currency}'
+                handle_currency_selection(bot, call)
+                self.assertEqual(user_data[12345]['output_currency'], currency)
 
-    def test_currency_selection_inr(self):
+    @patch('src.helper.validate_entered_amount', return_value=100)
+    def test_valid_amount_input_100(self, mock_validate_amount):
         bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_INR'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'INR')
+        message = Mock()
+        message.chat.id = 12345
+        message.text = "100"
 
-    def test_currency_selection_gbp(self):
-        bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_GBP'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'GBP')
+        # Set the output_currency to ensure the logic proceeds
+        user_data[12345]['output_currency'] = 'EUR'
 
-    def test_currency_selection_jpy(self):
-        bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_JPY'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'JPY')
+        handle_amount_input(bot, message)
+        self.assertEqual(user_data[12345]['amount'], 100.0)
 
-    def test_currency_selection_rub(self):
+    @patch('src.helper.validate_entered_amount', return_value=50.5)
+    def test_valid_amount_input_50_5(self, mock_validate_amount):
         bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_RUB'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'RUB')
+        message = Mock()
+        message.chat.id = 12345
+        message.text = "50.5"
 
-    def test_currency_selection_aud(self):
-        bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_AUD'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'AUD')
+        # Set the output_currency to ensure the logic proceeds
+        user_data[12345]['output_currency'] = 'INR'
 
-    def test_currency_selection_nzd(self):
-        bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_NZD'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'NZD')
-
-    def test_currency_selection_kwd(self):
-        bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_KWD'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'KWD')
-
-    def test_currency_selection_bhd(self):
-        bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_BHD'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'BHD')
-
-    def test_currency_selection_omr(self):
-        bot = Mock()
-        call = Mock()
-        call.message.chat.id = 12345
-        call.data = 'currency_OMR'
-        handle_currency_selection(bot, call)
-        self.assertEqual(user_data[12345]['output_currency'], 'OMR')
+        handle_amount_input(bot, message)
+        self.assertEqual(user_data[12345]['amount'], 50.5)
 
     @patch('requests.get')
-    def test_convert_currency_medium_amount(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"GBP": 0.75}
-        }
-        result = convert_currency('USD', 'GBP', 500)
-        self.assertEqual(result, 500 * 0.75)
-
-    @patch('requests.get')
-    def test_convert_currency_to_jpy(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"JPY": 110}
-        }
-        result = convert_currency('USD', 'JPY', 100)
-        self.assertEqual(result, 100 * 110)
-
-    @patch('requests.get')
-    def test_convert_currency_to_eur(self, mock_get):
+    def test_convert_currency_small_amount(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = {
             "result": "success",
             "conversion_rates": {"EUR": 0.85}
         }
-        result = convert_currency('USD', 'EUR', 100)
-        self.assertEqual(result, 100 * 0.85)
+        result = convert_currency('USD', 'EUR', 0.01)
+        self.assertAlmostEqual(result, 0.0085, places=4)
 
     @patch('requests.get')
-    def test_convert_currency_to_inr(self, mock_get):
+    def test_convert_currency_large_amount(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = {
             "result": "success",
             "conversion_rates": {"INR": 75.0}
         }
-        result = convert_currency('USD', 'INR', 100)
-        self.assertEqual(result, 100 * 75.0)
+        result = convert_currency('USD', 'INR', 1000000)
+        self.assertEqual(result, 75000000.0)
 
     @patch('requests.get')
-    def test_convert_currency_to_gbp(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"GBP": 0.75}
+    def test_convert_currency_rate(self, mock_get):
+        conversion_rates = {
+            "EUR": 0.85, "GBP": 0.75, "JPY": 110, "INR": 75
         }
-        result = convert_currency('USD', 'GBP', 100)
-        self.assertEqual(result, 100 * 0.75)
-
-    @patch('requests.get')
-    def test_convert_currency_to_jpy(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"JPY": 110}
-        }
-        result = convert_currency('USD', 'JPY', 100)
-        self.assertEqual(result, 100 * 110)
-
-    @patch('requests.get')
-    def test_convert_currency_to_rub(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"RUB": 74.0}
-        }
-        result = convert_currency('USD', 'RUB', 100)
-        self.assertEqual(result, 100 * 74.0)
-
-    @patch('requests.get')
-    def test_convert_currency_to_aud(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"AUD": 1.3}
-        }
-        result = convert_currency('USD', 'AUD', 100)
-        self.assertEqual(result, 100 * 1.3)
-
-    @patch('requests.get')
-    def test_convert_currency_to_nzd(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"NZD": 1.4}
-        }
-        result = convert_currency('USD', 'NZD', 100)
-        self.assertEqual(result, 100 * 1.4)
-
-    @patch('requests.get')
-    def test_convert_currency_to_kwd(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"KWD": 0.3}
-        }
-        result = convert_currency('USD', 'KWD', 100)
-        self.assertEqual(result, 100 * 0.3)
-
-    @patch('requests.get')
-    def test_convert_currency_to_bhd(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"BHD": 0.38}
-        }
-        result = convert_currency('USD', 'BHD', 100)
-        self.assertEqual(result, 100 * 0.38)
-
-    @patch('requests.get')
-    def test_convert_currency_to_omr(self, mock_get):
-        mock_get.return_value.status_code = 200
-        mock_get.return_value.json.return_value = {
-            "result": "success",
-            "conversion_rates": {"OMR": 0.39}
-        }
-        result = convert_currency('USD', 'OMR', 100)
-        self.assertEqual(result, 100 * 0.39)
-
+        for currency, rate in conversion_rates.items():
+            with self.subTest(currency=currency):
+                mock_get.return_value.status_code = 200
+                mock_get.return_value.json.return_value = {
+                    "result": "success",
+                    "conversion_rates": {currency: rate}
+                }
+                result = convert_currency('USD', currency, 100)
+                self.assertEqual(result, 100 * rate)
 
 if __name__ == '__main__':
     unittest.main()

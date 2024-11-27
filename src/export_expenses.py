@@ -26,7 +26,9 @@ def prompt_export_format(message, bot):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.add("CSV", "PDF")
     msg = bot.reply_to(
-        message, "Select the format for exporting expenses (CSV or PDF):", reply_markup=markup)
+        message,
+        "Select the format for exporting expenses (CSV or PDF):",
+        reply_markup=markup)
     bot.register_next_step_handler(msg, prompt_start_date, bot)
 
 
@@ -37,7 +39,8 @@ def prompt_start_date(message, bot):
 
     if export_format not in ["CSV", "PDF"]:
         bot.reply_to(
-            message, "Invalid format. Please restart the process with /exportexpenses.")
+            message,
+            "Invalid format. Please restart the process with /exportexpenses.")
         return
 
     # Save user preference for export format
@@ -56,7 +59,8 @@ def prompt_end_date(message, bot):
         bot.register_next_step_handler(msg, process_export_request, bot)
     except ValueError:
         bot.reply_to(
-            message, "Invalid date format. Please restart the process with /exportexpenses.")
+            message,
+            "Invalid date format. Please restart the process with /exportexpenses.")
 
 
 def process_export_request(message, bot):
@@ -68,7 +72,8 @@ def process_export_request(message, bot):
 
         if start_date > end_date:
             bot.reply_to(
-                message, "Start date must be earlier than end date. Please restart the process.")
+                message,
+                "Start date must be earlier than end date. Please restart the process.")
             return
 
         export_format = user_export_preferences[chat_id]["format"]
@@ -99,7 +104,8 @@ def process_export_request(message, bot):
 
     except ValueError:
         bot.reply_to(
-            message, "Invalid date format. Please restart the process.")
+            message,
+            "Invalid date format. Please restart the process.")
     except Exception as e:
         log_and_reply_error(chat_id, bot, e)
 

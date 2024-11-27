@@ -121,8 +121,10 @@ def test_show_budget_status_valid(mock_telebot, mocker):
 def test_show_budget_status_with_exception(mock_telebot, mocker):
     """Test the show_budget_status function with an exception."""
     mock_value = mock_telebot.return_value
-    mocker.patch.object(helper, 'fetch_user_budget',
-                        side_effect=Exception("Unexpected error"))
+    mocker.patch.object(
+        helper,
+        'fetch_user_budget',
+        side_effect=Exception("Unexpected error"))
     mocker.patch.object(helper, 'log_and_reply_error')
 
     message = create_message("/checkbudget")

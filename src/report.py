@@ -18,7 +18,8 @@ def run(message, bot):
         report_period = "Monthly"
     else:
         bot.reply_to(
-            message, "Invalid command. Use /weeklyReport or /monthlyReport.")
+            message,
+            "Invalid command. Use /weeklyReport or /monthlyReport.")
         return
 
     try:
@@ -104,8 +105,9 @@ def generate_summary_report(report_period, total_expenses, category_totals):
     report += "*Top Categories:*\n"
 
     sorted_categories = sorted(
-        category_totals.items(), key=lambda x: x[1], reverse=True
-    )
+        category_totals.items(),
+        key=lambda x: x[1],
+        reverse=True)
     for category, amount in sorted_categories[:5]:  # Show top 5 categories
         report += f"- {category}: ${amount:.2f}\n"
 
@@ -124,7 +126,8 @@ def detect_anomalies(category_totals, total_expenses):
     """Detects anomalies in spending patterns."""
     anomalies = []
     for category, amount in category_totals.items():
-        if amount > total_expenses * 0.5:  # Example: More than 50% of total spending in one category
+        if amount > total_expenses * \
+                0.5:  # Example: More than 50% of total spending in one category
             anomalies.append(
                 f"🚨 High spending on {category}: ${amount:.2f} ({(amount / total_expenses) * 100:.1f}%)")
     return anomalies

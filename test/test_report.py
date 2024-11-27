@@ -125,7 +125,8 @@ def test_fetch_personal_expenses_for_period(setup_mock_data):
 
 @patch('src.helper.get_group_expenses_file')
 @patch('src.helper.fetch_personal_expenses')
-def test_fetch_group_expenses_for_period(mock_fetch_personal_expenses, mock_get_group_expenses_file):
+def test_fetch_group_expenses_for_period(
+        mock_fetch_personal_expenses, mock_get_group_expenses_file):
     """
     Test the fetch_group_expenses_for_period function with updated format.
     """
