@@ -131,6 +131,23 @@ The /currencyConvert command provides real-time currency conversion rates, enabl
 These functionalities make WalletWise a comprehensive, intuitive, and efficient financial management tool, catering to diverse user needs.
 
 
+## Future Enhancements & Milestones
+
+### Expanding the budget allocation and tracking to multiple currencies. 
+Integrate a currency exchange API, update the database schema, and implement currency conversion with a user-friendly interface for multi-currency support.
+
+### Detailed transaction search and filtering by date, category, or amount.
+Build a flexible filtering system with support for date, category, and amount, along with natural language input and paginated results.
+
+### A cryptocurrency portfolio management for crypto tracking, including growth analysis.
+Add real-time crypto tracking with portfolio analysis, notifications for price changes, and visualizations for growth and composition.
+
+### Spending challenges with a group or other users for limiting spending in certain categories, promoting healthy spending habits.
+Enable group spending challenges with leaderboards, notifications, and shared goals to promote healthy financial habits.
+
+### Automated expense categorization using machine learning algorithms based on description or amount patterns.
+Train a machine learning model for automatic transaction categorization and refine it through user feedback.
+
 ---
 
 ## Previous version
