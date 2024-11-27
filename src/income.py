@@ -1,13 +1,11 @@
 # income.py
-import logging
-from telebot import types
 from datetime import datetime
-from .helper import calculate_monthly_income, log_and_reply_error, list_income_sources, calculate_monthly_expenses, fetch_personal_expenses, has_expenses_this_month
+from .helper import calculate_monthly_income, log_and_reply_error, list_income_sources
+from .helper import calculate_monthly_expenses, fetch_personal_expenses, has_expenses_this_month
 
 
 def run(message, bot):
     """This is the run function for income & net saving commands."""
-    chat_id = message.chat.id
     text = message.text.lower()
 
     if text.startswith("/addincome"):
@@ -82,7 +80,7 @@ def prompt_net_savings(message, bot):
             inc = calculate_monthly_income(user_income)
 
         net_savings = inc - ex
-
+        report = ""
         if inc != 0 and ex != 0:
             if net_savings <= 0:
                 report += f"* 💸 OOPS! You gotta be careful, your net savings for this month is {net_savings}!\n\n"

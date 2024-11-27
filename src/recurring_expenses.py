@@ -1,7 +1,4 @@
 # recurring_epenses.py
-import logging
-from telebot import types
-from datetime import datetime
 from .helper import calculate_next_due_date, list_recurring_expenses, log_and_reply_error
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -11,7 +8,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 def run(message, bot):
     """This is the run function for recurring expenses commands."""
-    chat_id = message.chat.id
     text = message.text.lower()
 
     if text.startswith("/addrecurringexpense"):
@@ -97,7 +93,8 @@ def prompt_list_recurring_expenses(message, bot):
         report = "📊 *Your Recurring Expenses List:*\n\n"
         for category, details in user_goals["recurring_expenses"].items():
             amount, interval, next = details["amount"], details["interval"], details["next"]
-            report += f"*{category}*\n  - Amount: ${amount:.2f}\n  - Interval: ${interval}. The next due date is on {next}\n\n"
+            report += f"*{category}*\n  - Amount: ${amount:.2f}\n  - Interval: ${interval}. \
+            The next due date is on {next}\n\n"
 
         bot.send_message(chat_id, report, parse_mode="Markdown")
     except Exception as e:

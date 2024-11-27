@@ -5,11 +5,10 @@ import json
 import configparser
 from telebot_calendar import Calendar, CallbackData, ENGLISH_LANGUAGE
 from .pymongo_run import get_database
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 import csv
 from fpdf import FPDF
-from datetime import datetime, timedelta
 
 # calendar initialized
 calendar = Calendar(language=ENGLISH_LANGUAGE)
@@ -469,7 +468,7 @@ def calculate_next_due_date(interval):
         return now + timedelta(weeks=2)
     elif interval == 'monthly':
         return now + timedelta(days=30)
-    elif type(interval) == int:
+    elif type(interval) is int:
         return now + timedelta(days=interval)
     return now
 

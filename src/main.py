@@ -26,7 +26,6 @@ from . import income
 from . import currencyConvert  # New import for currency conversion
 from .pymongo_run import get_database
 from .plots import create_time_series_plot, predict_expenses
-import os
 
 # Load configuration
 helper.load_config()
@@ -136,7 +135,7 @@ def command_settle(message):
 
 
 @bot.message_handler(commands=['crypto'])
-def command_add(message):
+def command_crypto_add(message):
     """This is the command add function"""
     crypto.run(message, bot)
 

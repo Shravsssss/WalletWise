@@ -7,7 +7,6 @@ from . import show_owings
 
 def run(message, bot):
     """This is the run function"""
-    chat_id = str(message.chat.id)
     [user_owing_details, user_details] = show_owings.run(message, bot)
     if len(user_owing_details):
         message = bot.reply_to(
@@ -22,7 +21,7 @@ def run(message, bot):
             user_details
         )
     else:
-        msg = bot.reply_to(
+        message = bot.reply_to(
             message,
             'No users to settle up with'
         )

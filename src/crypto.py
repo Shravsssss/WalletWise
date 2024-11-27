@@ -90,7 +90,8 @@ def post_amount_input(message, bot, selected_crypto):
             collection_name.insert_one(item)
 
         bot.send_message(
-            chat_id, f"The following transaction has been recorded: You added {amount_value} to {option[chat_id]} on {date_of_entry}")
+            chat_id, f"The following transaction has been recorded: \
+            You added {amount_value} to {option[chat_id]} on {date_of_entry}")
     except Exception as exception_value:
         logging.exception(str(exception_value))
         bot.reply_to(message, 'Oh no. ' + str(exception_value))
