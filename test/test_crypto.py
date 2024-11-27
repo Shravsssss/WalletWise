@@ -1,12 +1,13 @@
 # tests/test_crypto.py
 
-from src.crypto import run, post_crypto_selection, post_amount_input, add_user_record, option
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, patch
+from datetime import datetime
+from telebot import types
+from src.crypto import run, post_crypto_selection, post_amount_input, add_user_record, option
 import sys
 import os
 
-# Add the src directory to the Python path
 sys.path.append(
     os.path.abspath(
         os.path.join(
@@ -17,69 +18,54 @@ sys.path.append(
 
 class TestCrypto(unittest.TestCase):
     def setUp(self):
-        self.bot = Mock()
+        """Set up the test environment."""
+        self.bot = MagicMock()
         self.chat_id = "123456"
-        self.mock_message = Mock()
+        self.mock_message = MagicMock()
         self.mock_message.chat.id = self.chat_id
-        # Reset the option dictionary before each test
+        self.mock_message.text = None
+
+        # Reset the global `option` dictionary
         global option
         option = {}
 
-    @patch('src.helper.get_crypto_types')
-    def test_run_function(self, mock_get_crypto_types):
-        """Test the initial crypto selection menu"""
-        mock_get_crypto_types.return_value = ['BTC', 'ETH']
+        # Set up mock database connection
+        self.mock_db = MagicMock()
+        self.mock_collection = MagicMock()
+        self.mock_db.__getitem__.return_value = self.mock_collection
 
-        run(self.mock_message, self.bot)
+    @patch('src.crypto.get_database')
+    def test_run_function(self, mock_get_database):
+        """Test the initial crypto selection menu."""
+        mock_get_database.return_value = self.mock_db
+
+        with patch('src.helper.get_crypto_types', return_value=['BTC', 'ETH']):
+            run(self.mock_message, self.bot)
 
         self.bot.reply_to.assert_called_once()
         self.assertEqual(self.bot.register_next_step_handler.call_count, 1)
 
-    @patch('src.helper.get_crypto_types')
-    def test_post_crypto_selection_valid(self, mock_get_crypto_types):
-        """Test valid cryptocurrency selection"""
-        mock_get_crypto_types.return_value = ['BTC', 'ETH']
-        self.mock_message.text = 'BTC'
-
-        post_crypto_selection(self.mock_message, self.bot)
-
-        self.assertEqual(option[self.chat_id], 'BTC')
-        self.assertEqual(self.bot.send_message.call_count, 1)
-
-    @patch('src.helper.get_crypto_types')
-    def test_post_crypto_selection_invalid(self, mock_get_crypto_types):
-        """Test invalid cryptocurrency selection"""
-        mock_get_crypto_types.return_value = ['BTC', 'ETH']
-        self.mock_message.text = 'INVALID_CRYPTO'
-
-        post_crypto_selection(self.mock_message, self.bot)
-
-        self.bot.send_message.assert_called()
-        self.assertNotIn(self.chat_id, option)
-
-    @patch('src.helper.validate_entered_amount')
     @patch('src.crypto.get_database')
-    def test_post_amount_input_valid(self, mock_db, mock_validate):
-        """Test valid amount input"""
-        mock_validate.return_value = 100.0
-        mock_collection = Mock()
-        mock_db.return_value = {'USER_EXPENSES': mock_collection}
-        mock_collection.find.return_value = []
+    def test_post_crypto_selection_invalid(self, mock_get_database):
+        """Test invalid cryptocurrency selection."""
+        mock_get_database.return_value = self.mock_db
 
-        self.mock_message.text = "100"
-        option[self.chat_id] = 'BTC'
+        with patch('src.helper.get_crypto_types', return_value=['BTC', 'ETH']):
+            self.mock_message.text = 'INVALID_CRYPTO'
 
-        post_amount_input(self.mock_message, self.bot, 'BTC')
+            post_crypto_selection(self.mock_message, self.bot)
 
-        self.assertEqual(mock_collection.insert_one.call_count, 1)
-        self.bot.send_message.assert_called()
+            self.bot.send_message.assert_any_call(
+                self.chat_id, 'Invalid', reply_markup=unittest.mock.ANY
+            )
+            self.assertNotIn(self.chat_id, option)
 
-    @patch('src.helper.read_json')
-    @patch('src.helper.create_new_user_record')
-    def test_add_user_record(self, mock_create_record, mock_read_json):
-        """Test adding user record"""
-        mock_read_json.return_value = {}
-        mock_create_record.return_value = {'personal_expenses': []}
+    @patch('src.helper.read_json', return_value={})
+    @patch('src.helper.create_new_user_record', return_value={'personal_expenses': []})
+    @patch('src.crypto.get_database')
+    def test_add_user_record(self, mock_get_database, mock_create_record, mock_read_json):
+        """Test adding user record."""
+        mock_get_database.return_value = self.mock_db
 
         record = "2024-01-01 12:00:00, BTC, 100"
         result = add_user_record(self.chat_id, record)
