@@ -1,4 +1,4 @@
-# Contributing to parttimeScheduler
+# Contributing to this project
 
 ### Legal Notice 
 > When contributing to this project, you must agree that you have authored 100% of the content. You must own the rights to your content and it is your responsibility to make sure it complies with the Code of Conduct and Licence policies.
@@ -73,4 +73,4 @@ Follow a few of these simple rules while creating a commit message for your code
 - Limit the body to 9-10 words
 - In the body, describe what you have done and optionally, why
 ## Join The Project Team
-If you are interested in joining our project team, hit us up at snaik2@ncsu.edu, bchitti@ncsu.edu, pkamath3@ncsu.edu, tkini@ncsu.edu or abaner24@ncsu.edu!
+If you are interested in joining our project team, hit us up at syepuri@ncsu.edu, chegde@ncsu.edu, mahmadi@ncsu.edu, snaik2@ncsu.edu, bchitti@ncsu.edu, pkamath3@ncsu.edu, tkini@ncsu.edu, abaner24@ncsu.edu!
