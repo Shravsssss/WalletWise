@@ -18,18 +18,25 @@
 
 ## Delta from Project 1
 **Advanced Predictive Analytics for Spending Patterns**: In the current project, "WalletWise," we have introduced advanced predictive analytics to implement category-specific expenditure forecasting and anomaly detection. This functionality provides users with precise, real-time spending insights, allowing them to make data-driven financial decisions effortlessly.
+
 **Budget Setting and Alerts**: Users can now set monthly or weekly budgets for specific categories (e.g., Food, Transport) and receive alerts as they approach their budget limit. This proactive budgeting feature, available through commands like /setBudget [category] [amount] and /checkBudget, empowers users to stay on top of their spending and avoid overspending.
+
 **Recurring Expense Reminders**: We've added the ability for users to set recurring expenses (e.g., rent, utility bills) and receive reminders before their due dates. Using commands like /addRecurringExpense [category] [amount] [interval] and /listRecurringExpenses, users can manage recurring payments efficiently and stay on track with their obligations.
+
 **Goal Setting and Progress Tracking**: Users can now set financial goals (e.g., saving $500 for a trip) and track their progress based on spending habits. This feature, accessible via commands like /setGoal [goal_name] [target_amount] and /checkGoals, helps users stay motivated and on track to meet their financial targets.
+
 **Income Tracking and Net Savings Calculation**: We've introduced support for tracking income and calculating net savings (income minus expenses). Using commands like /addIncome [amount] [description] and /netSavings, users can gain a clear view of their financial health.
+
 **Export Expenses as CSV or PDF**: Users can now export their expenses for a specific date range in CSV or PDF format, making it easier to analyze spending offline or share reports. The feature is accessible through the /exportExpenses [format] [start_date] [end_date] command, and the generated files are delivered via Telegram.
+
 **Monthly or Weekly Summary Reports**: A summary report feature has been added, allowing users to receive detailed insights into their expenses for the past week or month. The reports include total spending, top categories, and any anomalies detected, and are generated using the /monthlyReport command.
+
 These newly added features significantly enhance the functionality of WalletWise, transforming it into a comprehensive, user-friendly financial management tool.
 
 
 ## Goal
 
-> Design a dynamic application to assist a person in effectively managing and tracking his or her expenses on a regular basis using the popular Telegram API
+> Develop a dynamic Telegram-based application to help users manage, track, and forecast expenses effortlessly. Features include budget setting, savings goals, predictive analytics, recurring reminders, cryptocurrency tracking, currency conversion, and detailed reports for comprehensive financial management.
 ---
 
 ## Motivation
