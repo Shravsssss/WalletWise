@@ -16,7 +16,7 @@ Keep your finances in check with ease—track, budget, and save, all through Tel
 - [Motivation](#Motivation)
 - [Features](#Features)
 - [Functionalities](#Functionalities)
-- [Future Enhancements & Milestones](#Future-Enhancements-&-Milestones)
+- [Future Enhancements and Milestones](#Future-Enhancements-and-Milestones)
 - [Previous Version](#Previous-Version)
 - [Updated Version](#Updated-Version)
 - [Getting Started](#Getting-Started)
@@ -132,7 +132,7 @@ The /currencyConvert command provides real-time currency conversion rates, enabl
 These functionalities make WalletWise a comprehensive, intuitive, and efficient financial management tool, catering to diverse user needs.
 
 
-## Future Enhancements & Milestones
+## Future Enhancements and Milestones
 
 ### Expanding the budget allocation and tracking to multiple currencies. 
 Integrate a currency exchange API, update the database schema, and implement currency conversion with a user-friendly interface for multi-currency support.
