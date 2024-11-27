@@ -16,6 +16,7 @@ Keep your finances in check with ease—track, budget, and save, all through Tel
 - [Motivation](#Motivation)
 - [Features](#Features)
 - [Functionalities](#Functionalities)
+- [Future Enhancements & Milestones](#Future-Enhancements-&-Milestones)
 - [Previous Version](#Previous-Version)
 - [Updated Version](#Updated-Version)
 - [Getting Started](#Getting-Started)
@@ -330,14 +331,14 @@ send message to the bot named `tushar_wallet_bot` and start managing your expans
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[License Guidelines](https://github.com/firasat/walletwise/blob/main/LICENSE)
+[License Guidelines](https://github.com/Shravsssss/WalletWise/blob/main/LICENSE)
 
 ---
 
 
 ## Contribute
 
-Please have a look at the [guidelines](https://github.com/firasat/walletwise/blob/main/CONTRIBUTING.md) before contributing.
+Please have a look at the [guidelines](https://github.com/Shravsssss/WalletWise/blob/main/CONTRIBUTING.md) before contributing.
 
 ---
 
